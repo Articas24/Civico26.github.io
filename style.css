@@ -1,0 +1,1015 @@
+/* ================================
+   CIVICO 26
+   STILE GRAFICO
+================================ */
+
+/* RESET */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ================================
+   COLORI
+================================ */
+
+:root {
+    --colore-principale: #2f5d62;
+    --colore-secondario: #5f8d8f;
+    --colore-sfondo: #f7f4ef;
+    --colore-chiaro: #e8f1f2;
+    --colore-testo: #263238;
+    --colore-testo-secondario: #66757f;
+    --bianco: #ffffff;
+}
+
+
+/* ================================
+   BODY
+================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--colore-sfondo);
+    color: var(--colore-testo);
+    overflow-x: hidden;
+}
+
+
+/* ================================
+   HEADER
+================================ */
+
+.site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+
+    padding: 25px 20px;
+
+    color: white;
+    text-align: center;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.45),
+        transparent
+    );
+}
+
+.header-content {
+    max-width: 900px;
+    margin: auto;
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+}
+
+.site-header .subtitle {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.45);
+}
+
+
+/* ================================
+   HERO
+================================ */
+
+.hero {
+    position: relative;
+
+    height: 75vh;
+    min-height: 500px;
+
+    background-image:
+        url("immagini/hero.jpg");
+
+    background-size: cover;
+    background-position: center;
+
+    color: white;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    padding: 40px 20px;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.70),
+            rgba(0, 0, 0, 0.05)
+        );
+}
+
+.hero-content {
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+}
+
+.hero-welcome {
+    margin-bottom: 10px;
+
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.hero h1 {
+    margin-bottom: 15px;
+
+    font-size: 46px;
+    letter-spacing: 6px;
+}
+
+.hero-description {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+
+/* ================================
+   CONTENITORE PRINCIPALE
+================================ */
+
+.container {
+    width: 100%;
+    max-width: 700px;
+
+    margin: auto;
+
+    padding:
+        30px
+        20px
+        110px;
+}
+
+
+/* ================================
+   TITOLI
+================================ */
+
+.section-title {
+    font-size: 22px;
+    line-height: 1.3;
+
+    margin-bottom: 20px;
+
+    text-align: center;
+}
+
+
+/* ================================
+   GRIGLIA
+================================ */
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 15px;
+}
+
+
+/* ================================
+   CARD
+================================ */
+
+.card {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 130px;
+
+    background-color: var(--bianco);
+
+    border-radius: 16px;
+
+    padding: 25px 15px;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    color: var(--colore-testo);
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.06);
+
+    transition:
+        transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.card-icon {
+    font-size: 35px;
+    line-height: 1;
+
+    margin-bottom: 12px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.3;
+}
+
+
+/* ================================
+   SEZIONE INFORMAZIONI
+================================ */
+
+.info-section {
+    margin-top: 40px;
+}
+
+.info-section .grid {
+    display: flex;
+    justify-content: center;
+}
+
+.info-section .card {
+    width: 100%;
+    max-width: 300px;
+}
+
+
+/* ================================
+   MENU INFERIORE
+================================ */
+
+.bottom-nav {
+    position: fixed;
+
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+
+    justify-content: space-around;
+
+    background-color: var(--bianco);
+
+    border-top: 1px solid #ddd;
+
+    padding:
+        10px
+        5px
+        calc(10px + env(safe-area-inset-bottom));
+
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    min-width: 60px;
+
+    text-decoration: none;
+
+    color: var(--colore-testo);
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+.bottom-nav span {
+    display: block;
+
+    font-size: 22px;
+
+    line-height: 1;
+
+    margin-bottom: 4px;
+}
+
+
+/* ================================
+   PAGINE INTERNE
+================================ */
+
+.page-header {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 80px;
+
+    padding: 20px;
+
+    background-color: var(--bianco);
+
+    border-bottom: 1px solid #e5e5e5;
+}
+
+
+/* ================================
+   PULSANTE INDIETRO
+================================ */
+
+.back-button {
+    position: absolute;
+
+    left: 20px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: var(--colore-principale);
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+/* ================================
+   LOGO PAGINA
+================================ */
+
+.page-logo {
+    font-family: "Playfair Display", serif;
+
+    font-size: 24px;
+
+    font-weight: 600;
+
+    letter-spacing: 4px;
+
+    color: var(--colore-principale);
+
+    text-align: center;
+}
+
+
+/* ================================
+   CONTENITORE PAGINA
+================================ */
+
+.page-container {
+    width: 100%;
+
+    max-width: 700px;
+
+    margin: auto;
+
+    padding:
+        40px
+        20px
+        110px;
+}
+
+
+/* ================================
+   INTRODUZIONE PAGINA
+================================ */
+
+.page-intro {
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.page-icon {
+    font-size: 48px;
+
+    margin-bottom: 15px;
+}
+
+.page-intro h1 {
+    font-family: "Playfair Display", serif;
+
+    font-size: 38px;
+
+    font-weight: 600;
+
+    line-height: 1.2;
+
+    margin-bottom: 15px;
+}
+
+.page-intro p {
+    font-size: 16px;
+
+    line-height: 1.7;
+
+    color: var(--colore-testo-secondario);
+}
+
+
+/* ================================
+   CARD INFORMAZIONI
+================================ */
+
+.info-card {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    padding: 25px;
+
+    margin-bottom: 15px;
+
+    background-color: var(--bianco);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.info-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 50px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background-color: var(--colore-chiaro);
+
+    font-size: 25px;
+}
+
+.info-card h2 {
+    margin-bottom: 8px;
+
+    font-size: 18px;
+
+    font-weight: 600;
+}
+
+.info-card p {
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    color: var(--colore-testo-secondario);
+}
+
+
+/* ================================
+   ACCORDION
+================================ */
+
+.accordion-item {
+    margin-bottom: 12px;
+
+    background-color: var(--bianco);
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.accordion-header {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px;
+
+    border: none;
+
+    background-color: transparent;
+
+    color: var(--colore-testo);
+
+    font-family: "Montserrat", sans-serif;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.accordion-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    min-width: 0;
+}
+
+.accordion-arrow {
+    flex-shrink: 0;
+
+    font-size: 24px;
+
+    font-weight: 400;
+
+    color: var(--colore-principale);
+
+    transition:
+        transform 0.3s ease;
+}
+
+.accordion-content {
+    max-height: 0;
+
+    overflow: hidden;
+
+    padding: 0 20px;
+
+    color: var(--colore-testo-secondario);
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    transition:
+        max-height 0.3s ease,
+        padding 0.3s ease;
+}
+
+.accordion-item.active
+.accordion-content {
+    max-height: 500px;
+
+    padding:
+        0
+        20px
+        20px
+        77px;
+}
+
+.accordion-item.active
+.accordion-arrow {
+    transform: rotate(45deg);
+}
+
+
+/* ================================
+   PAGINE CONTENUTI
+================================ */
+
+.page-content {
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    padding:
+        30px
+        20px
+        110px;
+}
+
+.intro-section {
+    margin-bottom: 50px;
+
+    line-height: 1.7;
+}
+
+.category-section {
+    margin-top: 55px;
+
+    margin-bottom: 70px;
+}
+
+.category-section h2 {
+    margin-bottom: 28px;
+
+    font-size: 1.5rem;
+
+    line-height: 1.3;
+}
+
+
+/* ================================
+   CARD ATTRAZIONI
+================================ */
+
+.place-card {
+    width: 100%;
+
+    background: #ffffff;
+
+    margin-bottom: 32px;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.09);
+}
+
+.place-image {
+    width: 100%;
+
+    height: 220px;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+.place-card-content {
+    padding: 25px;
+}
+
+.place-card h3 {
+    margin-top: 0;
+
+    margin-bottom: 14px;
+
+    font-size: 1.25rem;
+
+    line-height: 1.4;
+}
+
+.place-card p {
+    margin-bottom: 22px;
+
+    line-height: 1.7;
+
+    color: #555555;
+}
+
+
+/* ================================
+   PULSANTE GOOGLE MAPS
+================================ */
+
+.map-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+
+    padding:
+        11px
+        18px;
+
+    border-radius: 12px;
+
+    background-color:
+        var(--colore-principale);
+
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    font-size: 0.95rem;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.map-button:active {
+    transform: scale(0.97);
+
+    opacity: 0.85;
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+.page-footer {
+    text-align: center;
+
+    padding:
+        30px
+        20px
+        110px;
+
+    color: #777777;
+
+    font-size: 0.9rem;
+}
+
+
+/* ================================
+   TABLET
+================================ */
+
+@media (min-width: 600px) {
+
+    .grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* ================================
+   DESKTOP
+================================ */
+
+@media (min-width: 700px) {
+
+    .container {
+        max-width: 900px;
+    }
+
+    .grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 599px) {
+
+    /* HEADER */
+
+    .site-header {
+        padding:
+            20px
+            15px;
+    }
+
+    .logo {
+        font-size: 27px;
+
+        letter-spacing: 3px;
+    }
+
+    .site-header .subtitle {
+        font-size: 11px;
+
+        letter-spacing: 2px;
+    }
+
+
+    /* HERO */
+
+    .hero {
+        height: 60vh;
+
+        min-height: 420px;
+
+        background-position: center;
+    }
+
+    .hero-overlay {
+        padding:
+            30px
+            15px;
+    }
+
+    .hero-welcome {
+        font-size: 12px;
+
+        letter-spacing: 2px;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+
+        letter-spacing: 4px;
+    }
+
+    .hero-description {
+        font-size: 16px;
+
+        line-height: 1.5;
+    }
+
+
+    /* HOME */
+
+    .container {
+        padding:
+            30px
+            15px
+            110px;
+    }
+
+    .section-title {
+        font-size: 21px;
+    }
+
+
+    /* CARD HOME */
+
+    .grid {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+    .card {
+        min-height: 115px;
+
+        padding:
+            22px
+            15px;
+    }
+
+
+    /* PAGINE INTERNE */
+
+    .page-header {
+        min-height: 70px;
+
+        padding:
+            18px
+            15px;
+    }
+
+    .page-logo {
+        font-size: 20px;
+
+        letter-spacing: 3px;
+    }
+
+    .back-button {
+        left: 15px;
+
+        font-size: 13px;
+    }
+
+    .page-container {
+        padding:
+            30px
+            15px
+            110px;
+    }
+
+    .page-intro h1 {
+        font-size: 32px;
+    }
+
+    .page-intro p {
+        font-size: 15px;
+    }
+
+
+    /* INFO CARD */
+
+    .info-card {
+        padding: 20px;
+
+        gap: 15px;
+    }
+
+
+    /* ACCORDION */
+
+    .accordion-header {
+        padding: 17px 15px;
+
+        font-size: 15px;
+    }
+
+    .accordion-title {
+        gap: 12px;
+    }
+
+    .accordion-item.active
+    .accordion-content {
+        padding:
+            0
+            15px
+            20px
+            69px;
+    }
+
+
+    /* PAGINE LUOGHI */
+
+    .page-content {
+        padding:
+            25px
+            15px
+            110px;
+    }
+
+    .category-section {
+        margin-top: 40px;
+
+        margin-bottom: 50px;
+    }
+
+    .category-section h2 {
+        font-size: 1.35rem;
+
+        margin-bottom: 20px;
+    }
+
+
+    /* IMMAGINI */
+
+    .place-image {
+        height: 190px;
+    }
+
+    .place-card-content {
+        padding: 20px;
+    }
+
+    .place-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .place-card p {
+        font-size: 15px;
+
+        line-height: 1.65;
+    }
+
+
+    /* GOOGLE MAPS */
+
+    .map-button {
+        width: 100%;
+
+        min-height: 46px;
+
+        font-size: 15px;
+    }
+
+
+    /* MENU INFERIORE */
+
+    .bottom-nav {
+        padding:
+            9px
+            5px
+            calc(9px + env(safe-area-inset-bottom));
+    }
+
+    .bottom-nav a {
+        font-size: 12px;
+    }
+
+    .bottom-nav span {
+        font-size: 21px;
+    }
+
+}

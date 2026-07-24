@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Mappa | Civico 26
+    </title>
+
+
+    <!-- =========================================
+         LEAFLET CSS
+    ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+
+    <!-- =========================================
+         CSS DEL PROGETTO
+    ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+
+    <style>
+
+        #map {
+
+            width: 100%;
+
+            height: 70vh;
+
+            min-height: 500px;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            margin-top: 20px;
+
+        }
+
+
+        .map-intro {
+
+            text-align: center;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .map-legend {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            margin: 20px 0;
+
+        }
+
+
+        .legend-item {
+
+            padding: 8px 12px;
+
+            border-radius: 20px;
+
+            background: #f2f2f2;
+
+            font-size: 14px;
+
+        }
+
+
+        .maps-button {
+
+            display: inline-block;
+
+            margin-top: 10px;
+
+            padding: 8px 12px;
+
+            background: #333;
+
+            color: white !important;
+
+            text-decoration: none;
+
+            border-radius: 6px;
+
+            font-size: 13px;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="page-header">
+
+    <h1>
+        🗺️ Mappa
+    </h1>
+
+    <p>
+        Civico 26 · Reggio Calabria
+    </p>
+
+</header>
+
+
+
+<!-- =========================================
+     CONTENUTO
+========================================= -->
+
+<main class="page-content">
+
+
+    <div class="map-intro">
+
+        <p>
+
+            Abbiamo raccolto sulla mappa alcuni dei luoghi
+            che vi consigliamo di visitare, dove mangiare,
+            dove gustare un buon gelato e dove trascorrere
+            il vostro tempo durante il soggiorno.
+
+        </p>
+
+    </div>
+
+
+
+    <!-- =========================================
+         LEGENDA
+    ========================================== -->
+
+    <div class="map-legend">
+
+        <div class="legend-item">
+            🏠 Soggiorno
+        </div>
+
+        <div class="legend-item">
+            🏛️ Da visitare
+        </div>
+
+        <div class="legend-item">
+            🍦 Bar e gelaterie
+        </div>
+
+        <div class="legend-item">
+            🍽️ Ristoranti
+        </div>
+
+        <div class="legend-item">
+            🏖️ Mare
+        </div>
+
+        <div class="legend-item">
+            🌲 Aspromonte
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAPPA
+    ========================================== -->
+
+    <div id="map"></div>
+
+
+</main>
+
+
+
+<!-- =========================================
+     LEAFLET JS
+========================================= -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+
+<script>
+
+
+// =====================================================
+// CREAZIONE MAPPA
+// =====================================================
+
+const map = L.map('map').setView(
+
+    [38.1110, 15.6451],
+
+    13
+
+);
+
+
+
+// =====================================================
+// MAPPA OPENSTREETMAP
+// =====================================================
+
+L.tileLayer(
+
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+
+    {
+
+        maxZoom: 19,
+
+        attribution:
+        '&copy; OpenStreetMap contributors'
+
+    }
+
+).addTo(map);
+
+
+
+// =====================================================
+// LINK GOOGLE MAPS
+// =====================================================
+
+function googleMapsLink(query) {
+
+    return (
+
+        'https://www.google.com/maps/search/?api=1&query=' +
+
+        encodeURIComponent(query)
+
+    );
+
+}
+
+
+
+// =====================================================
+// FUNZIONE PER CREARE I MARKER
+// =====================================================
+
+function addMarker(
+
+    lat,
+
+    lon,
+
+    titolo,
+
+    descrizione,
+
+    mapsQuery
+
+) {
+
+
+    const contenuto =
+
+        '<strong>' +
+
+        titolo +
+
+        '</strong><br>' +
+
+        descrizione +
+
+        '<br>' +
+
+        '<a class="maps-button" ' +
+
+        'href="' +
+
+        googleMapsLink(mapsQuery) +
+
+        '" ' +
+
+        'target="_blank">' +
+
+        '📍 Apri in Google Maps' +
+
+        '</a>';
+
+
+    L.marker([lat, lon])
+
+        .addTo(map)
+
+        .bindPopup(contenuto);
+
+
+}
+
+
+
+
+
+// =====================================================
+// 🏠 CIVICO 26
+// =====================================================
+
+addMarker(
+
+    38.1112,
+
+    15.6455,
+
+    '🏠 Civico 26',
+
+    'Il vostro appartamento',
+
+    'Civico 26, Reggio Calabria'
+
+);
+
+
+
+
+
+// =====================================================
+// 🏛️ ATTRAZIONI DI REGGIO CALABRIA
+// =====================================================
+
+
+
+// =====================================================
+// MUSEO ARCHEOLOGICO NAZIONALE
+// =====================================================
+
+addMarker(
+
+    38.114302511073,
+
+    15.651491582394,
+
+    '🏛️ Museo Archeologico Nazionale',
+
+    'Il museo che custodisce i celebri Bronzi di Riace',
+
+    'Museo Archeologico Nazionale di Reggio Calabria, Piazza De Nava 26'
+
+);
+
+
+
+// =====================================================
+// CASTELLO ARAGONESE
+// =====================================================
+
+addMarker(
+
+    38.106112990112,
+
+    15.64428716898,
+
+    '🏰 Castello Aragonese',
+
+    'Uno dei simboli storici della città',
+
+    'Castello Aragonese, Piazza Castello, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// DUOMO
+// =====================================================
+
+addMarker(
+
+    38.1093,
+
+    15.6427,
+
+    '⛪ Duomo di Reggio Calabria',
+
+    'La Cattedrale di Maria Santissima Assunta in Cielo',
+
+    'Duomo di Reggio Calabria, Piazza Duomo'
+
+);
+
+
+
+// =====================================================
+// LUNGOMARE FALCOMATÀ
+// =====================================================
+
+addMarker(
+
+    38.111002635531,
+
+    15.645140341949,
+
+    '🌊 Lungomare Falcomatà',
+
+    'La celebre passeggiata sul mare di Reggio Calabria',
+
+    'Lungomare Italo Falcomatà, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// PIAZZA DE NAVA
+// =====================================================
+
+addMarker(
+
+    38.114286100389,
+
+    15.65148835,
+
+    '🏛️ Piazza De Nava',
+
+    'La piazza davanti al Museo Archeologico Nazionale',
+
+    'Piazza De Nava, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// VILLA GENOESE ZERBI
+// =====================================================
+
+addMarker(
+
+    38.110870339313,
+
+    15.646160608158,
+
+    '🏛️ Villa Genoese Zerbi',
+
+    'Una delle architetture più affascinanti di Reggio Calabria, affacciata sul Lungomare',
+
+    'Villa Genoese Zerbi, Via Zaleuco 5, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// VILLA COMUNALE
+// =====================================================
+
+addMarker(
+
+    38.1100,
+
+    15.6420,
+
+    '🌳 Villa Comunale',
+
+    'Uno storico spazio verde nel centro della città',
+
+    'Villa Comunale, Corso Giuseppe Garibaldi, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// TERME ROMANE
+// =====================================================
+
+addMarker(
+
+    38.107020519952,
+
+    15.639762282372,
+
+    '🏛️ Terme Romane',
+
+    'Resti di un antico impianto termale di epoca romana',
+
+    'Terme Romane, Lungomare, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// MURA GRECHE
+// =====================================================
+
+addMarker(
+
+    38.1082,
+
+    15.6414,
+
+    '🏛️ Mura Greche',
+
+    'Antichi resti della cinta muraria ellenistica della città',
+
+    'Mura Greche, Piazza Camagna, Reggio Calabria'
+
+);
+
+
+
+
+
+// =====================================================
+// 🍦 BAR E GELATERIE
+// =====================================================
+
+
+
+// =====================================================
+// GELATERIA CESARE
+// =====================================================
+
+addMarker(
+
+    38.1123,
+
+    15.6460,
+
+    '🍦 Gelateria Cesare',
+
+    'Storica gelateria sul Lungomare Falcomatà',
+
+    'Gelateria Cesare, Piazza Indipendenza 2, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// LES FOLIES CAFÈ
+// =====================================================
+
+addMarker(
+
+    38.1107,
+
+    15.6415,
+
+    '☕ Les Folies Cafè',
+
+    'Ottimo per la colazione, aperto 24 ore su 24',
+
+    'Les Folies Cafè, Via Aspromonte, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// BAR WINNER - CENTRO
+// =====================================================
+
+addMarker(
+
+    38.1095,
+
+    15.6440,
+
+    '🍧 Bar Winner',
+
+    'La sede in centro, famosa per granite e brioche',
+
+    'Bar Winner, Corso Giuseppe Garibaldi 322, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// BAR WINNER - GALLICO
+// =====================================================
+
+addMarker(
+
+    38.1771,
+
+    15.6578,
+
+    '🍧 Bar Winner - Gallico',
+
+    'La sede principale del nostro bar preferito',
+
+    'Bar Winner, Via Nazionale Gallico 89, Gallico, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// SOTTOZERO
+// =====================================================
+
+addMarker(
+
+    38.1089,
+
+    15.6449,
+
+    '🍦 Sottozero Pennestrì',
+
+    'Storica gelateria, cremeria, pasticceria e caffetteria',
+
+    'Sottozero Pennestrì, Corso Vittorio Emanuele 83, Reggio Calabria'
+
+);
+
+
+
+
+
+// =====================================================
+// 🍽️ RISTORANTI E PIZZERIE
+// =====================================================
+
+
+
+// =====================================================
+// LIEVITO PIZZERIA
+// =====================================================
+
+addMarker(
+
+    38.1089,
+
+    15.6458,
+
+    '🍕 Lievito Pizzeria',
+
+    'Una delle pizzerie che vi consigliamo di provare',
+
+    'Lievito Pizzeria, Via dei Filippini 37, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// KALABRILLO
+// =====================================================
+
+addMarker(
+
+    38.1100,
+
+    15.6475,
+
+    '🍽️ Kalabrillo',
+
+    'Un locale accogliente che unisce i sapori della tradizione calabrese alle tecniche moderne',
+
+    'Kalabrillo, Via Possidonea 46A, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// NONNA LUCIA
+// =====================================================
+
+addMarker(
+
+    38.1112,
+
+    15.6475,
+
+    '🍝 Nonna Lucia',
+
+    'Trattoria nel centro di Reggio Calabria con cucina calabrese e mediterranea',
+
+    'Nonna Lucia, Via XXIV Maggio 25, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// ANTIQUA TRATTORIA TAMIRO
+// =====================================================
+
+addMarker(
+
+    38.1669,
+
+    15.6569,
+
+    '🐟 Antiqua Trattoria Tamiro',
+
+    'Trattoria di pesce a gestione familiare, con cucina tradizionale e materie prime locali',
+
+    'Antiqua Trattoria Tamiro, Via Nazionale Gallico 7, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// OFFICINE DEL GUSTO
+// =====================================================
+
+addMarker(
+
+    38.1068,
+
+    15.6407,
+
+    '🍷 Officine del Gusto',
+
+    'Ristorante del centro con una rivisitazione contemporanea della cucina reggina',
+
+    'Officine del Gusto, Via Placido Geraci 17, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// SIAMO FRITTI
+// =====================================================
+
+addMarker(
+
+    38.1092,
+
+    15.6434,
+
+    '🍟 Siamo Fritti',
+
+    'Rosticceria e specialità fritte nel cuore di Reggio Calabria',
+
+    'Siamo Fritti, Corso Giuseppe Garibaldi 378, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// SCHICCIO
+// =====================================================
+
+addMarker(
+
+    38.1715,
+
+    15.8315,
+
+    '🌲 Schiccio',
+
+    'Ristorante immerso nella natura dell’Aspromonte, con cucina tipica e prodotti del territorio',
+
+    'Schiccio, Contrada Schiccio 1, Santo Stefano in Aspromonte'
+
+);
+
+
+
+
+
+// =====================================================
+// 🏖️ MARE E SPIAGGE
+// =====================================================
+
+
+
+// =====================================================
+// SCILLA
+// =====================================================
+
+addMarker(
+
+    38.2508,
+
+    15.7189,
+
+    '🏖️ Scilla',
+
+    'Uno dei borghi più suggestivi della Costa Viola',
+
+    'Scilla, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// CHIANALEA
+// =====================================================
+
+addMarker(
+
+    38.2522,
+
+    15.7195,
+
+    '🏘️ Chianalea',
+
+    'L’antico borgo dei pescatori',
+
+    'Chianalea di Scilla, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// BAGNARA CALABRA
+// =====================================================
+
+addMarker(
+
+    38.2906,
+
+    15.8062,
+
+    '🏖️ Bagnara Calabra',
+
+    'Mare cristallino e atmosfera più tranquilla',
+
+    'Bagnara Calabra, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// SPIAGGIA ULIVARELLA - PALMI
+// =====================================================
+
+addMarker(
+
+    38.3605,
+
+    15.8560,
+
+    '🌊 Spiaggia dell’Ulivarella',
+
+    'Una delle località più suggestive della Costa Viola',
+
+    'Spiaggia dell’Ulivarella, Palmi, Reggio Calabria'
+
+);
+
+
+
+
+
+// =====================================================
+// 🌲 ASPROMONTE
+// =====================================================
+
+
+
+// =====================================================
+// GAMBARIE
+// =====================================================
+
+addMarker(
+
+    38.1685,
+
+    15.8510,
+
+    '🌲 Gambarie',
+
+    'Il principale centro turistico dell’Aspromonte',
+
+    'Gambarie, Santo Stefano in Aspromonte, Reggio Calabria'
+
+);
+
+
+
+// =====================================================
+// FINE
+// =====================================================
+
+
+</script>
+
+
+</body>
+
+</html>
