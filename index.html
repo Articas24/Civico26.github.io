@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Civico 26 | Guida di Reggio Calabria</title>
+<meta content="Guida per gli ospiti di Civico 26 a Reggio Calabria: soggiorno, parcheggi, città, mare, ristoranti e Aspromonte." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&amp;family=Heebo:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#16302b;--green:#2f6f62;--sea:#2f8f9d;--cream:#fbf7ef;--paper:#fff;
+  --muted:#63736f;--line:#e8eeeb;--shadow:0 16px 40px rgba(23,55,48,.12);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Heebo,system-ui,sans-serif;color:var(--ink);background:#fff}
+a{text-decoration:none;color:inherit}
+button{font:inherit}
+.wrap{width:min(1120px,92%);margin:auto}
+header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{font-family:'Abril Fatface';font-size:27px;white-space:nowrap}
+.logo span{color:var(--sea)}
+.navlinks{display:flex;align-items:center;gap:18px;font-size:14px;font-weight:700}
+.pill{padding:10px 15px;border-radius:999px;background:var(--green);color:#fff}
+
+.hero{background:linear-gradient(150deg,#f8f0df 0%,#eef8f6 55%,#e6f5f7 100%);overflow:hidden}
+.hero-grid{min-height:540px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:34px;padding:65px 0}
+.eyebrow{font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--sea);font-size:13px}
+.hero h1{font-family:'Abril Fatface';font-size:clamp(48px,7vw,82px);line-height:.96;margin:12px 0 20px;font-weight:400}
+.hero p{font-size:18px;line-height:1.7;color:var(--muted);max-width:600px}
+.actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 20px;border-radius:12px;font-weight:700}
+.btn.primary{background:var(--green);color:#fff}
+.btn.secondary{border:1px solid #cfdcd8;background:#fff}
+.hero-art{position:relative;min-height:410px}
+.blob{position:absolute;inset:20px 0 0 45px;border-radius:48% 52% 43% 57% / 58% 43% 57% 42%;background:linear-gradient(135deg,#cfe8df,#9fd0d6);transform:rotate(-5deg)}
+.hero-photo{position:absolute;inset:0;display:grid;place-items:center;font-size:130px;filter:drop-shadow(0 25px 20px rgba(30,60,55,.15))}
+.floatcard{position:absolute;right:0;bottom:30px;background:#fff;border-radius:18px;padding:14px 18px;box-shadow:var(--shadow);font-weight:700}
+.floatcard small{display:block;color:var(--muted);font-weight:500}
+
+section{padding:76px 0;scroll-margin-top:64px}
+.section-head{text-align:center;margin-bottom:34px}
+.section-head h2{font-family:'Abril Fatface';font-size:42px;font-weight:400;margin:8px 0}
+.section-head p{color:var(--muted);margin:0 auto;max-width:720px;line-height:1.65}
+
+.stay-card{display:grid;grid-template-columns:1fr 1.1fr;background:var(--ink);color:#fff;border-radius:28px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:30px}
+.stay-visual{min-height:280px;background:linear-gradient(145deg,#2d8275,#58a8b0);display:grid;place-items:center;font-size:96px}
+.stay-copy{padding:40px}
+.stay-copy .eyebrow{color:#8fddd2}
+.stay-copy h3{font-family:'Abril Fatface';font-weight:400;font-size:36px;margin:8px 0 10px}
+.stay-copy p{color:#dbe7e4;line-height:1.6}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{background:rgba(255,255,255,.11);padding:8px 11px;border-radius:999px;font-size:13px}
+
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.card{position:relative;min-height:280px;border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+.card-bg{position:absolute;inset:0}
+.card-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.64))}
+.parking{background:linear-gradient(135deg,#8fc2c4,#4b7d7e)}
+.reggio{background:linear-gradient(135deg,#e9c88a,#a86642)}
+.sea{background:linear-gradient(135deg,#74c9dc,#1b7598)}
+.food{background:linear-gradient(135deg,#dfaa74,#8c563b)}
+.mountain{background:linear-gradient(135deg,#8bb78f,#345c45)}
+.card-icon{position:absolute;right:24px;top:20px;font-size:58px}
+.card-content{position:absolute;left:25px;right:25px;bottom:23px;color:#fff}
+.card-kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.82}
+.card h3{font-family:'Abril Fatface';font-size:31px;font-weight:400;margin:5px 0}
+.card p{margin:0;color:#f1f4f3;font-size:14px;line-height:1.5}
+.arrow{margin-top:13px;font-weight:700}
+
+.detail-section:nth-of-type(even){background:var(--cream)}
+.content-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.info-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 8px 22px rgba(23,55,48,.05)}
+.info-card.wide{grid-column:1/-1}
+.info-card h3{margin:0 0 10px;font-size:21px}
+.info-card h4{margin:17px 0 7px;font-size:15px}
+.info-card p{color:var(--muted);line-height:1.65;margin:7px 0}
+.info-card .icon{font-size:34px;margin-bottom:10px}
+.maplink{display:inline-flex;margin-top:12px;padding:10px 13px;border-radius:10px;background:#edf7f4;color:var(--green);font-weight:700;font-size:14px}
+.note{padding:13px 15px;border-radius:12px;background:#fff8df;color:#6b5420;margin-top:12px;font-size:14px;line-height:1.55}
+
+.accordion{display:grid;gap:12px}
+.acc{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden}
+.acc summary{list-style:none;cursor:pointer;padding:18px 20px;font-weight:700;display:flex;justify-content:space-between;gap:15px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:after{content:"+";font-size:22px;color:var(--sea)}
+.acc[open] summary:after{content:"−"}
+.acc-body{padding:0 20px 20px;color:var(--muted);line-height:1.7}
+.acc-body h4{color:var(--ink);margin:18px 0 6px}
+.acc-body p{margin:8px 0}
+.rule{padding:10px 0;border-bottom:1px dashed #dfe8e4}
+.rule:last-child{border-bottom:0}
+
+.place-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.place{background:#fff;border-radius:20px;border:1px solid var(--line);overflow:hidden;box-shadow:0 8px 22px rgba(23,55,48,.05)}
+.place-visual{height:150px;display:grid;place-items:center;font-size:60px}
+.place-body{padding:20px}
+.place h3{margin:0 0 8px;font-size:21px}
+.place p{color:var(--muted);line-height:1.62;margin:0}
+.place .tags{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+.tag{font-size:12px;padding:6px 9px;border-radius:999px;background:#f2f6f4;color:#49635c;font-weight:600}
+.arch{background:linear-gradient(135deg,#f1d5a4,#d59460)}
+.city{background:linear-gradient(135deg,#a9d9df,#5d9fb0)}
+.beach{background:linear-gradient(135deg,#9adeeb,#4b9dbc)}
+.eat{background:linear-gradient(135deg,#f1c492,#b47750)}
+.forest{background:linear-gradient(135deg,#b8d4b6,#6b9a72)}
+
+.subhead{font-family:'Abril Fatface';font-size:30px;font-weight:400;margin:34px 0 18px}
+.backtop{display:inline-flex;margin-top:26px;font-size:14px;font-weight:700;color:var(--green)}
+footer{background:#112823;color:#dce9e6;padding:42px 0}
+.foot{display:flex;justify-content:space-between;gap:20px;align-items:center}
+.foot small{color:#9eb5af}
+
+@media(max-width:760px){
+  .navlinks a:not(.pill){display:none}
+  .hero-grid{grid-template-columns:1fr;min-height:auto;padding:45px 0}
+  .hero-art{min-height:280px}.hero h1{font-size:55px}.hero-photo{font-size:100px}
+  .stay-card{grid-template-columns:1fr}.stay-visual{min-height:190px}
+  .cards,.content-grid,.place-grid{grid-template-columns:1fr}
+  .info-card.wide{grid-column:auto}
+  .card{min-height:230px}
+  .section-head h2{font-size:35px}
+  .foot{align-items:flex-start;flex-direction:column}
+  section{padding:58px 0}
+}
+
+.hero-photo-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:44% 56% 46% 54% / 55% 44% 56% 45%;box-shadow:var(--shadow)}
+.place-img{width:100%;height:190px;object-fit:cover;display:block}
+.card-bg{background-size:cover!important;background-position:center!important}
+.card-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.72))}
+.lang-wrap{display:flex;align-items:center;gap:7px}
+.lang-label{font-size:18px}
+.lang-select{border:1px solid #d5e0dc;background:#fff;color:var(--ink);border-radius:10px;padding:8px 30px 8px 10px;font-weight:700;cursor:pointer}
+@media(max-width:760px){
+  .nav{gap:8px}
+  .logo{font-size:23px}
+  .lang-select{max-width:118px;padding:8px 24px 8px 8px}
+  .lang-label{display:none}
+  .place-img{height:175px}
+}
+
+.art{background:linear-gradient(135deg,#c8a98c,#73594b)}
+
+.art-main-image{
+  width:100%;
+  max-height:650px;
+  object-fit:contain;
+  display:block;
+  margin:0 0 24px;
+  border-radius:18px;
+  background:#f5f1e8;
+}
+
+.contact-person{
+  padding:18px 0;
+  border-bottom:1px solid var(--line);
+}
+.contact-person:last-child{border-bottom:0}
+.contact-person h4{margin:0 0 5px;font-size:19px;color:var(--ink)}
+.contact-number{margin:0 0 12px!important}
+.contact-actions{display:flex;gap:10px;flex-wrap:wrap}
+.contact-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:10px 14px;
+  border-radius:11px;
+  font-weight:700;
+  font-size:14px;
+}
+.contact-btn.call{background:#edf7f4;color:var(--green)}
+.contact-btn.whatsapp{background:#eaf8ef;color:#28764b}
+
+.hero-grid{min-height:430px;padding:44px 0}
+.hero h1{margin-bottom:14px}
+.hero p{max-width:560px}
+.hero .actions{margin-top:22px}
+
+.favourites-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.favourite-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 8px 22px rgba(23,55,48,.05)}
+.favourite-card .fav-icon{font-size:32px;margin-bottom:10px}
+.favourite-card h3{margin:0 0 8px;font-size:20px}
+.favourite-card p{margin:0;color:var(--muted);line-height:1.6}
+
+.artwork-card{display:grid;grid-template-columns:minmax(260px,.9fr) 1.1fr;gap:28px;align-items:start}
+.artwork-card img{width:100%;border-radius:18px;display:block;box-shadow:0 12px 28px rgba(23,55,48,.10);background:#f5f1e8}
+.artwork-copy h3{font-family:'Abril Fatface';font-size:31px;font-weight:400;margin:0 0 5px}
+.artwork-meta{color:var(--sea);font-weight:700;margin-bottom:16px}
+.artwork-copy p{color:var(--muted);line-height:1.7}
+
+.mobile-bottom-nav{display:none}
+@media(max-width:760px){
+  body{padding-bottom:76px}
+  .hero-grid{padding:34px 0 28px}
+  .hero h1{font-size:46px}
+  .hero p{font-size:16px;line-height:1.55}
+  .hero-art{min-height:210px}
+  .favourites-grid{grid-template-columns:1fr}
+  .artwork-card{grid-template-columns:1fr}
+  .mobile-bottom-nav{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;
+    display:grid;grid-template-columns:repeat(4,1fr);
+    background:rgba(255,255,255,.97);backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(23,55,48,.08);
+    padding:7px 8px calc(7px + env(safe-area-inset-bottom));
+  }
+  .mobile-bottom-nav a{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:2px;min-height:50px;font-size:11px;font-weight:700;color:#51665f;border-radius:12px;
+  }
+  .mobile-bottom-nav .nav-ico{font-size:21px;line-height:1}
+}
+
+.parking-guide{
+  margin-bottom:26px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:14px;
+  box-shadow:0 10px 26px rgba(23,55,48,.07);
+}
+.parking-guide-image{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:16px;
+}
+.parking-guide-caption{
+  margin:12px 4px 2px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.55;
+}
+
+/* ===== PRENOTAZIONE DIRETTA ===== */
+.booking-strip{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 12px 30px rgba(23,55,48,.08)}
+.booking-strip-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.booking-strip-title strong{font-size:18px}.booking-badge{font-size:12px;font-weight:700;padding:6px 9px;border-radius:999px;background:#edf7f4;color:var(--green)}
+.booking-form{display:grid;grid-template-columns:1fr 1fr .7fr auto;gap:10px;align-items:end}.booking-field label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:0 0 5px}.booking-field input,.booking-field select{width:100%;border:1px solid #d8e2df;border-radius:11px;padding:11px 12px;background:#fff;color:var(--ink);font:inherit}.booking-go{border:0;border-radius:11px;padding:12px 17px;background:var(--green);color:#fff;font-weight:800;cursor:pointer}.booking-note{font-size:12px;color:var(--muted);margin:11px 0 0;line-height:1.45}
+.booking-section{background:linear-gradient(180deg,#f5faf8,#fff)}.booking-panel{display:grid;grid-template-columns:.95fr 1.05fr;gap:24px;align-items:start}.calendar-box,.request-box{background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 10px 28px rgba(23,55,48,.06)}
+.calendar-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.calendar-head button{border:1px solid var(--line);background:#fff;border-radius:10px;width:38px;height:38px;cursor:pointer;font-size:18px}.calendar-title{font-weight:800;text-align:center}.calendar-weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.calendar-weekdays div{text-align:center;font-size:11px;font-weight:800;color:var(--muted);padding:4px 0}.cal-day{min-height:58px;border:1px solid var(--line);border-radius:10px;padding:6px;text-align:left;background:#fff;color:var(--ink);cursor:pointer;position:relative}.cal-day:hover{border-color:#aacac1}.cal-day.other{opacity:.30}.cal-day.past{opacity:.34;cursor:not-allowed}.cal-day.booked{background:#fff0ef;border-color:#efc0bc;color:#9a4540;cursor:not-allowed}.cal-day.selected{outline:2px solid var(--green);background:#edf7f4}.cal-day.in-range{background:#f2faf7}.cal-num{font-weight:800;font-size:13px}.cal-price{display:block;font-size:9px;color:var(--green);margin-top:4px;white-space:nowrap}.cal-day.booked .cal-price{color:#9a4540}.calendar-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted)}.legend-dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}.legend-free{background:#edf7f4;border:1px solid #b9d9d0}.legend-booked{background:#fff0ef;border:1px solid #efc0bc}
+.request-box h3{margin-top:0;font-size:24px}.request-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.request-grid .full{grid-column:1/-1}.request-box label{display:block;font-size:12px;font-weight:800;color:var(--muted);margin-bottom:5px}.request-box input,.request-box select{width:100%;border:1px solid #d8e2df;border-radius:11px;padding:12px;background:#fff;color:var(--ink);font:inherit}.quote{margin-top:16px;border-radius:16px;padding:16px;background:#f6faf8;border:1px solid #dcebe6}.quote-status{font-weight:800;margin-bottom:5px}.quote-total{font-family:'Abril Fatface';font-size:29px;margin:4px 0}.quote-detail{font-size:13px;color:var(--muted);line-height:1.5}.quote.warning{background:#fff8df;border-color:#ead99f}.quote.error{background:#fff0ef;border-color:#efc0bc}.request-actions{display:grid;gap:10px;margin-top:14px}.whatsapp-request{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 16px;border-radius:12px;background:#26794b;color:#fff;font-weight:800}.booking-disclaimer{margin-top:14px;font-size:12px;line-height:1.55;color:var(--muted)}.header-book{padding:10px 15px;border-radius:999px;background:#bd6f45;color:#fff!important}
+@media(max-width:900px){.booking-form{grid-template-columns:1fr 1fr}.booking-go{grid-column:1/-1}.booking-panel{grid-template-columns:1fr}}
+@media(max-width:760px){.booking-strip{margin-top:20px}.booking-form{grid-template-columns:1fr 1fr}.booking-field.guests{grid-column:1/-1}.request-grid{grid-template-columns:1fr}.request-grid .full{grid-column:auto}.calendar-box,.request-box{padding:16px}.cal-day{min-height:52px;padding:5px}.cal-price{font-size:8px}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap nav">
+<a class="logo" href="#top">Civico <span>26</span></a>
+<div class="lang-wrap">
+<span aria-hidden="true" class="lang-label">🌐</span>
+<select aria-label="Scegli lingua" class="lang-select" id="languageSelect">
+<option value="it">🇮🇹 Italiano</option>
+<option value="en">🇬🇧 English</option>
+</select>
+</div><nav class="navlinks">
+<a href="#soggiorno">Soggiorno</a>
+<a href="#scopri">Scopri</a>
+<a class="pill" href="#soggiorno-dettagli">Info casa</a>
+<a class="header-book" href="#prenota">Prenota</a></nav>
+</div>
+</header>
+<main id="top">
+<section class="hero">
+<div class="wrap hero-grid">
+<div>
+<div class="eyebrow">Civico 26 · Reggio Calabria</div>
+<h1>Benvenuti a Civico 26</h1>
+<p>Tutto ciò che vi serve per il soggiorno, più i nostri consigli per scoprire Reggio Calabria e dintorni.</p>
+<div class="actions">
+<a class="btn primary" href="#soggiorno-dettagli">🏠 Il mio soggiorno</a>
+<a class="btn secondary" href="#scopri">🧭 Scopri Reggio</a>
+</div>
+<div class="booking-strip"><div class="booking-strip-title"><strong>📅 Verifica prezzi e disponibilità</strong><span class="booking-badge">Prenotazione diretta</span></div><div class="booking-form"><div class="booking-field"><label for="heroCheckin">Check-in</label><input id="heroCheckin" type="date"/></div><div class="booking-field"><label for="heroCheckout">Check-out</label><input id="heroCheckout" type="date"/></div><div class="booking-field guests"><label for="heroGuests">Ospiti</label><select id="heroGuests"><option>1</option><option selected="">2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div><button class="booking-go" id="heroBookingGo" type="button">Verifica</button></div><p class="booking-note">Disponibilità indicativa aggiornata manualmente. La prenotazione è confermata solo dopo nostra conferma.</p></div></div>
+<div class="hero-art">
+<div class="blob"></div><img alt="Lungomare Falcomatà, Reggio Calabria" class="hero-photo-img" src="immagini/lungomare-falcomata.jpg"/>🌊
+<div class="floatcard">Civico 26<small>Reggio Calabria</small></div>
+</div>
+</div>
+</section>
+<section class="booking-section" id="prenota"><div class="wrap"><div class="section-head"><span class="eyebrow">Prenotazione diretta</span><h2>Verifica disponibilità</h2><p>Consulta il calendario, seleziona le date e inviaci una richiesta. Controlleremo Booking e Airbnb prima di confermare il soggiorno.</p></div><div class="booking-panel"><div class="calendar-box"><div class="calendar-head"><button id="calPrev" type="button">‹</button><div class="calendar-title" id="calendarTitle"></div><button id="calNext" type="button">›</button></div><div class="calendar-weekdays"><div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div></div><div class="calendar-grid" id="calendarGrid"></div><div class="calendar-legend"><span><i class="legend-dot legend-free"></i> Disponibile</span><span><i class="legend-dot legend-booked"></i> Non disponibile</span></div></div><div class="request-box"><h3>Richiedi disponibilità</h3><div class="request-grid"><div><label for="bookCheckin">Check-in</label><input id="bookCheckin" type="date"/></div><div><label for="bookCheckout">Check-out</label><input id="bookCheckout" type="date"/></div><div class="full"><label for="bookGuests">Numero di ospiti</label><select id="bookGuests"><option value="1">1 ospite</option><option selected="" value="2">2 ospiti</option><option value="3">3 ospiti</option><option value="4">4 ospiti</option><option value="5">5 ospiti</option><option value="6">6 ospiti</option></select></div></div><div class="quote" id="quoteBox"><div class="quote-status" id="quoteStatus">Seleziona le date</div><div class="quote-total" id="quoteTotal">—</div><div class="quote-detail" id="quoteDetail">Seleziona check-in e check-out per calcolare il totale.</div></div><div class="request-actions"><a class="whatsapp-request" href="#" id="whatsappBooking" rel="noopener noreferrer" target="_blank">💬 Richiedi su WhatsApp</a></div><p class="booking-disclaimer"><strong>Importante:</strong> il calendario viene aggiornato manualmente e non è sincronizzato in tempo reale con Booking.com o Airbnb. La richiesta non costituisce prenotazione; il soggiorno è confermato solo dopo nostra risposta.</p></div></div></div></section><section id="soggiorno">
+<div class="wrap">
+<div class="section-head">
+<span class="eyebrow">Prima di tutto</span>
+<h2>Il tuo soggiorno</h2>
+<p>Tutte le informazioni utili per vivere al meglio il soggiorno al Civico 26.</p>
+</div>
+<a class="stay-card" href="#soggiorno-dettagli">
+<div class="stay-visual" style="background:linear-gradient(rgba(22,48,43,.22),rgba(22,48,43,.22)),url('immagini/via-marina.jpg') center/cover;">🏠</div>
+<div class="stay-copy">
+<div class="eyebrow">Civico 26</div>
+<h3>Tutto sulla casa</h3>
+<p>Accesso, Wi‑Fi, climatizzazione, acqua, autoclave, raccolta differenziata, regole e contatti.</p>
+<div class="chips">
+<span class="chip">🔑 Check-in</span><span class="chip">📶 Wi‑Fi</span><span class="chip">❄️ Clima</span>
+<span class="chip">🚿 Acqua</span><span class="chip">♻️ Rifiuti</span><span class="chip">🚭 Regole</span>
+</div>
+</div>
+</a>
+</div>
+</section>
+<section id="scopri" style="padding-top:20px">
+<div class="wrap">
+<div class="section-head">
+<span class="eyebrow">Esplora</span>
+<h2>Scopri il territorio</h2>
+<p>Parcheggio, luoghi da vedere, spiagge, sapori locali e natura: tutto diviso in sezioni semplici da consultare da smartphone.</p>
+</div>
+<div class="cards">
+<a class="card" href="#parcheggio"><div class="card-bg parking" style="background-image:url('immagini/corso-garibaldi.jpg')"></div><div class="card-icon">🚗</div><div class="card-content"><div class="card-kicker">Muoversi</div><h3>Dove parcheggiare</h3><p>Due soluzioni utili vicino all'appartamento.</p><div class="arrow">Apri →</div></div></a>
+<a class="card" href="#reggio"><div class="card-bg reggio" style="background-image:url('immagini/lungomare-falcomata.jpg')"></div><div class="card-icon">🏛️</div><div class="card-content"><div class="card-kicker">Da vedere</div><h3>Reggio Calabria</h3><p>Museo, Lungomare, centro storico e monumenti.</p><div class="arrow">Esplora →</div></div></a>
+<a class="card" href="#mare"><div class="card-bg sea" style="background-image:url('immagini/scilla.jpg')"></div><div class="card-icon">🏖️</div><div class="card-content"><div class="card-kicker">Costa Viola</div><h3>Mare e spiagge</h3><p>Scilla, Bagnara e Palmi.</p><div class="arrow">Scopri →</div></div></a>
+<a class="card" href="#mangiare"><div class="card-bg food" style="background-image:url('immagini/gelateria-cesare.jpg')"></div><div class="card-icon">🍝</div><div class="card-content"><div class="card-kicker">Sapori locali</div><h3>Dove mangiare</h3><p>Bar, gelaterie, pizzerie, trattorie e ristoranti.</p><div class="arrow">Mangia bene →</div></div></a>
+<a class="card" href="#aspromonte" style="grid-column:1/-1"><div class="card-bg mountain" style="background-image:url('immagini/aspromonte.jpg')"></div><div class="card-icon">🌲</div><div class="card-content"><div class="card-kicker">Natura</div><h3>Parco Nazionale dell'Aspromonte</h3><p>Gambarie, boschi e una giornata nella montagna reggina.</p><div class="arrow">Parti →</div></div></a>
+<a class="card" href="#preferiti">
+<div class="card-bg food"></div><div class="card-icon">❤️</div>
+<div class="card-content"><div class="card-kicker">Scelti da noi</div>
+<h3>I nostri preferiti</h3><p>I posti e le esperienze che consigliamo più volentieri.</p>
+<div class="arrow">Scopri →</div></div>
+</a><a class="card" href="#arte" style="grid-column:1/-1">
+<div class="card-bg art" style="background-image:url('immagini/arte-civico26.jpg');background-position:center;background-size:cover;"></div>
+<div class="card-icon">🖼️</div>
+<div class="card-content">
+<div class="card-kicker">Cultura &amp; creatività</div>
+<h3>Arte al Civico 26</h3>
+<p>Le opere esposte nelle stanze, disponibili anche per l'acquisto.</p>
+<div class="arrow">Scopri l'artista →</div>
+</div>
+</a></div>
+</div>
+</section>
+<section class="detail-section" id="soggiorno-dettagli">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">Informazioni pratiche</span><h2>Il tuo soggiorno</h2><p>Apri la voce che ti serve.</p></div>
+<div class="accordion">
+<details class="acc"><summary>📶 Wi‑Fi</summary><div class="acc-body"><p>Troverete le credenziali per accedere al Wi‑Fi in cucina, vicino alla televisione e dietro il modem.</p></div></details>
+<details class="acc"><summary>🔑 Check-in e check-out</summary><div class="acc-body">
+<p>Il check-in è disponibile a partire dalle <strong>15:00</strong>.</p>
+<p>Per accedere all'appartamento, ritirate le chiavi dalla <strong>Key Box</strong> situata sulla destra del portone d'ingresso.</p>
+<p>Una volta ritirate le chiavi, salite per <strong>tre piani e mezzo</strong>. Troverete la porta dell'appartamento contrassegnata dall'insegna <strong>“Civico 26”</strong>.</p>
+<p>Il check-out è previsto entro le <strong>10:00</strong>. Al termine del soggiorno, riponete le chiavi nella stessa Key Box, avendo cura di <strong>non lasciare impostato il codice di apertura</strong>.</p>
+</div></details>
+<details class="acc"><summary>🚿 Acqua, scaldabagno e autoclave</summary><div class="acc-body">
+<h4>Acqua calda</h4>
+<p>L'acqua calda viene prodotta da uno scaldabagno elettrico. Per accenderlo o spegnerlo utilizzate il pulsante presente in corridoio, riconoscibile dall'apposita targhetta.</p>
+<h4>Autoclave e riserva d'acqua</h4>
+<p>In caso di interruzione dell'acqua da parte del servizio idrico cittadino, è possibile utilizzare la riserva d'acqua dell'appartamento, con una capacità di circa <strong>500 litri</strong>.</p>
+<p>Per attivare l'autoclave, utilizzate il pulsante in corridoio accanto a quello dello scaldabagno.</p>
+<div class="note">⚠️ Ricordatevi di spegnere l'autoclave la mattina seguente, così la riserva può ricaricarsi correttamente.</div>
+</div></details>
+<details class="acc"><summary>❄️ Climatizzazione</summary><div class="acc-body">
+<p>Nell'appartamento sono presenti tre climatizzatori: due nelle camere da letto e uno in cucina.</p>
+<p>I climatizzatori delle camere possono essere accesi con il <strong>pulsante rosa</strong> sul telecomando fissato alla parete.</p>
+<p>Il climatizzatore in cucina è attualmente <strong>fuori servizio</strong>.</p>
+<p>Vi chiediamo di non lasciare i climatizzatori accesi quando uscite dall'appartamento.</p>
+</div></details>
+<details class="acc"><summary>♻️ Raccolta differenziata</summary><div class="acc-body">
+<p>In cucina sono presenti i cestini per la raccolta differenziata. Per l'organico troverete un cestino sotto il lavandino.</p>
+<p>I rifiuti possono essere conferiti nei cassonetti all'esterno del palazzo, sulla <strong>destra del portone</strong>.</p>
+<p>Per aprire i cassonetti è necessaria una chiave presente sul mazzo di chiavi dell'appartamento.</p>
+</div></details>
+<details class="acc"><summary>🚭 Regole della casa</summary><div class="acc-body">
+<div class="rule"><strong>🚭 Fumo</strong><br/>È vietato fumare all'interno. È possibile fumare sulla veranda e sul balcone, dove sono presenti posacenere.</div>
+<div class="rule"><strong>🔇 Silenzio</strong><br/>Rispettate gli orari del silenzio dalle 22:00 alle 08:00.</div>
+<div class="rule"><strong>🎉 Feste ed eventi</strong><br/>Non sono consentite feste o eventi all'interno dell'appartamento.</div>
+<div class="rule"><strong>👥 Ospiti esterni</strong><br/>Non è consentito invitare o ospitare persone esterne non registrate.</div>
+<div class="rule"><strong>🐾 Animali</strong><br/>Gli animali sono i benvenuti.</div>
+</div></details>
+<span id="contatti-anchor" style="position:relative;top:-90px;"></span><details class="acc"><summary>📞 Contatti</summary><div class="acc-body">
+<p>Per qualsiasi necessità, informazione o problema durante il soggiorno, non esitate a contattarci.</p>
+<div class="contact-person">
+<h4>Stefano</h4>
+<p class="contact-number">+39 347 967 8252</p>
+<div class="contact-actions">
+<a class="contact-btn call" href="tel:+393479678252">📞 Chiama Stefano</a>
+<a class="contact-btn whatsapp" href="https://wa.me/393479678252" rel="noopener noreferrer" target="_blank">💬 WhatsApp</a>
+</div>
+</div>
+<div class="contact-person">
+<h4>Andrea</h4>
+<p class="contact-number">+39 389 056 5680</p>
+<div class="contact-actions">
+<a class="contact-btn call" href="tel:+393890565680">📞 Chiama Andrea</a>
+<a class="contact-btn whatsapp" href="https://wa.me/393890565680" rel="noopener noreferrer" target="_blank">💬 WhatsApp</a>
+</div>
+</div>
+</div></details>
+</div>
+<a class="backtop" href="#top">↑ Torna in alto</a>
+</div>
+</section>
+<section class="detail-section" id="parcheggio">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">Muoversi</span><h2>Dove parcheggiare</h2><p>Parcheggiare in centro può essere difficile soprattutto negli orari di maggiore affluenza. Ecco due soluzioni utili durante il soggiorno.</p></div><figure class="parking-guide">
+<img alt="Mappa del parcheggio gratuito vicino al Civico 26" class="parking-guide-image" src="immagini/mappa-parcheggio-civico26.png"/>
+<figcaption class="parking-guide-caption">
+            In verde sono indicate le strade dove è possibile trovare sosta gratuita e il parcheggio pubblico gratuito in Largo Gianluca Canonico. Controllate sempre la segnaletica presente sul posto.
+          </figcaption>
+</figure>
+<div class="content-grid">
+<div class="info-card">
+<div class="icon">🅿️</div><h3>Parcheggio consigliato</h3>
+<p>Una delle soluzioni che consigliamo per lasciare l'auto e raggiungere comodamente l'appartamento.</p>
+<a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Via+Caprera+26+Reggio+Calabria" rel="noopener" target="_blank">📍 Apri su Google Maps</a>
+</div>
+<div class="info-card">
+<div class="icon">🅿️</div><h3>Parcheggio alternativo</h3>
+<p>Un'altra possibilità nelle vicinanze. Verificate sempre la disponibilità dei posti al vostro arrivo.</p>
+<a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=38.101825,15.639909" rel="noopener" target="_blank">📍 Apri su Google Maps</a>
+</div>
+</div>
+<a class="backtop" href="#top">↑ Torna in alto</a>
+</div>
+</section>
+<section class="detail-section" id="reggio">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">Scopri la città</span><h2>Reggio Calabria</h2><p>Affacciata sullo Stretto di Messina, Reggio Calabria unisce storia, Magna Grecia, centro storico, mare e panorami sulla Sicilia.</p></div>
+<h3 class="subhead">🏺 Archeologia e Magna Grecia</h3>
+<div class="place-grid">
+<article class="place"><img alt="Museo Archeologico Nazionale" class="place-img" src="immagini/museo-archeologico.jpg"/><div class="place-body"><h3>Museo Archeologico Nazionale</h3><p>Una tappa imperdibile: custodisce i celebri Bronzi di Riace e una straordinaria collezione di reperti della Magna Grecia.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Museo+Archeologico+Nazionale+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Area Archeologica di Piazza Italia" class="place-img" src="immagini/piazza-italia.jpg"/><div class="place-body"><h3>Area Archeologica di Piazza Italia</h3><p>Nel cuore del centro cittadino, conserva testimonianze delle diverse fasi storiche di Reggio Calabria.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Area+Archeologica+Piazza+Italia+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Terme Romane" class="place-img" src="immagini/terme-romane.jpg"/><div class="place-body"><h3>Terme Romane</h3><p>Una delle testimonianze archeologiche dell'antica Reggio, visibile nell'area del Lungomare.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Terme+Romane+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+</div>
+<h3 class="subhead">🌊 Lungomare e centro</h3>
+<div class="place-grid">
+<article class="place"><img alt="Lungomare Falcomatà" class="place-img" src="immagini/lungomare-falcomata.jpg"/><div class="place-body"><h3>Lungomare Falcomatà</h3><p>Una delle passeggiate più suggestive della città, con vista sullo Stretto e sulla Sicilia. Bellissimo soprattutto al tramonto.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Lungomare+Falcomata+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Arena dello Stretto" class="place-img" src="immagini/arena-stretto.jpg"/><div class="place-body"><h3>Arena dello Stretto</h3><p>Anfiteatro sul mare e punto panoramico particolarmente suggestivo al tramonto.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Arena+dello+Stretto+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Via Marina" class="place-img" src="immagini/via-marina.jpg"/><div class="place-body"><h3>Via Marina</h3><p>Una delle passeggiate più rappresentative della città, tra mare, Stretto e costa siciliana.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Via+Marina+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Corso Garibaldi" class="place-img" src="immagini/corso-garibaldi.jpg"/><div class="place-body"><h3>Corso Garibaldi</h3><p>Il principale corso del centro, ideale per passeggiare tra negozi, bar, locali e monumenti.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Corso+Garibaldi+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Piazza De Nava" class="place-img" src="immagini/piazza-de-nava.png"/><div class="place-body"><h3>Piazza De Nava</h3><p>Recentemente riqualificata, si trova davanti al Museo Archeologico ed è un ottimo punto di partenza per il centro.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Piazza+De+Nava+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Villa Comunale" class="place-img" src="immagini/villa-comunale.jpg"/><div class="place-body"><h3>Villa Comunale</h3><p>Uno spazio verde piacevole nel cuore della città, a pochi passi dal Lungomare e dal centro storico.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Villa+Comunale+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Duomo" class="place-img" src="immagini/duomo.jpg"/><div class="place-body"><h3>Duomo</h3><p>La Basilica Cattedrale di Maria Santissima Assunta in Cielo, principale luogo di culto della città.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Duomo+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Castello Aragonese" class="place-img" src="immagini/castello-aragonese.jpg"/><div class="place-body"><h3>Castello Aragonese</h3><p>Uno dei simboli storici della città, con torri e mura che raccontano il passato di Reggio Calabria.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Castello+Aragonese+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+</div>
+<a class="backtop" href="#top">↑ Torna in alto</a>
+</div>
+</section>
+<section class="detail-section" id="mare">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">Costa Viola</span><h2>Mare e spiagge</h2><p>La costa intorno a Reggio Calabria offre spiagge e atmosfere molto diverse. Queste sono alcune delle nostre preferite.</p></div>
+<div class="place-grid">
+<article class="place"><img alt="Scilla e Chianalea" class="place-img" src="immagini/scilla.jpg"/><div class="place-body"><h3>Scilla e Chianalea</h3><p>Scilla è uno dei borghi più suggestivi della Calabria, con una delle spiagge più belle della Costa Viola. Nei weekend estivi può essere molto affollata.</p><p>Da non perdere Chianalea, l'antico borgo dei pescatori. Qui vale la pena provare il panino con il pesce spada da <strong>Civico 5</strong> e la granita della <strong>Gelateria Zanzibar</strong>.</p><div class="tags"><span class="tag">🚆 Raggiungibile in treno</span><span class="tag">🐟 Pesce spada</span></div><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Scilla+RC" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Bagnara Calabra" class="place-img" src="immagini/bagnara.jpg"/><div class="place-body"><h3>Bagnara Calabra</h3><p>Borgo marinaro della Costa Viola, noto per mare cristallino, panorami, pesca del pesce spada e torrone artigianale. In genere è più tranquilla e meno affollata di Scilla.</p><div class="tags"><span class="tag">🚆 Circa 40 min in treno</span><span class="tag">🍬 Torrone</span></div><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Bagnara+Calabra+RC" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Palmi" class="place-img" src="immagini/palmi.jpg"/><div class="place-body"><h3>Palmi</h3><p>Una delle località più suggestive della Costa Viola. Da non perdere la Tonnara di Palmi e lo Scoglio dell'Ulivarella, particolarmente belli al tramonto.</p><div class="tags"><span class="tag">🚗 Auto necessaria</span><span class="tag">⏱️ Circa 35 min</span></div><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Tonnara+di+Palmi+Ulivarella" target="_blank">📍 Come arrivare</a></div></article>
+</div>
+<a class="backtop" href="#top">↑ Torna in alto</a>
+</div>
+</section>
+<section class="detail-section" id="mangiare">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">Sapori locali</span><h2>Dove mangiare</h2><p>Una selezione di posti che consigliamo per colazione, gelato, pizza, cucina calabrese e pesce.</p></div>
+<h3 class="subhead">🍦 Bar e gelaterie</h3>
+<div class="place-grid">
+<article class="place"><img alt="Gelateria Cesare" class="place-img" src="immagini/gelateria-cesare.jpg"/><div class="place-body"><h3>Gelateria Cesare</h3><p>Uno dei simboli di Reggio Calabria, sul Lungomare Falcomatà. Gelato artigianale e una fama che rende un po' di attesa quasi inevitabile.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Gelato+Cesare+1918+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Les Folies Cafè" class="place-img" src="immagini/les-folies-cafe.jpg"/><div class="place-body"><h3>Les Folies Cafè</h3><p>Aperto 24 ore su 24 e a meno di due minuti a piedi dall'appartamento. Ottimo per la colazione.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Les+Folies+Cafe+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Bar Winner" class="place-img" src="immagini/bar-winner.jpg"/><div class="place-body"><h3>Bar Winner</h3><p>Il nostro bar preferito. Da provare la granita al pistacchio con brioche. La sede principale è a Gallico, con una sede anche in centro.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Winner+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+</div>
+<h3 class="subhead">🍕 Ristoranti e pizzerie</h3>
+<div class="place-grid">
+<article class="place"><img alt="Lievito Pizzeria" class="place-img" src="immagini/lievito-pizzeria.jpg"/><div class="place-body"><h3>Lievito Pizzeria</h3><p>Una delle pizzerie che consigliamo di provare. Meglio prenotare nei weekend e in alta stagione.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Lievito+Pizzeria+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Kalabrillo" class="place-img" src="immagini/kalabrillo.jpg"/><div class="place-body"><h3>Kalabrillo</h3><p>Locale accogliente con una cucina che unisce sapori della tradizione calabrese e tecniche moderne.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Kalabrillo+Osteria+Contemporanea+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Nonna Lucia" class="place-img" src="immagini/nonna-lucia.jpg"/><div class="place-body"><h3>Nonna Lucia</h3><p>Trattoria nel centro di Reggio Calabria con cucina calabrese e mediterranea ispirata alle ricette di famiglia.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Nonna+Lucia+Trattoria+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Antiqua Trattoria Tamiro" class="place-img" src="immagini/antiqua-trattoria-tamiro.jpg"/><div class="place-body"><h3>Antiqua Trattoria Tamiro</h3><p>Trattoria di pesce a gestione familiare, con attenzione alla tradizione e alle materie prime locali.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Antiqua+Trattoria+Tamiro+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Officine del Gusto" class="place-img" src="immagini/officine-del-gusto.jpg"/><div class="place-body"><h3>Officine del Gusto</h3><p>Ristorante nel centro che propone una rivisitazione contemporanea della cucina reggina con materie prime locali e stagionali.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Officine+del+Gusto+Reggio+Calabria" target="_blank">📍 Come arrivare</a></div></article>
+<article class="place"><img alt="Schiccio" class="place-img" src="immagini/schiccio.jpg"/><div class="place-body"><h3>Schiccio</h3><p>Uno dei nostri posti del cuore, immerso nella natura dell'Aspromonte. Cucina tipica, prodotti locali e panorama. È indispensabile l'auto e conviene prenotare con anticipo.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Schiccio+Santo+Stefano+in+Aspromonte" target="_blank">📍 Come arrivare</a></div></article>
+</div>
+<a class="backtop" href="#top">↑ Torna in alto</a>
+</div>
+</section>
+<section class="detail-section" id="aspromonte">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">Natura</span><h2>Parco Nazionale dell'Aspromonte</h2><p>Alle spalle della città, in meno di un'ora, il paesaggio cambia completamente: dallo Stretto ai boschi dell'Aspromonte.</p></div>
+<div class="content-grid">
+<div class="info-card wide">
+<div class="icon">🌲</div><h3>Gambarie e l'Aspromonte</h3>
+<p>Se desiderate trascorrere una giornata immersi nella natura, vi consigliamo di raggiungere <strong>Gambarie</strong>, il principale centro turistico dell'Aspromonte, e di esplorare i boschi e i paesaggi circostanti.</p>
+<p>Potete raggiungere Gambarie con l'<strong>autobus 319</strong>, che parte da Piazza Garibaldi a pochi passi dall'appartamento, oppure in auto in circa <strong>30 minuti</strong>.</p>
+<div class="tags"><span class="tag">🚌 Bus 319</span><span class="tag">🚗 30 min circa</span><span class="tag">🥾 Natura e boschi</span></div>
+<a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Gambarie+RC" target="_blank">📍 Gambarie su Google Maps</a>
+<a class="maplink" href="https://www.atam.rc.it/" target="_blank">🚌 Orari ATAM</a>
+<a class="maplink" href="https://www.parconazionaleaspromonte.it/" target="_blank">🌲 Parco Nazionale</a>
+</div>
+</div>
+<a class="backtop" href="#top">↑ Torna in alto</a>
+</div>
+</section>
+</main>
+<section class="detail-section" id="preferiti">
+<div class="wrap">
+<div class="section-head">
+<span class="eyebrow">Scelti da noi</span>
+<h2>I nostri preferiti</h2>
+<p>Una piccola selezione personale: i posti e le esperienze che consiglieremmo a un amico in visita a Reggio.</p>
+</div>
+<div class="favourites-grid">
+<article class="favourite-card"><div class="fav-icon">🍧</div><h3>La granita che scegliamo noi</h3><p>Bar Winner: se vi piace il pistacchio, provate la granita al pistacchio con brioche.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Bar+Winner+Reggio+Calabria" rel="noopener" target="_blank">📍 Come arrivare</a></article>
+<article class="favourite-card"><div class="fav-icon">🌅</div><h3>Il tramonto</h3><p>La Costa Viola dà il meglio di sé verso sera. Scilla e Palmi sono tra i posti che preferiamo per godersi il tramonto.</p></article>
+<article class="favourite-card"><div class="fav-icon">🐟</div><h3>Un assaggio di Scilla</h3><p>A Chianalea ci piace consigliare il panino con il pesce spada da Civico 5.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Civico+5+Chianalea+Scilla" rel="noopener" target="_blank">📍 Come arrivare</a></article>
+<article class="favourite-card"><div class="fav-icon">🌲</div><h3>Una giornata diversa</h3><p>Se avete l'auto, salite verso Gambarie e l'Aspromonte: in poco tempo passerete dal mare ai boschi.</p><a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Gambarie+RC" rel="noopener" target="_blank">📍 Come arrivare</a></article>
+</div>
+<a class="backtop" href="#top">↑ Torna in alto</a>
+</div>
+</section><section class="detail-section" id="arte">
+<div class="wrap">
+<div class="section-head">
+<span class="eyebrow">Cultura &amp; creatività</span>
+<h2>Arte al Civico 26</h2>
+<p>Le opere presenti nell'appartamento fanno parte dell'esperienza di Civico 26 e sono disponibili per l'acquisto.</p>
+</div>
+<div class="info-card wide">
+<div class="artwork-card">
+<div><img alt="Reggio Calabria – Hometown Tales, S. Merenda, 2025" src="immagini/arte-civico26.jpg"/></div>
+<div class="artwork-copy">
+<h3>Reggio Calabria – Hometown Tales</h3>
+<div class="artwork-meta"><em>S. Merenda, 2025</em></div>
+<p>Un racconto illustrato di Reggio Calabria costruito attraverso alcuni dei suoi simboli più riconoscibili: San Giorgio, il pesce spada, il mare dello Stretto, l’Aspromonte e il tramonto sulla Costa Viola, con Scilla e l’Etna sullo sfondo.</p>
+<p>L’opera raccoglie paesaggi, tradizioni e piccoli frammenti della vita locale trasformandoli in una mappa immaginaria della città e della sua identità mediterranea.</p>
+<p><strong>L'opera è disponibile per l'acquisto.</strong></p>
+<a class="maplink" href="https://www.instagram.com/sashamerenda" rel="noopener noreferrer" target="_blank">🎨 Scopri Sasha Merenda su Instagram</a>
+</div>
+</div>
+</div>
+<a class="backtop" href="#top">↑ Torna in alto</a>
+</div>
+</section><footer>
+<div class="wrap foot">
+<div><div class="logo">Civico <span>26</span></div><small>Guida di Reggio Calabria</small></div>
+<small>Versione completa · base grafica Tour Advisor</small>
+</div>
+</footer>
+<script>
+const translations = {'Guida di Reggio Calabria': 'Reggio Calabria Guide', 'Soggiorno': 'Stay', 'Scopri': 'Explore', 'Info casa': 'House info', 'La vostra guida locale': 'Your local guide', 'Vivi Reggio Calabria.': 'Experience Reggio Calabria.', "La vostra esperienza a Reggio Calabria inizia qui. Tutto ciò che serve per il soggiorno a Civico 26, insieme ai nostri consigli per scoprire la città, il mare, i sapori e l'Aspromonte.": 'Your Reggio Calabria experience starts here. Everything you need for your stay at Civico 26, plus our tips for discovering the city, the sea, local food and the Aspromonte.', 'Il tuo soggiorno': 'Your stay', 'Scopri il territorio': 'Explore the area', 'Prima di tutto': 'First things first', 'Tutte le informazioni utili per vivere al meglio il soggiorno al Civico 26.': 'All the useful information you need to make the most of your stay at Civico 26.', 'Tutto sulla casa': 'Everything about the apartment', 'Accesso, Wi‑Fi, climatizzazione, acqua, autoclave, raccolta differenziata, regole e contatti.': 'Access, Wi‑Fi, air conditioning, water, pump system, recycling, house rules and contacts.', 'Check-in': 'Check-in', 'Clima': 'A/C', 'Acqua': 'Water', 'Rifiuti': 'Waste', 'Regole': 'Rules', 'Esplora': 'Explore', 'Parcheggio, luoghi da vedere, spiagge, sapori locali e natura: tutto diviso in sezioni semplici da consultare da smartphone.': 'Parking, sights, beaches, local food and nature, all organised in sections that are easy to browse on your phone.', 'Muoversi': 'Getting around', 'Dove parcheggiare': 'Where to park', "Due soluzioni utili vicino all'appartamento.": 'Two useful parking options near the apartment.', 'Apri →': 'Open →', 'Da vedere': 'Sightseeing', 'Reggio Calabria': 'Reggio Calabria', 'Museo, Lungomare, centro storico e monumenti.': 'Museum, seafront, historic centre and monuments.', 'Esplora →': 'Explore →', 'Costa Viola': 'Costa Viola', 'Mare e spiagge': 'Sea & beaches', 'Scilla, Bagnara e Palmi.': 'Scilla, Bagnara and Palmi.', 'Scopri →': 'Discover →', 'Sapori locali': 'Local flavours', 'Dove mangiare': 'Where to eat', 'Bar, gelaterie, pizzerie, trattorie e ristoranti.': 'Cafés, gelato shops, pizzerias, trattorias and restaurants.', 'Mangia bene →': 'Eat well →', 'Natura': 'Nature', "Parco Nazionale dell'Aspromonte": 'Aspromonte National Park', 'Gambarie, boschi e una giornata nella montagna reggina.': 'Gambarie, forests and a day in the mountains above Reggio.', 'Parti →': 'Go →', 'Informazioni pratiche': 'Practical information', 'Apri la voce che ti serve.': 'Open the section you need.', 'Troverete le credenziali per accedere al Wi‑Fi in cucina, vicino alla televisione e dietro il modem.': 'You will find the Wi‑Fi credentials in the kitchen, near the television and behind the router.', 'Check-in e check-out': 'Check-in & check-out', 'Il check-in è disponibile a partire dalle': 'Check-in is available from', "Per accedere all'appartamento, ritirate le chiavi dalla": 'To enter the apartment, collect the keys from the', "situata sulla destra del portone d'ingresso.": 'located to the right of the main entrance.', 'Una volta ritirate le chiavi, salite per': 'Once you have the keys, go up', "Troverete la porta dell'appartamento contrassegnata dall'insegna": 'You will find the apartment door marked with the sign', 'Il check-out è previsto entro le': 'Check-out is by', 'Al termine del soggiorno, riponete le chiavi nella stessa Key Box, avendo cura di': 'At the end of your stay, return the keys to the same Key Box and make sure', 'non lasciare impostato il codice di apertura': 'the opening code is not left displayed', 'Acqua, scaldabagno e autoclave': 'Water, water heater & pump', 'Acqua calda': 'Hot water', "L'acqua calda viene prodotta da uno scaldabagno elettrico. Per accenderlo o spegnerlo utilizzate il pulsante presente in corridoio, riconoscibile dall'apposita targhetta.": 'Hot water is produced by an electric water heater. Use the labelled switch in the hallway to turn it on or off.', "Autoclave e riserva d'acqua": 'Water pump and reserve tank', "In caso di interruzione dell'acqua da parte del servizio idrico cittadino, è possibile utilizzare la riserva d'acqua dell'appartamento, con una capacità di circa": "If the municipal water supply is interrupted, you can use the apartment's reserve water tank, with a capacity of about", "Per attivare l'autoclave, utilizzate il pulsante in corridoio accanto a quello dello scaldabagno.": 'To activate the water pump, use the switch in the hallway next to the water-heater switch.', "⚠️ Ricordatevi di spegnere l'autoclave la mattina seguente, così la riserva può ricaricarsi correttamente.": '⚠️ Please remember to switch off the pump the following morning so the reserve tank can refill properly.', 'Climatizzazione': 'Air conditioning', "Nell'appartamento sono presenti tre climatizzatori: due nelle camere da letto e uno in cucina.": 'There are three air conditioners in the apartment: two in the bedrooms and one in the kitchen.', 'I climatizzatori delle camere possono essere accesi con il': 'The bedroom air conditioners can be switched on using the', 'sul telecomando fissato alla parete.': 'button on the wall-mounted remote control.', 'Il climatizzatore in cucina è attualmente': 'The air conditioner in the kitchen is currently', 'fuori servizio': 'out of service', "Vi chiediamo di non lasciare i climatizzatori accesi quando uscite dall'appartamento.": 'Please do not leave the air conditioners running when you leave the apartment.', 'Raccolta differenziata': 'Recycling', "In cucina sono presenti i cestini per la raccolta differenziata. Per l'organico troverete un cestino sotto il lavandino.": 'Recycling bins are available in the kitchen. The food-waste bin is under the sink.', "I rifiuti possono essere conferiti nei cassonetti all'esterno del palazzo, sulla": 'Waste can be taken to the bins outside the building, to the', 'destra del portone': 'right of the entrance', "Per aprire i cassonetti è necessaria una chiave presente sul mazzo di chiavi dell'appartamento.": 'A key on the apartment keyring is required to open the bins.', 'Regole della casa': 'House rules', 'Fumo': 'Smoking', 'Silenzio': 'Quiet hours', 'Feste ed eventi': 'Parties & events', 'Ospiti esterni': 'External guests', 'Animali': 'Pets', "È vietato fumare all'interno. È possibile fumare sulla veranda e sul balcone, dove sono presenti posacenere.": 'Smoking is not allowed indoors. You may smoke on the veranda or balcony, where ashtrays are provided.', 'Rispettate gli orari del silenzio dalle 22:00 alle 08:00.': 'Please respect quiet hours from 10:00 pm to 8:00 am.', "Non sono consentite feste o eventi all'interno dell'appartamento.": 'Parties and events are not allowed inside the apartment.', 'Non è consentito invitare o ospitare persone esterne non registrate.': 'Unregistered external guests are not permitted.', 'Gli animali sono i benvenuti.': 'Pets are welcome.', 'Contatti': 'Contacts', 'Per qualsiasi necessità, informazione o problema durante il soggiorno, non esitate a contattarci.': 'For any need, information or problem during your stay, please do not hesitate to contact us.', 'telefono / WhatsApp': 'phone / WhatsApp', 'I numeri possono essere inseriti nella versione definitiva mantenendo i pulsanti di chiamata e WhatsApp del sito attuale.': 'The phone numbers can be added to the final version while keeping the call and WhatsApp buttons from the current site.', '↑ Torna in alto': '↑ Back to top', 'Parcheggiare in centro può essere difficile soprattutto negli orari di maggiore affluenza. Ecco due soluzioni utili durante il soggiorno.': 'Parking in the city centre can be difficult, especially at busy times. Here are two useful options during your stay.', 'Parcheggio consigliato': 'Recommended parking', 'Parcheggio alternativo': 'Alternative parking', "Una delle soluzioni che consigliamo per lasciare l'auto e raggiungere comodamente l'appartamento.": 'One of the options we recommend for parking and reaching the apartment conveniently.', "Un'altra possibilità nelle vicinanze. Verificate sempre la disponibilità dei posti al vostro arrivo.": 'Another option nearby. Always check space availability when you arrive.', '📍 Apri su Google Maps': '📍 Open in Google Maps', 'Scopri la città': 'Discover the city', 'Affacciata sullo Stretto di Messina, Reggio Calabria unisce storia, Magna Grecia, centro storico, mare e panorami sulla Sicilia.': 'Overlooking the Strait of Messina, Reggio Calabria combines history, Magna Graecia, a historic centre, the sea and views of Sicily.', 'Archeologia e Magna Grecia': 'Archaeology & Magna Graecia', 'Lungomare e centro': 'Seafront & city centre', 'Una tappa imperdibile: custodisce i celebri Bronzi di Riace e una straordinaria collezione di reperti della Magna Grecia.': 'An essential stop, home to the famous Riace Bronzes and an outstanding collection of Magna Graecia artefacts.', 'Nel cuore del centro cittadino, conserva testimonianze delle diverse fasi storiche di Reggio Calabria.': 'In the heart of the city centre, it preserves evidence of the different historical periods of Reggio Calabria.', "Una delle testimonianze archeologiche dell'antica Reggio, visibile nell'area del Lungomare.": 'One of the archaeological remains of ancient Reggio, visible along the seafront.', 'Una delle passeggiate più suggestive della città, con vista sullo Stretto e sulla Sicilia. Bellissimo soprattutto al tramonto.': "One of the city's most beautiful walks, overlooking the Strait and Sicily. Especially lovely at sunset.", 'Anfiteatro sul mare e punto panoramico particolarmente suggestivo al tramonto.': 'A seafront amphitheatre and panoramic viewpoint, especially atmospheric at sunset.', 'Una delle passeggiate più rappresentative della città, tra mare, Stretto e costa siciliana.': "One of the city's signature promenades, between the sea, the Strait and the Sicilian coast.", 'Il principale corso del centro, ideale per passeggiare tra negozi, bar, locali e monumenti.': 'The main street in the city centre, ideal for strolling among shops, cafés, restaurants and monuments.', 'Recentemente riqualificata, si trova davanti al Museo Archeologico ed è un ottimo punto di partenza per il centro.': 'Recently renovated, it is opposite the Archaeological Museum and is a great starting point for exploring the centre.', 'Uno spazio verde piacevole nel cuore della città, a pochi passi dal Lungomare e dal centro storico.': 'A pleasant green space in the heart of the city, a short walk from the seafront and historic centre.', 'La Basilica Cattedrale di Maria Santissima Assunta in Cielo, principale luogo di culto della città.': "The Cathedral Basilica of Maria Santissima Assunta in Cielo, the city's principal place of worship.", 'Uno dei simboli storici della città, con torri e mura che raccontano il passato di Reggio Calabria.': "One of the city's historic landmarks, with towers and walls that tell the story of Reggio Calabria's past.", '📍 Come arrivare': '📍 Directions', 'La costa intorno a Reggio Calabria offre spiagge e atmosfere molto diverse. Queste sono alcune delle nostre preferite.': 'The coast around Reggio Calabria offers very different beaches and atmospheres. These are some of our favourites.', 'Scilla e Chianalea': 'Scilla & Chianalea', 'Scilla è uno dei borghi più suggestivi della Calabria, con una delle spiagge più belle della Costa Viola. Nei weekend estivi può essere molto affollata.': "Scilla is one of Calabria's most picturesque villages, with one of the most beautiful beaches on the Costa Viola. It can be very busy on summer weekends.", "Da non perdere Chianalea, l'antico borgo dei pescatori. Qui vale la pena provare il panino con il pesce spada da": "Don't miss Chianalea, the old fishing village. Here it is worth trying the swordfish sandwich at", 'e la granita della': 'and the granita at', 'Raggiungibile in treno': 'Reachable by train', 'Pesce spada': 'Swordfish', 'Borgo marinaro della Costa Viola, noto per mare cristallino, panorami, pesca del pesce spada e torrone artigianale. In genere è più tranquilla e meno affollata di Scilla.': 'A fishing town on the Costa Viola, known for crystal-clear sea, views, swordfish fishing and artisan nougat. It is generally quieter and less crowded than Scilla.', 'Circa 40 min in treno': 'About 40 min by train', 'Torrone': 'Nougat', "Una delle località più suggestive della Costa Viola. Da non perdere la Tonnara di Palmi e lo Scoglio dell'Ulivarella, particolarmente belli al tramonto.": "One of the most beautiful spots on the Costa Viola. Don't miss Tonnara di Palmi and Scoglio dell'Ulivarella, especially at sunset.", 'Auto necessaria': 'Car required', 'Circa 35 min': 'About 35 min', 'Una selezione di posti che consigliamo per colazione, gelato, pizza, cucina calabrese e pesce.': 'A selection of places we recommend for breakfast, gelato, pizza, Calabrian cuisine and seafood.', 'Bar e gelaterie': 'Cafés & gelato shops', 'Ristoranti e pizzerie': 'Restaurants & pizzerias', "Uno dei simboli di Reggio Calabria, sul Lungomare Falcomatà. Gelato artigianale e una fama che rende un po' di attesa quasi inevitabile.": "One of Reggio Calabria's icons, on the Falcomatà seafront. Artisan gelato and a reputation that makes a short wait almost inevitable.", "Aperto 24 ore su 24 e a meno di due minuti a piedi dall'appartamento. Ottimo per la colazione.": 'Open 24 hours a day and less than a two-minute walk from the apartment. Great for breakfast.', 'Il nostro bar preferito. Da provare la granita al pistacchio con brioche. La sede principale è a Gallico, con una sede anche in centro.': 'Our favourite café. Try the pistachio granita with brioche. The main location is in Gallico, with another branch in the city centre.', 'Una delle pizzerie che consigliamo di provare. Meglio prenotare nei weekend e in alta stagione.': 'One of the pizzerias we recommend. Booking is advisable on weekends and during high season.', 'Locale accogliente con una cucina che unisce sapori della tradizione calabrese e tecniche moderne.': 'A welcoming restaurant combining traditional Calabrian flavours with modern techniques.', 'Trattoria nel centro di Reggio Calabria con cucina calabrese e mediterranea ispirata alle ricette di famiglia.': 'A trattoria in central Reggio Calabria serving Calabrian and Mediterranean food inspired by family recipes.', 'Trattoria di pesce a gestione familiare, con attenzione alla tradizione e alle materie prime locali.': 'A family-run seafood trattoria focused on tradition and local ingredients.', 'Ristorante nel centro che propone una rivisitazione contemporanea della cucina reggina con materie prime locali e stagionali.': 'A city-centre restaurant offering a contemporary take on Reggio cuisine using local, seasonal ingredients.', "Uno dei nostri posti del cuore, immerso nella natura dell'Aspromonte. Cucina tipica, prodotti locali e panorama. È indispensabile l'auto e conviene prenotare con anticipo.": 'One of our favourite places, surrounded by Aspromonte nature. Traditional food, local products and beautiful views. A car is essential and advance booking is recommended.', "Alle spalle della città, in meno di un'ora, il paesaggio cambia completamente: dallo Stretto ai boschi dell'Aspromonte.": 'Behind the city, in less than an hour, the landscape changes completely: from the Strait to the forests of the Aspromonte.', "Gambarie e l'Aspromonte": 'Gambarie & the Aspromonte', 'Se desiderate trascorrere una giornata immersi nella natura, vi consigliamo di raggiungere': 'If you would like to spend a day surrounded by nature, we recommend visiting', "il principale centro turistico dell'Aspromonte, e di esplorare i boschi e i paesaggi circostanti.": 'the main tourist centre of the Aspromonte, and exploring the surrounding forests and landscapes.', "Potete raggiungere Gambarie con l'": 'You can reach Gambarie by', "che parte da Piazza Garibaldi a pochi passi dall'appartamento, oppure in auto in circa": 'departing from Piazza Garibaldi, a short walk from the apartment, or by car in about', 'Bus 319': 'Bus 319', '30 min circa': 'about 30 min', 'Natura e boschi': 'Nature & forests', '📍 Gambarie su Google Maps': '📍 Gambarie on Google Maps', '🚌 Orari ATAM': '🚌 ATAM timetables', '🌲 Parco Nazionale': '🌲 National Park', 'Versione completa · base grafica Tour Advisor': 'Full version · Tour Advisor-inspired design'};
+const originals = new Map();
+
+function translateNode(node, lang) {
+  if (!originals.has(node)) originals.set(node, node.nodeValue);
+  const original = originals.get(node);
+  if (lang === 'it') {
+    node.nodeValue = original;
+    return;
+  }
+  let text = original;
+  const leading = text.match(/^\s*/)[0];
+  const trailing = text.match(/\s*$/)[0];
+  const core = text.trim();
+  if (!core) return;
+  if (translations[core]) {
+    node.nodeValue = leading + translations[core] + trailing;
+    return;
+  }
+  // Partial phrase translation for text containing bold/inline elements.
+  let out = core;
+  for (const [it,en] of Object.entries(translations)) {
+    if (out.includes(it)) out = out.split(it).join(en);
+  }
+  node.nodeValue = leading + out + trailing;
+}
+
+function setLanguage(lang) {
+  document.documentElement.lang = lang;
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) {
+    const n = walker.currentNode;
+    if (n.parentElement && !['SCRIPT','STYLE','OPTION'].includes(n.parentElement.tagName)) nodes.push(n);
+  }
+  nodes.forEach(n => translateNode(n, lang));
+  document.title = lang === 'en' ? 'Civico 26 | Reggio Calabria Guide' : 'Civico 26 | Guida di Reggio Calabria';
+  localStorage.setItem('civico26-lang', lang);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const select = document.getElementById('languageSelect');
+  const saved = localStorage.getItem('civico26-lang') || 'it';
+  select.value = saved;
+  setLanguage(saved);
+  select.addEventListener('change', e => setLanguage(e.target.value));
+});
+</script><script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof translations !== 'undefined') {
+    Object.assign(translations, {
+      "Cultura & creatività":"Culture & creativity",
+      "Arte al Civico 26":"Art at Civico 26",
+      "Le opere esposte nelle stanze, disponibili anche per l'acquisto.":"The artworks displayed in the rooms are also available for purchase.",
+      "Scopri l'artista →":"Discover the artist →",
+      "Durante il soggiorno potrete scoprire alcune opere esposte nelle camere e negli spazi dell'appartamento.":"During your stay you can discover a selection of artworks displayed in the rooms and common areas.",
+      "Opere in mostra al Civico 26":"Artworks on display at Civico 26",
+      "I quadri presenti nell'appartamento sono opere originali messe a disposizione da un'artista che collabora con Civico 26.":"The paintings displayed in the apartment are original works provided by an artist collaborating with Civico 26.",
+      "Le opere esposte sono disponibili per l'acquisto.":"The artworks on display are available for purchase.",
+      "Se un quadro vi incuriosisce o desiderate conoscere meglio l'artista, potete visitare la sua pagina per scoprire altre opere, informazioni e contatti.":"If a painting catches your eye or you would like to learn more about the artist, visit the artist's page to discover more works, information and contact details.",
+      "🎨 Scopri l'artista":"🎨 Discover the artist",
+      "Il link alla pagina dell'artista verrà inserito qui.":"The link to the artist's page will be added here."
+    });
+  }
+});
+</script><script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof translations !== 'undefined') {
+    Object.assign(translations, {
+      "Chiama Stefano":"Call Stefano",
+      "Chiama Andrea":"Call Andrea",
+      "Per qualsiasi necessità, informazione o problema durante il soggiorno, non esitate a contattarci.":"For any need, information or problem during your stay, please do not hesitate to contact us."
+    });
+  }
+});
+</script><nav aria-label="Navigazione rapida" class="mobile-bottom-nav"><a href="#top"><span class="nav-ico">⌂</span><span>Home</span></a><a href="#scopri"><span class="nav-ico">🧭</span><span>Scopri</span></a><a href="#contatti-anchor"><span class="nav-ico">💬</span><span>Contatti</span></a><a href="#prenota"><span class="nav-ico">📅</span><span>Prenota</span></a></nav><script>
+(function(){
+  const DAY = 86400000;
+  const START_DATE = new Date(2026,7,10);   // 10/08/2026
+  const MAX_DATE   = new Date(2028,0,7);    // check-out max 07/01/2028
+  const TODAY = new Date();
+  TODAY.setHours(0,0,0,0);
+
+  const BOOKED_NIGHTS = new Set(["2027-03-07"]);
+
+  const pad = n => String(n).padStart(2,"0");
+  const key = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const parse = s => {
+    if(!s) return null;
+    const [y,m,d] = s.split("-").map(Number);
+    return new Date(y,m-1,d);
+  };
+  const fmt = d => new Intl.DateTimeFormat(
+    document.documentElement.lang==="en" ? "en-GB" : "it-IT",
+    {day:"2-digit",month:"2-digit",year:"numeric"}
+  ).format(d);
+  const monthName = d => new Intl.DateTimeFormat(
+    document.documentElement.lang==="en" ? "en-GB" : "it-IT",
+    {month:"long",year:"numeric"}
+  ).format(d);
+
+  function rateForNight(d){
+    const y = d.getFullYear();
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    const k = key(d);
+
+    if(k < "2026-08-10" || k >= "2028-01-07") return null;
+
+    // Agosto
+    if((y === 2026 || y === 2027) && m === 8) return 140;
+
+    // Settembre
+    if((y === 2026 || y === 2027) && m === 9) return 125;
+
+    // 1 ottobre - 14 dicembre
+    if((y === 2026 || y === 2027) &&
+       (m === 10 || m === 11 || (m === 12 && day <= 14))) return 95;
+
+    // 15 - 27 dicembre
+    if((y === 2026 || y === 2027) &&
+       m === 12 && day >= 15 && day <= 27) return 110;
+
+    // 28 - 29 dicembre
+    if((y === 2026 || y === 2027) &&
+       m === 12 && day >= 28 && day <= 29) return 120;
+
+    // 30 - 31 dicembre e 1 gennaio
+    if(
+      ((y === 2026 || y === 2027) && m === 12 && day >= 30) ||
+      ((y === 2027 || y === 2028) && m === 1 && day === 1)
+    ) return 130;
+
+    // 2 - 6 gennaio
+    if((y === 2027 || y === 2028) &&
+       m === 1 && day >= 2 && day <= 6) return 110;
+
+    // 7 gennaio - 31 maggio 2027
+    if(y === 2027 &&
+       ((m === 1 && day >= 7) || m === 2 || m === 3 || m === 4 || m === 5)) return 95;
+
+    // Giugno 2027
+    if(y === 2027 && m === 6) return 110;
+
+    // Luglio 2027
+    if(y === 2027 && m === 7) return 125;
+
+    return null;
+  }
+
+  const isBookedNight = d => BOOKED_NIGHTS.has(key(d));
+  const nightsBetween = (a,b) => {
+    const out=[];
+    if(!a || !b || b<=a) return out;
+    for(let d=new Date(a); d<b; d=new Date(d.getTime()+DAY)){
+      out.push(new Date(d));
+    }
+    return out;
+  };
+
+  const checkin  = document.getElementById("bookCheckin");
+  const checkout = document.getElementById("bookCheckout");
+  const guests   = document.getElementById("bookGuests");
+  const quote    = document.getElementById("quoteBox");
+  const status   = document.getElementById("quoteStatus");
+  const total    = document.getElementById("quoteTotal");
+  const detail   = document.getElementById("quoteDetail");
+  const wa       = document.getElementById("whatsappBooking");
+  const mail     = document.getElementById("emailBooking");
+
+  const selectableStart = TODAY > START_DATE ? TODAY : START_DATE;
+  const minStr = key(selectableStart);
+  const maxStr = key(MAX_DATE);
+
+  [checkin,checkout,
+   document.getElementById("heroCheckin"),
+   document.getElementById("heroCheckout")
+  ].forEach(el=>{
+    if(el){
+      el.min=minStr;
+      el.max=maxStr;
+    }
+  });
+
+  function updateLinks(info){
+    let msg = "Ciao, vorrei verificare la disponibilità di Civico 26.";
+    if(info){
+      msg += `\nCheck-in: ${fmt(info.a)}`;
+      msg += `\nCheck-out: ${fmt(info.b)}`;
+      msg += `\nOspiti: ${guests.value}`;
+      msg += `\nPrezzo indicativo visualizzato: € ${info.sum}`;
+      msg += "\nPotete confermarmi disponibilità e prezzo?";
+    } else {
+      msg += " Potete aiutarmi con disponibilità e prezzi?";
+    }
+
+    if(wa){
+      wa.href = "https://wa.me/393479678252?text=" + encodeURIComponent(msg);
+    }
+    if(mail){
+      mail.href = "mailto:?subject=" +
+        encodeURIComponent("Richiesta disponibilità Civico 26") +
+        "&body=" + encodeURIComponent(msg);
+    }
+  }
+
+  function evaluate(){
+    const a = parse(checkin.value);
+    const b = parse(checkout.value);
+    quote.className = "quote";
+
+    if(!a || !b){
+      status.textContent = "Seleziona le date";
+      total.textContent = "—";
+      detail.textContent = "Seleziona check-in e check-out per calcolare il totale.";
+      updateLinks(null);
+      renderCalendar();
+      return;
+    }
+
+    if(b <= a){
+      quote.classList.add("error");
+      status.textContent = "Date non valide";
+      total.textContent = "—";
+      detail.textContent = "Il check-out deve essere successivo al check-in.";
+      updateLinks(null);
+      renderCalendar();
+      return;
+    }
+
+    const nights = nightsBetween(a,b);
+    const blocked = nights.filter(isBookedNight);
+
+    if(blocked.length){
+      quote.classList.add("error");
+      status.textContent = "🔴 Una o più notti non sono disponibili";
+      total.textContent = "Non disponibile";
+      detail.textContent = "La notte del 7 marzo 2027 è già occupata. Scegli altre date.";
+      updateLinks(null);
+      renderCalendar();
+      return;
+    }
+
+    const rates = nights.map(rateForNight);
+    const missing = rates.some(v => v === null);
+
+    if(missing){
+      quote.classList.add("error");
+      status.textContent = "Tariffa non disponibile";
+      total.textContent = "—";
+      detail.textContent = "Una delle date selezionate è fuori dal periodo tariffato.";
+      updateLinks(null);
+      renderCalendar();
+      return;
+    }
+
+    const sum = rates.reduce((s,v)=>s+v,0);
+
+    status.textContent = "🟢 Le date risultano disponibili";
+    total.textContent = `€ ${sum}`;
+    detail.textContent =
+      `${nights.length} ${nights.length===1 ? "notte" : "notti"} · ` +
+      `${guests.value} ${guests.value==="1" ? "ospite" : "ospiti"} · totale indicativo`;
+
+    updateLinks({a,b,sum});
+    renderCalendar();
+  }
+
+  [checkin,checkout,guests].forEach(el=>{
+    if(el) el.addEventListener("change",evaluate);
+  });
+
+  const hIn = document.getElementById("heroCheckin");
+  const hOut = document.getElementById("heroCheckout");
+  const hGuests = document.getElementById("heroGuests");
+  const hGo = document.getElementById("heroBookingGo");
+
+  if(hGo){
+    hGo.addEventListener("click",()=>{
+      if(hIn.value) checkin.value = hIn.value;
+      if(hOut.value) checkout.value = hOut.value;
+      if(hGuests.value) guests.value = hGuests.value;
+      evaluate();
+      document.getElementById("prenota").scrollIntoView({behavior:"smooth"});
+    });
+  }
+
+  let view = new Date(selectableStart.getFullYear(), selectableStart.getMonth(), 1);
+  const grid = document.getElementById("calendarGrid");
+  const title = document.getElementById("calendarTitle");
+
+  function renderCalendar(){
+    if(!grid) return;
+
+    title.textContent = monthName(view);
+    grid.innerHTML = "";
+
+    const first = new Date(view.getFullYear(),view.getMonth(),1);
+    const offset = (first.getDay()+6)%7;
+    const start = new Date(first.getTime()-offset*DAY);
+    const a = parse(checkin.value);
+    const b = parse(checkout.value);
+
+    for(let i=0;i<42;i++){
+      const d = new Date(start.getTime()+i*DAY);
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "cal-day";
+
+      if(d.getMonth() !== view.getMonth()) btn.classList.add("other");
+      if(d < selectableStart || d > MAX_DATE) btn.classList.add("past");
+      if(isBookedNight(d)) btn.classList.add("booked");
+      if(a && key(d)===key(a)) btn.classList.add("selected");
+      if(b && key(d)===key(b)) btn.classList.add("selected");
+      if(a && b && d>a && d<b) btn.classList.add("in-range");
+
+      const rate = rateForNight(d);
+
+      let priceLabel = "";
+      if(isBookedNight(d)){
+        priceLabel = `<span class="cal-price">Occupato</span>`;
+      }else if(rate !== null){
+        priceLabel = `<span class="cal-price">€${rate}</span>`;
+      }
+
+      btn.innerHTML =
+        `<span class="cal-num">${d.getDate()}</span>${priceLabel}`;
+
+      if(!(d < selectableStart || d > MAX_DATE || isBookedNight(d))){
+        btn.addEventListener("click",()=>{
+          if(!checkin.value || (checkin.value && checkout.value)){
+            checkin.value = key(d);
+            checkout.value = "";
+          }else{
+            const aa = parse(checkin.value);
+            if(d <= aa){
+              checkin.value = key(d);
+              checkout.value = "";
+            }else{
+              checkout.value = key(d);
+            }
+          }
+          evaluate();
+        });
+      } else {
+        btn.disabled = true;
+      }
+
+      grid.appendChild(btn);
+    }
+  }
+
+  document.getElementById("calPrev")?.addEventListener("click",()=>{
+    const nv = new Date(view.getFullYear(),view.getMonth()-1,1);
+    const minMonth = new Date(selectableStart.getFullYear(),selectableStart.getMonth(),1);
+    if(nv >= minMonth){
+      view = nv;
+      renderCalendar();
+    }
+  });
+
+  document.getElementById("calNext")?.addEventListener("click",()=>{
+    const nv = new Date(view.getFullYear(),view.getMonth()+1,1);
+    const maxMonth = new Date(MAX_DATE.getFullYear(),MAX_DATE.getMonth(),1);
+    if(nv <= maxMonth){
+      view = nv;
+      renderCalendar();
+    }
+  });
+
+  updateLinks(null);
+  renderCalendar();
+})();
+</script></body>
+</html>
