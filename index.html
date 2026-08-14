@@ -479,7 +479,7 @@ footer{background:#112823;color:#dce9e6;padding:42px 0}
 </div>
 </div>
 </section>
-<section class="booking-section" id="prenota"><div class="wrap"><div class="section-head"><span class="eyebrow">Prenotazione diretta</span><h2>Verifica disponibilità</h2><p>Consulta il calendario, seleziona le date e inviaci una richiesta. Controlleremo Booking e Airbnb prima di confermare il soggiorno.</p></div><div class="booking-panel"><div class="calendar-box"><div class="calendar-head"><button id="calPrev" type="button">‹</button><div class="calendar-title" id="calendarTitle"></div><button id="calNext" type="button">›</button></div><div class="calendar-weekdays"><div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div></div><div class="calendar-grid" id="calendarGrid"></div><div class="calendar-legend"><span><i class="legend-dot legend-free"></i> Disponibile</span><span><i class="legend-dot legend-booked"></i> Non disponibile</span></div></div><div class="request-box"><h3>Richiedi disponibilità</h3><div class="request-grid"><div><label for="bookCheckin">Check-in</label><input id="bookCheckin" type="date"/></div><div><label for="bookCheckout">Check-out</label><input id="bookCheckout" type="date"/></div><div class="full"><label for="bookGuests">Numero di ospiti</label><select id="bookGuests"><option value="1">1 ospite</option><option selected="" value="2">2 ospiti</option><option value="3">3 ospiti</option><option value="4">4 ospiti</option><option value="5">5 ospiti</option><option value="6">6 ospiti</option><option value="7">7 ospiti</option><option value="8">8 ospiti</option></select></div></div><div class="quote" id="quoteBox"><div class="quote-status" id="quoteStatus">Seleziona le date</div><div class="quote-total" id="quoteTotal">—</div><div class="quote-detail" id="quoteDetail">Seleziona check-in e check-out per calcolare il totale.</div></div><div class="request-actions"><a class="whatsapp-request" href="#" id="whatsappBooking" rel="noopener noreferrer" target="_blank">💬 Richiedi su WhatsApp</a></div><p class="booking-disclaimer"><strong>Importante:</strong> il calendario viene aggiornato dalla struttura e non è sincronizzato in tempo reale con Booking.com o Airbnb. La richiesta non costituisce prenotazione; il soggiorno è confermato solo dopo nostra risposta.</p></div></div></div></section><section class="house-section" id="casa">
+<section class="booking-section" id="prenota"><div class="wrap"><div class="section-head"><span class="eyebrow">Prenotazione diretta</span><h2>Verifica disponibilità</h2><p>Consulta il calendario, seleziona le date e inviaci una richiesta. Controlleremo Booking e Airbnb prima di confermare il soggiorno.</p></div><div class="booking-panel"><div class="calendar-box"><div class="calendar-head"><button id="calPrev" type="button">‹</button><div class="calendar-title" id="calendarTitle"></div><button id="calNext" type="button">›</button></div><div class="calendar-weekdays"><div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div></div><div class="calendar-grid" id="calendarGrid"></div><div class="calendar-legend"><span><i class="legend-dot legend-free"></i> Disponibile</span><span><i class="legend-dot legend-booked"></i> Non disponibile</span></div></div><div class="request-box"><h3>Richiedi disponibilità</h3><div class="request-grid"><div><label for="bookCheckin">Check-in</label><input id="bookCheckin" type="date"/></div><div><label for="bookCheckout">Check-out</label><input id="bookCheckout" type="date"/></div><div class="full"><label for="bookGuests">Numero di ospiti</label><select id="bookGuests"><option value="1">1 ospite</option><option selected="" value="2">2 ospiti</option><option value="3">3 ospiti</option><option value="4">4 ospiti</option><option value="5">5 ospiti</option><option value="6">6 ospiti</option><option value="7">7 ospiti</option><option value="8">8 ospiti</option></select></div></div><div class="quote" id="quoteBox"><div class="quote-status" id="quoteStatus">Seleziona le date</div><div class="quote-total" id="quoteTotal">—</div><div class="quote-detail" id="quoteDetail">Seleziona check-in e check-out per calcolare il totale.</div></div><div class="request-actions"><a class="whatsapp-request" href="#" id="whatsappBooking" rel="noopener noreferrer" target="_blank">💬 Richiedi su WhatsApp</a></div><div id="requestSaveStatus" style="margin-top:10px;font-size:13px;color:#63736f"></div><p class="booking-disclaimer"><strong>Importante:</strong> il calendario viene aggiornato dalla struttura e non è sincronizzato in tempo reale con Booking.com o Airbnb. La richiesta non costituisce prenotazione; il soggiorno è confermato solo dopo nostra risposta.</p></div></div></div></section><section class="house-section" id="casa">
 <div class="wrap">
 <div class="section-head">
 <span class="eyebrow">Gli spazi di Civico 26</span>
@@ -846,9 +846,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadCalendarAvailability(){
     try{
-      const cacheBust = Date.now();
       const res = await fetch(
-        SUPABASE_URL + "/rest/v1/calendar_availability?select=start_date,end_date,status&order=start_date.asc&_cb=" + cacheBust,
+        SUPABASE_URL + "/rest/v1/calendar_availability?select=start_date,end_date,status&order=start_date.asc&_cb=" + Date.now(),
         {
           method:"GET",
           cache:"no-store",
@@ -868,9 +867,6 @@ document.addEventListener('DOMContentLoaded', () => {
         evaluate();
       }
     }catch(err){
-      console.warn("Disponibilità online non raggiungibile: uso il calendario di riserva.",err);
-    }
-  }catch(err){
       console.warn("Calendario online non raggiungibile: uso la disponibilità di riserva.",err);
     }
   }
@@ -985,6 +981,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const detail   = document.getElementById("quoteDetail");
   const wa       = document.getElementById("whatsappBooking");
   const mail     = document.getElementById("emailBooking");
+  const requestSaveStatus = document.getElementById("requestSaveStatus");
+  let currentRequestInfo = null;
 
   const selectableStart = TODAY > START_DATE ? TODAY : START_DATE;
   const minStr = key(selectableStart);
@@ -1023,6 +1021,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function evaluate(){
+    currentRequestInfo = null;
     const a = parse(checkin.value);
     const b = parse(checkout.value);
     quote.className = "quote";
@@ -1080,8 +1079,62 @@ document.addEventListener('DOMContentLoaded', () => {
       `${nights.length} ${document.documentElement.lang==="en" ? (nights.length===1 ? "night" : "nights") : (nights.length===1 ? "notte" : "notti")} · ` +
       `${guests.value} ${document.documentElement.lang==="en" ? (guests.value==="1" ? "guest" : "guests") : (guests.value==="1" ? "ospite" : "ospiti")} · ${document.documentElement.lang==="en" ? "estimated total" : "totale indicativo"}`;
 
+    currentRequestInfo = {a,b,sum,nights:nights.length,guests:Number(guests.value)};
     updateLinks({a,b,sum});
     renderCalendar();
+  }
+
+  if(wa){
+    wa.addEventListener("click", async (ev)=>{
+      ev.preventDefault();
+      if(!currentRequestInfo){
+        if(requestSaveStatus) requestSaveStatus.textContent = "Seleziona prima date disponibili e numero di ospiti.";
+        return;
+      }
+      const info = currentRequestInfo;
+      const popup = window.open("about:blank","_blank");
+      if(requestSaveStatus) requestSaveStatus.textContent = "Salvataggio richiesta in corso…";
+      try{
+        const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/submit_booking_request",{
+          method:"POST",
+          cache:"no-store",
+          headers:{
+            apikey:SUPABASE_KEY,
+            Authorization:"Bearer "+SUPABASE_KEY,
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            p_check_in:key(info.a),
+            p_check_out:key(info.b),
+            p_guests:info.guests
+          })
+        });
+        const data = await res.json().catch(()=>null);
+        if(!res.ok){
+          throw new Error(data?.message || "Non è stato possibile salvare la richiesta.");
+        }
+        const row = Array.isArray(data) ? data[0] : data;
+        if(!row?.request_code) throw new Error("Codice richiesta non ricevuto.");
+        const serverTotal = Number(row.estimated_total);
+        const code = row.request_code;
+        let msgText = "Ciao, vorrei verificare la disponibilità di Civico 26.";
+        msgText += `\nCodice richiesta: ${code}`;
+        msgText += `\nCheck-in: ${fmt(info.a)}`;
+        msgText += `\nCheck-out: ${fmt(info.b)}`;
+        msgText += `\nOspiti: ${info.guests}`;
+        msgText += `\nPrezzo indicativo: € ${Number.isFinite(serverTotal) ? serverTotal : info.sum}`;
+        msgText += "\nPotete confermarmi disponibilità e prezzo?";
+        const url = "https://wa.me/393890565680?text=" + encodeURIComponent(msgText);
+        if(requestSaveStatus) requestSaveStatus.textContent = `Richiesta ${code} salvata. Apertura WhatsApp…`;
+        if(popup) popup.location.href = url;
+        else window.location.href = url;
+      }catch(err){
+        if(popup) popup.close();
+        if(requestSaveStatus) requestSaveStatus.textContent = "Richiesta non salvata: " + (err?.message || String(err));
+        await loadCalendarAvailability();
+        evaluate();
+      }
+    });
   }
 
   [checkin,checkout,guests].forEach(el=>{
@@ -1190,8 +1243,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCalendar();
   loadCalendarAvailability();
   loadPriceRules();
-
-  // Aggiorna automaticamente la disponibilità quando l'utente torna sulla pagina.
   window.addEventListener("focus",()=>loadCalendarAvailability());
   document.addEventListener("visibilitychange",()=>{
     if(document.visibilityState==="visible") loadCalendarAvailability();
