@@ -847,25 +847,14 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadCalendarAvailability(){
     try{
       const res = await fetch(
-        SUPABASE_URL + "/rest/v1/calendar_availability?select=start_date,end_date,status&order=start_date.asc&_cb=" + Date.now(),
-        {
-          method:"GET",
-          cache:"no-store",
-          headers:{
-            apikey:SUPABASE_KEY,
-            Authorization:"Bearer "+SUPABASE_KEY,
-            "Cache-Control":"no-cache",
-            "Pragma":"no-cache"
-          }
-        }
+        SUPABASE_URL + "/rest/v1/calendar_availability?select=start_date,end_date,status&order=start_date.asc",
+        {headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY}}
       );
-      if(!res.ok) throw new Error("availability fetch failed: "+res.status);
+      if(!res.ok) throw new Error("calendar fetch failed");
       const rows = await res.json();
-      if(Array.isArray(rows)){
-        UNAVAILABLE_RANGES = rows;
-        renderCalendar();
-        evaluate();
-      }
+      if(Array.isArray(rows)) UNAVAILABLE_RANGES = rows;
+      renderCalendar();
+      evaluate();
     }catch(err){
       console.warn("Calendario online non raggiungibile: uso la disponibilità di riserva.",err);
     }
@@ -1079,7 +1068,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `${nights.length} ${document.documentElement.lang==="en" ? (nights.length===1 ? "night" : "nights") : (nights.length===1 ? "notte" : "notti")} · ` +
       `${guests.value} ${document.documentElement.lang==="en" ? (guests.value==="1" ? "guest" : "guests") : (guests.value==="1" ? "ospite" : "ospiti")} · ${document.documentElement.lang==="en" ? "estimated total" : "totale indicativo"}`;
 
-    currentRequestInfo = {a,b,sum,nights:nights.length,guests:Number(guests.value)};
+    currentRequestInfo = {a,b,sum,guests:Number(guests.value)};
     updateLinks({a,b,sum});
     renderCalendar();
   }
@@ -1087,52 +1076,70 @@ document.addEventListener('DOMContentLoaded', () => {
   if(wa){
     wa.addEventListener("click", async (ev)=>{
       ev.preventDefault();
+
       if(!currentRequestInfo){
-        if(requestSaveStatus) requestSaveStatus.textContent = "Seleziona prima date disponibili e numero di ospiti.";
+        if(requestSaveStatus) requestSaveStatus.textContent =
+          "Seleziona prima date disponibili e numero di ospiti.";
         return;
       }
+
       const info = currentRequestInfo;
       const popup = window.open("about:blank","_blank");
-      if(requestSaveStatus) requestSaveStatus.textContent = "Salvataggio richiesta in corso…";
+
+      if(requestSaveStatus)
+        requestSaveStatus.textContent = "Salvataggio richiesta in corso…";
+
       try{
-        const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/submit_booking_request",{
-          method:"POST",
-          cache:"no-store",
-          headers:{
-            apikey:SUPABASE_KEY,
-            Authorization:"Bearer "+SUPABASE_KEY,
-            "Content-Type":"application/json"
-          },
-          body:JSON.stringify({
-            p_check_in:key(info.a),
-            p_check_out:key(info.b),
-            p_guests:info.guests
-          })
-        });
+        const res = await fetch(
+          SUPABASE_URL + "/rest/v1/rpc/submit_booking_request",
+          {
+            method:"POST",
+            headers:{
+              apikey:SUPABASE_KEY,
+              Authorization:"Bearer "+SUPABASE_KEY,
+              "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+              p_check_in:key(info.a),
+              p_check_out:key(info.b),
+              p_guests:info.guests
+            })
+          }
+        );
+
         const data = await res.json().catch(()=>null);
-        if(!res.ok){
+
+        if(!res.ok)
           throw new Error(data?.message || "Non è stato possibile salvare la richiesta.");
-        }
+
         const row = Array.isArray(data) ? data[0] : data;
-        if(!row?.request_code) throw new Error("Codice richiesta non ricevuto.");
+        if(!row?.request_code)
+          throw new Error("Codice richiesta non ricevuto.");
+
         const serverTotal = Number(row.estimated_total);
-        const code = row.request_code;
         let msgText = "Ciao, vorrei verificare la disponibilità di Civico 26.";
-        msgText += `\nCodice richiesta: ${code}`;
+        msgText += `\nCodice richiesta: ${row.request_code}`;
         msgText += `\nCheck-in: ${fmt(info.a)}`;
         msgText += `\nCheck-out: ${fmt(info.b)}`;
         msgText += `\nOspiti: ${info.guests}`;
         msgText += `\nPrezzo indicativo: € ${Number.isFinite(serverTotal) ? serverTotal : info.sum}`;
         msgText += "\nPotete confermarmi disponibilità e prezzo?";
-        const url = "https://wa.me/393890565680?text=" + encodeURIComponent(msgText);
-        if(requestSaveStatus) requestSaveStatus.textContent = `Richiesta ${code} salvata. Apertura WhatsApp…`;
+
+        const url =
+          "https://wa.me/393890565680?text=" + encodeURIComponent(msgText);
+
+        if(requestSaveStatus)
+          requestSaveStatus.textContent =
+            `Richiesta ${row.request_code} salvata. Apertura WhatsApp…`;
+
         if(popup) popup.location.href = url;
         else window.location.href = url;
+
       }catch(err){
         if(popup) popup.close();
-        if(requestSaveStatus) requestSaveStatus.textContent = "Richiesta non salvata: " + (err?.message || String(err));
-        await loadCalendarAvailability();
-        evaluate();
+        if(requestSaveStatus)
+          requestSaveStatus.textContent =
+            "Richiesta non salvata: " + (err?.message || String(err));
       }
     });
   }
@@ -1243,10 +1250,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCalendar();
   loadCalendarAvailability();
   loadPriceRules();
-  window.addEventListener("focus",()=>loadCalendarAvailability());
-  document.addEventListener("visibilitychange",()=>{
-    if(document.visibilityState==="visible") loadCalendarAvailability();
-  });
 })();
 </script><div aria-hidden="true" class="house-lightbox" id="houseLightbox">
 <button aria-label="Chiudi" class="lightbox-close" id="lightboxClose">×</button>
