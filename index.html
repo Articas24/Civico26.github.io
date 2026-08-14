@@ -876,7 +876,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {month:"long",year:"numeric"}
   ).format(d);
 
-  function rateForNight(d){
+  function fallbackRateForNight(d){
     const y = d.getFullYear();
     const m = d.getMonth() + 1;
     const day = d.getDate();
@@ -923,6 +923,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if(y === 2027 && m === 7) return 125;
 
     return null;
+  }
+
+  let PRICE_RULES = [];
+  function rateForNight(d){
+    const k = key(d);
+    const rule = PRICE_RULES.find(r => k >= r.start_date && k < r.end_date);
+    return rule ? Number(rule.nightly_price) : fallbackRateForNight(d);
+  }
+
+  async function loadPriceRules(){
+    try{
+      const res = await fetch(
+        SUPABASE_URL + "/rest/v1/price_rules?select=start_date,end_date,nightly_price&order=start_date.asc",
+        {headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY}}
+      );
+      if(!res.ok) throw new Error("price fetch failed");
+      const rows = await res.json();
+      if(Array.isArray(rows)) PRICE_RULES = rows;
+      renderCalendar();
+      evaluate();
+    }catch(err){
+      console.warn("Tariffe online non raggiungibili: uso il listino di riserva.",err);
+    }
   }
 
   const isBookedNight = d => {
@@ -1151,6 +1174,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateLinks(null);
   renderCalendar();
   loadCalendarAvailability();
+  loadPriceRules();
 })();
 </script><div aria-hidden="true" class="house-lightbox" id="houseLightbox">
 <button aria-label="Chiudi" class="lightbox-close" id="lightboxClose">×</button>
