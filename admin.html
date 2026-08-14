@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Civico 26 | Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16302b;--green:#2f6f62;--sea:#2f8f9d;--muted:#63736f;--line:#e2ebe7;--red:#a94d45;--orange:#bd6f45}
+*{box-sizing:border-box} body{margin:0;background:#f7faf8;color:var(--ink);font-family:Heebo,system-ui,sans-serif}
+button,input,select,textarea{font:inherit} button{cursor:pointer}
+.wrap{width:min(1200px,94%);margin:auto} header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.head{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:12px}.logo{font-family:'Abril Fatface';font-size:26px}.logo span{color:var(--sea)}
+.top-actions,.row-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.btn{border:0;border-radius:11px;padding:10px 14px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.btn.primary{background:var(--green);color:#fff}.btn.light{background:#edf5f2;color:var(--green)}.btn.danger{background:#fff0ef;color:var(--red)}.btn.orange{background:var(--orange);color:#fff}.btn.small{padding:7px 10px;font-size:12px}
+main{padding:30px 0 70px}.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 8px 24px rgba(23,55,48,.05)}
+#loginView{max-width:480px;margin:55px auto}h1,h2,h3{font-family:'Abril Fatface';font-weight:400}h1{font-size:40px;margin:0 0 7px}h2{font-size:28px;margin:0 0 14px}h3{font-size:22px;margin:0 0 10px}
+.muted{color:var(--muted);line-height:1.5} label{display:block;font-size:12px;font-weight:800;color:var(--muted);margin:11px 0 5px}
+input,select,textarea{width:100%;border:1px solid #d5e2dd;border-radius:11px;padding:10px 11px;background:#fff;color:var(--ink)}textarea{min-height:76px;resize:vertical}
+.msg{display:none;margin-top:12px;padding:10px 12px;border-radius:10px;font-size:14px}.msg.show{display:block}.msg.error{background:#fff0ef;color:#913f39}.msg.ok{background:#edf8f3;color:#266548}
+#adminView{display:none}.admin-head{display:flex;justify-content:space-between;align-items:end;gap:14px;margin-bottom:18px}.admin-head h1{font-size:36px}
+.navtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.navtab{border:1px solid var(--line);background:#fff;color:var(--muted);padding:10px 14px;border-radius:11px;font-weight:800}.navtab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.section{display:none}.section.active{display:block}.grid{display:grid;grid-template-columns:1.08fr .92fr;gap:18px;align-items:start}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.cal-head button{width:40px;height:40px;border:1px solid var(--line);background:#fff;border-radius:10px;font-size:22px}.cal-title{font-weight:800;text-transform:capitalize}
+.week,.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.week div{text-align:center;font-size:11px;font-weight:800;color:var(--muted)}
+.day{min-height:72px;border:1px solid var(--line);background:#fff;border-radius:11px;padding:7px;text-align:left}.day.other{opacity:.35}.day.today{outline:2px solid #9bc8bd}.day.blocked{background:#fff5e9;border-color:#e4b881}.day.booked{background:#fff0ef;border-color:#e8aaa5}.day.sel{outline:2px solid var(--green)}
+.day-num{font-weight:800}.day-state,.day-price{display:block;font-size:9px;font-weight:800;margin-top:3px}.day-price{color:var(--green)}.day.blocked .day-state{color:#9a652e}.day.booked .day-state{color:#9b4c45}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:12px}.dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px}.free{background:#edf7f4}.block{background:#fff5e9}.book{background:#fff0ef}
+.subtabs{display:flex;gap:8px;margin-bottom:12px}.subtab{flex:1;border:1px solid var(--line);background:#fff;padding:9px;border-radius:10px;font-weight:800;color:var(--muted)}.subtab.active{background:var(--green);color:#fff}.formpanel{display:none}.formpanel.active{display:block}
+.form-submit{width:100%;margin-top:14px}.hint{font-size:12px;color:var(--muted);line-height:1.45;margin:8px 0 0}.entries{margin-top:18px}
+.item{border:1px solid var(--line);border-radius:14px;padding:13px;margin-top:9px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.item strong{display:block}.meta{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.45}.badge{display:inline-flex;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;margin-right:5px}.badge.blocked{background:#fff1dc;color:#91622f}.badge.booked{background:#fde7e5;color:#91473f}.badge.sync{background:#e8f2ff;color:#37648d}
+.empty{padding:17px;text-align:center;color:var(--muted);border:1px dashed #ccd9d4;border-radius:13px}.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:9px 12px}.stat b{font-size:19px;display:block}
+.price-card,.sync-card{margin-bottom:16px}.copybox{display:grid;grid-template-columns:1fr auto;gap:8px}.statusline{font-size:12px;margin-top:5px}.statusline.error{color:var(--red)}.statusline.ok{color:var(--green)}
+@media(max-width:880px){.grid{grid-template-columns:1fr}.admin-head{align-items:flex-start;flex-direction:column}}@media(max-width:580px){main{padding-top:18px}.card{padding:14px}.two,.three{grid-template-columns:1fr}.day{min-height:60px;padding:5px}.head{padding:10px 0}.logo{font-size:22px}.item{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap head"><div class="logo">Civico <span>26</span> · Admin</div><div class="top-actions"><a class="btn light" href="index.html">← Sito</a><button class="btn danger" id="logoutBtn" style="display:none">Esci</button></div></div></header>
+<main class="wrap">
+<section id="loginView" class="card">
+<h1>Accesso admin</h1><p class="muted">Gestisci calendario, prenotazioni, tariffe e sincronizzazioni.</p>
+<form id="loginForm"><label>Email</label><input id="email" type="email" autocomplete="username" required><label>Password</label><input id="password" type="password" autocomplete="current-password" required><button class="btn primary form-submit">Accedi</button></form><div id="loginMsg" class="msg"></div>
+</section>
+
+<section id="adminView">
+<div class="admin-head"><div><div class="muted">Area riservata</div><h1>Civico 26</h1><div id="adminIdentity" class="muted"></div></div></div>
+<div class="navtabs"><button class="navtab active" data-section="calendarSec">Calendario</button><button class="navtab" data-section="pricesSec">Tariffe</button><button class="navtab" data-section="syncSec">Sincronizzazione</button></div>
+
+<section id="calendarSec" class="section active">
+<div class="stats"><div class="stat"><b id="countBooked">0</b><span class="muted">prenotazioni</span></div><div class="stat"><b id="countBlocked">0</b><span class="muted">blocchi</span></div></div>
+<div class="grid">
+<div class="card"><div class="cal-head"><button id="prevMonth">‹</button><div id="monthTitle" class="cal-title"></div><button id="nextMonth">›</button></div><div class="week"><div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div></div><div id="adminCalendar" class="calendar"></div><div class="legend"><span><i class="dot free"></i>Disponibile</span><span><i class="dot block"></i>Bloccata</span><span><i class="dot book"></i>Prenotata</span></div><p class="hint">Clicca due date per compilare rapidamente un intervallo di blocco.</p></div>
+<div>
+<div class="card">
+<div class="subtabs"><button class="subtab active" data-form="blockPanel">Blocca date</button><button class="subtab" data-form="bookingPanel">Prenotazione</button></div>
+<form id="blockPanel" class="formpanel active"><input id="blockEditId" type="hidden"><h2 id="blockTitle">Blocca disponibilità</h2><div class="two"><div><label>Dal</label><input id="blockStart" type="date" required></div><div><label>Al (compreso)</label><input id="blockEnd" type="date" required></div></div><label>Nota privata</label><textarea id="blockNote"></textarea><div class="two"><button class="btn orange form-submit" id="blockSubmit">Blocca date</button><button class="btn light form-submit" type="button" id="blockCancel" style="display:none">Annulla modifica</button></div></form>
+<form id="bookingPanel" class="formpanel"><input id="bookEditId" type="hidden"><h2 id="bookTitle">Inserisci prenotazione</h2><div class="two"><div><label>Check-in</label><input id="bookStart" type="date" required></div><div><label>Check-out</label><input id="bookEnd" type="date" required></div></div><label>Nome ospite</label><input id="guestName" type="text"><label>Provenienza</label><select id="source"><option value="direct">Diretta</option><option value="booking">Booking.com</option><option value="airbnb">Airbnb</option><option value="other">Altro</option></select><label>Nota privata</label><textarea id="bookingNote"></textarea><div class="two"><button class="btn primary form-submit" id="bookSubmit">Salva prenotazione</button><button class="btn light form-submit" type="button" id="bookCancel" style="display:none">Annulla modifica</button></div></form><div id="actionMsg" class="msg"></div>
+</div>
+<div class="card entries"><h2>Blocchi e prenotazioni</h2><div id="entriesList"></div></div>
+</div></div></section>
+
+<section id="pricesSec" class="section">
+<div class="grid"><div class="card price-card"><h2>Imposta tariffa</h2><p class="muted">Il nuovo prezzo sostituisce automaticamente quello esistente nell'intervallo selezionato.</p><form id="priceForm"><div class="three"><div><label>Dal</label><input id="priceStart" type="date" required></div><div><label>Al (compreso)</label><input id="priceEnd" type="date" required></div><div><label>€/notte</label><input id="nightlyPrice" type="number" min="0" step="1" required></div></div><label>Etichetta / nota</label><input id="priceNote" type="text" placeholder="Es. Agosto, Capodanno..."><button class="btn primary form-submit">Imposta tariffa</button></form><div id="priceMsg" class="msg"></div></div><div class="card"><h2>Tariffe attive</h2><div id="priceList"></div></div></div>
+</section>
+
+<section id="syncSec" class="section">
+<div class="grid"><div>
+<div class="card sync-card"><h2>Importa calendari OTA</h2><p class="muted">Aggiungi i link iCal (.ics) esportati da Airbnb e Booking.com.</p><form id="feedForm"><div class="two"><div><label>Piattaforma</label><select id="feedProvider"><option value="airbnb">Airbnb</option><option value="booking">Booking.com</option><option value="other">Altro</option></select></div><div><label>Nome</label><input id="feedName" placeholder="Es. Airbnb Civico 26" required></div></div><label>URL iCal</label><input id="feedUrl" type="url" placeholder="https://... .ics" required><button class="btn primary form-submit">Aggiungi calendario</button></form><div id="feedMsg" class="msg"></div></div>
+<div class="card"><h2>Calendari collegati</h2><div class="row-actions" style="margin-bottom:12px"><button id="syncNow" class="btn orange">Sincronizza ora</button></div><div id="feedsList"></div></div>
+</div>
+<div class="card"><h2>Esporta Civico 26</h2><p class="muted">Questo è il calendario iCal da importare su Airbnb/Booking per bloccare anche lì le date inserite nel nostro admin.</p><label>URL calendario Civico 26</label><div class="copybox"><input id="exportIcal" readonly value="https://wfhdtwzpjcaicxdrphcu.supabase.co/functions/v1/civico26-calendar"><button id="copyIcal" class="btn light" type="button">Copia</button></div><p class="hint">Non contiene nomi degli ospiti o note private: esporta soltanto gli intervalli non disponibili.</p></div>
+</div></section>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://wfhdtwzpjcaicxdrphcu.supabase.co", SUPABASE_KEY="sb_publishable_3SGl7pKrqv_uT8GIW2N8RA_Xook19Uh";
+const ADMIN_EMAILS=["stefanoalfonso@hotmail.it","andrealfonso@live.it"];
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id), DAY=86400000;
+let entries=[],prices=[],feeds=[],view=new Date(new Date().getFullYear(),new Date().getMonth(),1),calendarSelectionStart=null;
+const pad=n=>String(n).padStart(2,"0"), dateKey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parseDate=s=>{const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)}, plusDays=(s,n)=>dateKey(new Date(parseDate(s).getTime()+n*DAY));
+const fmt=s=>new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"}).format(parseDate(s));
+const fmtDateTime=s=>s?new Intl.DateTimeFormat("it-IT",{dateStyle:"short",timeStyle:"short"}).format(new Date(s)):"Mai";
+function msg(el,text,type="ok"){el.textContent=text;el.className=`msg show ${type}`;setTimeout(()=>{if(el.textContent===text)el.className="msg"},5000)}
+const isAdmin=u=>!!u&&ADMIN_EMAILS.includes((u.email||"").toLowerCase());
+
+async function refreshAuth(){const {data:{user}}=await sb.auth.getUser();if(isAdmin(user)){$("loginView").style.display="none";$("adminView").style.display="block";$("logoutBtn").style.display="";$("adminIdentity").textContent=user.email;await loadAll()}else{if(user)await sb.auth.signOut();$("loginView").style.display="block";$("adminView").style.display="none";$("logoutBtn").style.display="none"}}
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("email").value.trim(),password=$("password").value;if(!ADMIN_EMAILS.includes(email.toLowerCase()))return msg($("loginMsg"),"Account non autorizzato.","error");const {data,error}=await sb.auth.signInWithPassword({email,password});if(error||!isAdmin(data.user))return msg($("loginMsg"),"Accesso non riuscito.","error");$("password").value="";refreshAuth()});
+$("logoutBtn").onclick=async()=>{await sb.auth.signOut();refreshAuth()};
+
+document.querySelectorAll(".navtab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".navtab").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===b.dataset.section))});
+document.querySelectorAll(".subtab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".subtab").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".formpanel").forEach(p=>p.classList.toggle("active",p.id===b.dataset.form))});
+
+async function loadAll(){await Promise.all([loadEntries(),loadPrices(),loadFeeds()]);renderAll()}
+async function loadEntries(){const {data,error}=await sb.from("calendar_entries").select("id,start_date,end_date,status,guest_name,note,source,created_at,external_uid,external_feed_id").order("start_date");if(error)return msg($("actionMsg"),"Errore caricamento calendario.","error");entries=data||[]}
+async function loadPrices(){const {data,error}=await sb.from("price_rules").select("id,start_date,end_date,nightly_price,note,created_at").order("start_date");if(error)return msg($("priceMsg"),"Errore caricamento tariffe.","error");prices=data||[]}
+async function loadFeeds(){const {data,error}=await sb.from("ical_feeds").select("id,provider,name,feed_url,is_active,last_synced_at,last_error").order("id");if(error)return msg($("feedMsg"),"Errore caricamento calendari.","error");feeds=data||[]}
+function renderAll(){renderCalendar();renderEntries();renderPrices();renderFeeds()}
+
+function entryForDate(d){const k=dateKey(d);return entries.find(e=>k>=e.start_date&&k<e.end_date)}
+function priceForDate(d){const k=dateKey(d);const r=prices.find(x=>k>=x.start_date&&k<x.end_date);return r?Number(r.nightly_price):null}
+function renderCalendar(){$("monthTitle").textContent=new Intl.DateTimeFormat("it-IT",{month:"long",year:"numeric"}).format(view);const g=$("adminCalendar");g.innerHTML="";const first=new Date(view.getFullYear(),view.getMonth(),1),offset=(first.getDay()+6)%7,start=new Date(first.getTime()-offset*DAY),today=dateKey(new Date());for(let i=0;i<42;i++){const d=new Date(start.getTime()+i*DAY),k=dateKey(d),e=entryForDate(d),p=priceForDate(d),b=document.createElement("button");b.type="button";b.className="day";if(d.getMonth()!==view.getMonth())b.classList.add("other");if(k===today)b.classList.add("today");if(e)b.classList.add(e.status);if(calendarSelectionStart===k)b.classList.add("sel");b.innerHTML=`<span class="day-num">${d.getDate()}</span>${e?`<span class="day-state">${e.status==="booked"?"Prenotata":"Bloccata"}</span>`:""}${p!==null?`<span class="day-price">€${p}</span>`:""}`;b.onclick=()=>selectBlockDate(k);g.appendChild(b)}}
+$("prevMonth").onclick=()=>{view=new Date(view.getFullYear(),view.getMonth()-1,1);renderCalendar()};$("nextMonth").onclick=()=>{view=new Date(view.getFullYear(),view.getMonth()+1,1);renderCalendar()};
+function selectBlockDate(k){document.querySelector('[data-form="blockPanel"]').click();if(!calendarSelectionStart||($("blockStart").value&&$("blockEnd").value)){calendarSelectionStart=k;$("blockStart").value=k;$("blockEnd").value=k}else{const a=calendarSelectionStart;if(k<a){$("blockStart").value=k;$("blockEnd").value=a}else{$("blockStart").value=a;$("blockEnd").value=k}calendarSelectionStart=null}renderCalendar()}
+function overlaps(start,end,ignoreId=null){return entries.some(e=>e.id!==ignoreId&&start<e.end_date&&end>e.start_date)}
+function resetBlock(){$("blockEditId").value="";$("blockStart").value="";$("blockEnd").value="";$("blockNote").value="";$("blockTitle").textContent="Blocca disponibilità";$("blockSubmit").textContent="Blocca date";$("blockCancel").style.display="none";calendarSelectionStart=null}
+function resetBook(){$("bookEditId").value="";$("bookStart").value="";$("bookEnd").value="";$("guestName").value="";$("bookingNote").value="";$("source").value="direct";$("bookTitle").textContent="Inserisci prenotazione";$("bookSubmit").textContent="Salva prenotazione";$("bookCancel").style.display="none"}
+$("blockCancel").onclick=resetBlock;$("bookCancel").onclick=resetBook;
+$("blockPanel").onsubmit=async e=>{e.preventDefault();const id=Number($("blockEditId").value)||null,start=$("blockStart").value,inc=$("blockEnd").value;if(!start||!inc||inc<start)return msg($("actionMsg"),"Controlla le date.","error");const end=plusDays(inc,1);if(overlaps(start,end,id))return msg($("actionMsg"),"Intervallo sovrapposto a date già occupate.","error");const payload={start_date:start,end_date:end,status:"blocked",guest_name:null,note:$("blockNote").value.trim()||null,source:"manual"};const q=id?sb.from("calendar_entries").update(payload).eq("id",id):sb.from("calendar_entries").insert(payload);const {error}=await q;if(error)return msg($("actionMsg"),"Salvataggio non riuscito: "+error.message,"error");resetBlock();msg($("actionMsg"),id?"Blocco modificato.":"Date bloccate.");await loadEntries();renderAll()};
+$("bookingPanel").onsubmit=async e=>{e.preventDefault();const id=Number($("bookEditId").value)||null,start=$("bookStart").value,end=$("bookEnd").value;if(!start||!end||end<=start)return msg($("actionMsg"),"Check-out non valido.","error");if(overlaps(start,end,id))return msg($("actionMsg"),"Soggiorno sovrapposto a date già occupate.","error");const payload={start_date:start,end_date:end,status:"booked",guest_name:$("guestName").value.trim()||null,note:$("bookingNote").value.trim()||null,source:$("source").value};const q=id?sb.from("calendar_entries").update(payload).eq("id",id):sb.from("calendar_entries").insert(payload);const {error}=await q;if(error)return msg($("actionMsg"),"Salvataggio non riuscito: "+error.message,"error");resetBook();msg($("actionMsg"),id?"Prenotazione modificata.":"Prenotazione inserita.");await loadEntries();renderAll()};
+
+function renderEntries(){$("countBooked").textContent=entries.filter(e=>e.status==="booked").length;$("countBlocked").textContent=entries.filter(e=>e.status==="blocked").length;const l=$("entriesList");l.innerHTML="";if(!entries.length){l.innerHTML='<div class="empty">Nessun elemento.</div>';return}const sm={direct:"Diretta",booking:"Booking.com",airbnb:"Airbnb",manual:"Manuale",other:"Altro"};entries.forEach(e=>{const synced=!!e.external_feed_id,d=document.createElement("div");d.className="item";let meta=e.status==="booked"?`Check-in ${fmt(e.start_date)} · Check-out ${fmt(e.end_date)}`:`${fmt(e.start_date)} → ${fmt(plusDays(e.end_date,-1))}`;if(e.guest_name)meta+=` · ${e.guest_name}`;if(e.source)meta+=` · ${sm[e.source]||e.source}`;if(e.note)meta+=` · ${e.note}`;d.innerHTML=`<div><span class="badge ${e.status}">${e.status==="booked"?"Prenotazione":"Blocco"}</span>${synced?'<span class="badge sync">Sincronizzato</span>':""}<strong>${e.status==="booked"?"Soggiorno":"Date non disponibili"}</strong><div class="meta"></div></div><div class="row-actions"></div>`;d.querySelector(".meta").textContent=meta;const a=d.querySelector(".row-actions");if(!synced){const edit=document.createElement("button");edit.className="btn light small";edit.textContent="Modifica";edit.onclick=()=>editEntry(e);const del=document.createElement("button");del.className="btn danger small";del.textContent="Elimina";del.onclick=()=>deleteEntry(e);a.append(edit,del)}l.appendChild(d)})}
+function editEntry(e){if(e.status==="blocked"){document.querySelector('[data-form="blockPanel"]').click();$("blockEditId").value=e.id;$("blockStart").value=e.start_date;$("blockEnd").value=plusDays(e.end_date,-1);$("blockNote").value=e.note||"";$("blockTitle").textContent="Modifica blocco";$("blockSubmit").textContent="Salva modifica";$("blockCancel").style.display=""}else{document.querySelector('[data-form="bookingPanel"]').click();$("bookEditId").value=e.id;$("bookStart").value=e.start_date;$("bookEnd").value=e.end_date;$("guestName").value=e.guest_name||"";$("bookingNote").value=e.note||"";$("source").value=e.source||"direct";$("bookTitle").textContent="Modifica prenotazione";$("bookSubmit").textContent="Salva modifica";$("bookCancel").style.display=""}window.scrollTo({top:0,behavior:"smooth"})}
+async function deleteEntry(e){if(!confirm("Eliminare questo elemento?"))return;const {error}=await sb.from("calendar_entries").delete().eq("id",e.id);if(error)return msg($("actionMsg"),"Eliminazione non riuscita.","error");await loadEntries();renderAll()}
+
+$("priceForm").onsubmit=async e=>{e.preventDefault();const start=$("priceStart").value,inc=$("priceEnd").value,price=Number($("nightlyPrice").value);if(!start||!inc||inc<start||!Number.isFinite(price))return msg($("priceMsg"),"Controlla intervallo e prezzo.","error");const end=plusDays(inc,1);const {error}=await sb.rpc("set_price_range",{p_start:start,p_end:end,p_price:price,p_note:$("priceNote").value.trim()||null});if(error)return msg($("priceMsg"),"Tariffa non salvata: "+error.message,"error");$("priceForm").reset();msg($("priceMsg"),"Tariffa aggiornata.");await loadPrices();renderAll()};
+function renderPrices(){const l=$("priceList");l.innerHTML="";if(!prices.length){l.innerHTML='<div class="empty">Nessuna tariffa.</div>';return}prices.forEach(r=>{const d=document.createElement("div");d.className="item";d.innerHTML=`<div><strong>€ ${Number(r.nightly_price).toFixed(0)} / notte</strong><div class="meta">${fmt(r.start_date)} → ${fmt(plusDays(r.end_date,-1))}${r.note?" · "+r.note:""}</div></div><div class="row-actions"><button class="btn danger small">Elimina</button></div>`;d.querySelector("button").onclick=async()=>{if(!confirm("Eliminare questa tariffa? Le date interessate potrebbero restare senza prezzo."))return;const {error}=await sb.from("price_rules").delete().eq("id",r.id);if(error)return msg($("priceMsg"),"Eliminazione non riuscita.","error");await loadPrices();renderAll()};l.appendChild(d)})}
+
+$("feedForm").onsubmit=async e=>{e.preventDefault();const url=$("feedUrl").value.trim();if(!url)return;const {error}=await sb.from("ical_feeds").insert({provider:$("feedProvider").value,name:$("feedName").value.trim(),feed_url:url,is_active:true});if(error)return msg($("feedMsg"),"Calendario non aggiunto: "+error.message,"error");$("feedForm").reset();msg($("feedMsg"),"Calendario aggiunto. Ora premi “Sincronizza ora”.");await loadFeeds();renderFeeds()};
+function renderFeeds(){const l=$("feedsList");l.innerHTML="";if(!feeds.length){l.innerHTML='<div class="empty">Nessun calendario OTA collegato.</div>';return}feeds.forEach(f=>{const d=document.createElement("div");d.className="item";const prov=f.provider==="airbnb"?"Airbnb":f.provider==="booking"?"Booking.com":"Altro";const status=f.last_error?`Errore: ${f.last_error}`:`Ultimo sync: ${fmtDateTime(f.last_synced_at)}`;d.innerHTML=`<div><span class="badge sync">${prov}</span><strong></strong><div class="meta"></div><div class="statusline ${f.last_error?"error":"ok"}"></div></div><div class="row-actions"><button class="btn danger small">Rimuovi</button></div>`;d.querySelector("strong").textContent=f.name;d.querySelector(".meta").textContent=f.feed_url;d.querySelector(".statusline").textContent=status;d.querySelector("button").onclick=async()=>{if(!confirm("Rimuovere questo calendario e le date importate da esso?"))return;const {error}=await sb.from("ical_feeds").delete().eq("id",f.id);if(error)return msg($("feedMsg"),"Rimozione non riuscita.","error");await Promise.all([loadFeeds(),loadEntries()]);renderAll()};l.appendChild(d)})}
+$("syncNow").onclick=async()=>{
+  $("syncNow").disabled=true;
+  $("syncNow").textContent="Sincronizzazione...";
+  try{
+    const {data:{session}}=await sb.auth.getSession();
+    if(!session?.access_token) throw new Error("Sessione non valida. Esci e accedi di nuovo.");
+    const resp=await fetch(SUPABASE_URL+"/functions/v1/sync-ical",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "apikey":SUPABASE_KEY,
+        "Authorization":"Bearer "+session.access_token
+      },
+      body:"{}"
+    });
+    const data=await resp.json().catch(()=>({}));
+    if(!resp.ok) throw new Error(data?.error||("HTTP "+resp.status));
+    const bad=(data?.results||[]).filter(x=>!x.ok);
+    if(bad.length){
+      const detail=bad.map(x=>`${x.name}: ${x.error||"errore"}`).join(" · ");
+      msg($("feedMsg"),"Sincronizzazione completata con errori: "+detail,"error");
+    }else{
+      const total=(data?.results||[]).reduce((s,x)=>s+(x.events||0),0);
+      msg($("feedMsg"),`Sincronizzazione completata. Eventi importati: ${total}.`,"ok");
+    }
+    await Promise.all([loadFeeds(),loadEntries()]);
+    renderAll();
+  }catch(err){
+    msg($("feedMsg"),"Sincronizzazione non riuscita: "+(err?.message||String(err)),"error");
+  }finally{
+    $("syncNow").disabled=false;
+    $("syncNow").textContent="Sincronizza ora";
+  }
+};
+$("copyIcal").onclick=async()=>{await navigator.clipboard.writeText($("exportIcal").value);$("copyIcal").textContent="Copiato";setTimeout(()=>$("copyIcal").textContent="Copia",1500)};
+sb.auth.onAuthStateChange(()=>setTimeout(refreshAuth,0));refreshAuth();
+</script>
+</body></html>
