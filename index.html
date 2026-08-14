@@ -846,16 +846,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadCalendarAvailability(){
     try{
+      const cacheBust = Date.now();
       const res = await fetch(
-        SUPABASE_URL + "/rest/v1/calendar_availability?select=start_date,end_date,status&order=start_date.asc",
-        {headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY}}
+        SUPABASE_URL + "/rest/v1/calendar_availability?select=start_date,end_date,status&order=start_date.asc&_cb=" + cacheBust,
+        {
+          method:"GET",
+          cache:"no-store",
+          headers:{
+            apikey:SUPABASE_KEY,
+            Authorization:"Bearer "+SUPABASE_KEY,
+            "Cache-Control":"no-cache",
+            "Pragma":"no-cache"
+          }
+        }
       );
-      if(!res.ok) throw new Error("calendar fetch failed");
+      if(!res.ok) throw new Error("availability fetch failed: "+res.status);
       const rows = await res.json();
-      if(Array.isArray(rows)) UNAVAILABLE_RANGES = rows;
-      renderCalendar();
-      evaluate();
+      if(Array.isArray(rows)){
+        UNAVAILABLE_RANGES = rows;
+        renderCalendar();
+        evaluate();
+      }
     }catch(err){
+      console.warn("Disponibilità online non raggiungibile: uso il calendario di riserva.",err);
+    }
+  }catch(err){
       console.warn("Calendario online non raggiungibile: uso la disponibilità di riserva.",err);
     }
   }
@@ -1175,6 +1190,12 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCalendar();
   loadCalendarAvailability();
   loadPriceRules();
+
+  // Aggiorna automaticamente la disponibilità quando l'utente torna sulla pagina.
+  window.addEventListener("focus",()=>loadCalendarAvailability());
+  document.addEventListener("visibilitychange",()=>{
+    if(document.visibilityState==="visible") loadCalendarAvailability();
+  });
 })();
 </script><div aria-hidden="true" class="house-lightbox" id="houseLightbox">
 <button aria-label="Chiudi" class="lightbox-close" id="lightboxClose">×</button>
