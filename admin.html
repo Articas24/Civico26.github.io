@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Civico 26 | Admin calendario</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16302b;--green:#2f6f62;--sea:#2f8f9d;--cream:#fbf7ef;--paper:#fff;--muted:#63736f;--line:#e2ebe7;--red:#a94d45;--orange:#bd6f45;--shadow:0 16px 40px rgba(23,55,48,.10);}
+*{box-sizing:border-box}
+body{margin:0;background:#f7faf8;color:var(--ink);font-family:Heebo,system-ui,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1180px,94%);margin:auto}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.head{height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-family:'Abril Fatface';font-size:26px} .logo span{color:var(--sea)}
+.top-actions{display:flex;gap:10px;align-items:center}
+.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:800}
+.btn.primary{background:var(--green);color:#fff} .btn.light{background:#edf5f2;color:var(--green)}
+.btn.danger{background:#fff0ef;color:var(--red)} .btn.orange{background:var(--orange);color:#fff}
+main{padding:34px 0 70px}
+.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 8px 24px rgba(23,55,48,.055)}
+#loginView{max-width:480px;margin:55px auto}
+h1,h2{font-family:'Abril Fatface';font-weight:400} h1{font-size:42px;margin:0 0 8px} h2{font-size:29px;margin:0 0 15px}
+.muted{color:var(--muted);line-height:1.55}
+label{display:block;font-size:12px;font-weight:800;color:var(--muted);margin:12px 0 5px}
+input,select,textarea{width:100%;border:1px solid #d5e2dd;border-radius:11px;padding:11px 12px;background:#fff;color:var(--ink)}
+textarea{min-height:84px;resize:vertical}
+.login-actions{display:grid;gap:10px;margin-top:18px}
+.msg{display:none;margin-top:14px;padding:11px 13px;border-radius:11px;font-size:14px;line-height:1.45}
+.msg.show{display:block} .msg.error{background:#fff0ef;color:#913f39} .msg.ok{background:#edf8f3;color:#266548}
+#adminView{display:none}
+.admin-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px}
+.admin-head h1{font-size:38px;margin:0}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:20px;align-items:start}
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}
+.cal-head button{width:40px;height:40px;border:1px solid var(--line);background:#fff;border-radius:10px;font-size:22px}
+.cal-title{font-weight:800;text-transform:capitalize}
+.week,.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.week div{text-align:center;font-size:11px;font-weight:800;color:var(--muted);padding:4px 0}
+.day{min-height:70px;border:1px solid var(--line);background:#fff;border-radius:11px;padding:7px;text-align:left;position:relative}
+.day.other{opacity:.35} .day.today{outline:2px solid #9bc8bd}
+.day.blocked{background:#fff5e9;border-color:#e4b881} .day.booked{background:#fff0ef;border-color:#e8aaa5}
+.day.sel{outline:2px solid var(--green)}
+.day-num{font-weight:800} .day-state{display:block;font-size:9px;font-weight:800;margin-top:5px}
+.day.blocked .day-state{color:#9a652e} .day.booked .day-state{color:#9b4c45}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:14px}
+.dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px}
+.dot.free{background:#edf7f4;border:1px solid #b8d8cf} .dot.block{background:#fff5e9;border:1px solid #e4b881} .dot.book{background:#fff0ef;border:1px solid #e8aaa5}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tab{flex:1;border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px;font-weight:800;color:var(--muted)}
+.tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.panel{display:none} .panel.active{display:block}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-submit{margin-top:16px;width:100%}
+.hint{font-size:12px;color:var(--muted);line-height:1.5;margin:9px 0 0}
+.entries{margin-top:20px}
+.entry{border:1px solid var(--line);border-radius:15px;padding:14px;margin-top:10px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.entry strong{display:block} .entry-meta{font-size:13px;color:var(--muted);margin-top:3px}
+.badge{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800;margin-right:6px}
+.badge.blocked{background:#fff1dc;color:#91622f} .badge.booked{background:#fde7e5;color:#91473f}
+.empty{padding:18px;text-align:center;color:var(--muted);border:1px dashed #ccd9d4;border-radius:14px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 13px} .stat b{font-size:20px;display:block}
+@media(max-width:850px){.grid{grid-template-columns:1fr}.admin-head{align-items:flex-start;flex-direction:column}}
+@media(max-width:560px){main{padding-top:20px}.card{padding:15px;border-radius:17px}.day{min-height:58px;padding:5px}.day-state{font-size:8px}.two{grid-template-columns:1fr}.head{height:auto;padding:12px 0}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap head">
+    <div class="logo">Civico <span>26</span> · Admin</div>
+    <div class="top-actions">
+      <a class="btn light" href="index.html">← Sito</a>
+      <button class="btn danger" id="logoutBtn" style="display:none">Esci</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+<section id="loginView" class="card">
+  <h1>Accesso admin</h1>
+  <p class="muted">Accedi per gestire disponibilità e prenotazioni di Civico 26.</p>
+  <form id="loginForm">
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="username" value="stefanoalfonso@hotmail.it" required>
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" required>
+    <div class="login-actions"><button class="btn primary" type="submit">Accedi</button></div>
+  </form>
+  <div id="loginMsg" class="msg"></div>
+</section>
+
+<section id="adminView">
+  <div class="admin-head">
+    <div><div class="muted">Area riservata</div><h1>Calendario</h1><div id="adminIdentity" class="muted"></div></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b id="countBooked">0</b><span class="muted">prenotazioni</span></div>
+    <div class="stat"><b id="countBlocked">0</b><span class="muted">blocchi manuali</span></div>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="cal-head"><button id="prevMonth" type="button">‹</button><div class="cal-title" id="monthTitle"></div><button id="nextMonth" type="button">›</button></div>
+      <div class="week"><div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div></div>
+      <div id="adminCalendar" class="calendar"></div>
+      <div class="legend"><span><i class="dot free"></i>Disponibile</span><span><i class="dot block"></i>Bloccata</span><span><i class="dot book"></i>Prenotata</span></div>
+      <p class="hint">Puoi anche cliccare sul calendario: il primo clic imposta l'inizio del blocco, il secondo la data finale.</p>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="tabs">
+          <button class="tab active" data-tab="block" type="button">Blocca date</button>
+          <button class="tab" data-tab="booking" type="button">Prenotazione</button>
+        </div>
+
+        <form id="blockPanel" class="panel active">
+          <h2>Blocca disponibilità</h2>
+          <div class="two">
+            <div><label for="blockStart">Dal</label><input id="blockStart" type="date" required></div>
+            <div><label for="blockEnd">Al (compreso)</label><input id="blockEnd" type="date" required></div>
+          </div>
+          <label for="blockNote">Nota privata</label>
+          <textarea id="blockNote" placeholder="Es. manutenzione, uso personale..."></textarea>
+          <button class="btn orange form-submit" type="submit">Blocca date</button>
+          <p class="hint">Le date bloccate saranno mostrate agli ospiti semplicemente come “Non disponibili”.</p>
+        </form>
+
+        <form id="bookingPanel" class="panel">
+          <h2>Inserisci prenotazione</h2>
+          <div class="two">
+            <div><label for="bookStart">Check-in</label><input id="bookStart" type="date" required></div>
+            <div><label for="bookEnd">Check-out</label><input id="bookEnd" type="date" required></div>
+          </div>
+          <label for="guestName">Nome ospite</label>
+          <input id="guestName" type="text" placeholder="Facoltativo">
+          <label for="source">Provenienza</label>
+          <select id="source"><option value="direct">Diretta</option><option value="booking">Booking.com</option><option value="airbnb">Airbnb</option><option value="other">Altro</option></select>
+          <label for="bookingNote">Nota privata</label>
+          <textarea id="bookingNote" placeholder="Facoltativa"></textarea>
+          <button class="btn primary form-submit" type="submit">Salva prenotazione</button>
+        </form>
+        <div id="actionMsg" class="msg"></div>
+      </div>
+
+      <div class="card entries">
+        <h2>Blocchi e prenotazioni</h2>
+        <div id="entriesList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://wfhdtwzpjcaicxdrphcu.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_3SGl7pKrqv_uT8GIW2N8RA_Xook19Uh';
+const ADMIN_EMAILS = ['stefanoalfonso@hotmail.it','andrealfonso@live.it'];
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const DAY = 86400000;
+let entries = [];
+let view = new Date(); view = new Date(view.getFullYear(), view.getMonth(), 1);
+let calendarSelectionStart = null;
+
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,'0');
+const dateKey = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parseDate = s => { const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); };
+const plusDays = (s,n) => dateKey(new Date(parseDate(s).getTime()+n*DAY));
+const fmt = s => new Intl.DateTimeFormat('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'}).format(parseDate(s));
+const monthFmt = d => new Intl.DateTimeFormat('it-IT',{month:'long',year:'numeric'}).format(d);
+
+function showMsg(el, text, type='ok') {
+  el.textContent=text; el.className=`msg show ${type}`;
+  setTimeout(()=>{ if(el.textContent===text) el.className='msg'; },5500);
+}
+function isAdmin(user) { return !!user && ADMIN_EMAILS.includes((user.email||'').toLowerCase()); }
+
+async function login(email,password) {
+  return await sb.auth.signInWithPassword({email,password});
+}
+async function refreshAuth() {
+  const {data:{user}} = await sb.auth.getUser();
+  if(isAdmin(user)) {
+    $('loginView').style.display='none';
+    $('adminView').style.display='block';
+    $('logoutBtn').style.display='';
+    $('adminIdentity').textContent=user.email;
+    await loadEntries();
+  } else {
+    if(user) await sb.auth.signOut();
+    $('loginView').style.display='block';
+    $('adminView').style.display='none';
+    $('logoutBtn').style.display='none';
+  }
+}
+
+$('loginForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const email=$('email').value.trim();
+  const password=$('password').value;
+  const msg=$('loginMsg');
+  if(!ADMIN_EMAILS.includes(email.toLowerCase())) {
+    showMsg(msg,'Questo account non è autorizzato.','error'); return;
+  }
+  const {data,error}=await login(email,password);
+  if(error) { showMsg(msg,'Accesso non riuscito: controlla email e password.','error'); return; }
+  if(!isAdmin(data.user)) { await sb.auth.signOut(); showMsg(msg,'Account non autorizzato.','error'); return; }
+  $('password').value='';
+  await refreshAuth();
+});
+
+$('logoutBtn').addEventListener('click', async()=>{ await sb.auth.signOut(); await refreshAuth(); });
+
+async function loadEntries() {
+  const {data,error}=await sb.from('calendar_entries').select('id,start_date,end_date,status,guest_name,note,source,created_at').order('start_date');
+  if(error) { showMsg($('actionMsg'),'Errore nel caricamento del calendario.','error'); return; }
+  entries=data||[];
+  renderAll();
+}
+
+function entryForDate(d) {
+  const k=dateKey(d);
+  return entries.find(e=>k>=e.start_date && k<e.end_date);
+}
+
+function renderCalendar() {
+  $('monthTitle').textContent=monthFmt(view);
+  const grid=$('adminCalendar'); grid.innerHTML='';
+  const first=new Date(view.getFullYear(),view.getMonth(),1);
+  const offset=(first.getDay()+6)%7;
+  const start=new Date(first.getTime()-offset*DAY);
+  const today=dateKey(new Date());
+
+  for(let i=0;i<42;i++) {
+    const d=new Date(start.getTime()+i*DAY), k=dateKey(d), ent=entryForDate(d);
+    const btn=document.createElement('button');
+    btn.type='button'; btn.className='day';
+    if(d.getMonth()!==view.getMonth()) btn.classList.add('other');
+    if(k===today) btn.classList.add('today');
+    if(ent) btn.classList.add(ent.status);
+    if(calendarSelectionStart===k) btn.classList.add('sel');
+    const state=ent ? (ent.status==='booked'?'Prenotata':'Bloccata') : '';
+    btn.innerHTML=`<span class="day-num">${d.getDate()}</span>${state?`<span class="day-state">${state}</span>`:''}`;
+    btn.addEventListener('click',()=>selectBlockDate(k));
+    grid.appendChild(btn);
+  }
+}
+
+function selectBlockDate(k) {
+  document.querySelector('[data-tab="block"]').click();
+  if(!calendarSelectionStart || $('blockStart').value && $('blockEnd').value) {
+    calendarSelectionStart=k; $('blockStart').value=k; $('blockEnd').value=k;
+  } else {
+    const a=calendarSelectionStart;
+    if(k<a) { $('blockStart').value=k; $('blockEnd').value=a; }
+    else { $('blockStart').value=a; $('blockEnd').value=k; }
+    calendarSelectionStart=null;
+  }
+  renderCalendar();
+}
+
+function renderEntries() {
+  $('countBooked').textContent=entries.filter(e=>e.status==='booked').length;
+  $('countBlocked').textContent=entries.filter(e=>e.status==='blocked').length;
+  const list=$('entriesList'); list.innerHTML='';
+  if(!entries.length) { list.innerHTML='<div class="empty">Nessun blocco o prenotazione inserita.</div>'; return; }
+  entries.forEach(e=>{
+    const last=plusDays(e.end_date,-1);
+    const div=document.createElement('div'); div.className='entry';
+    const label=e.status==='booked'?'Prenotazione':'Blocco';
+    const sourceMap={direct:'Diretta',booking:'Booking.com',airbnb:'Airbnb',manual:'Manuale',other:'Altro'};
+    let meta=e.status==='booked' ? `Check-in ${fmt(e.start_date)} · Check-out ${fmt(e.end_date)}` : `${fmt(e.start_date)} → ${fmt(last)}`;
+    if(e.guest_name) meta+=` · ${e.guest_name}`;
+    if(e.source) meta+=` · ${sourceMap[e.source]||e.source}`;
+    if(e.note) meta+=` · ${e.note}`;
+    div.innerHTML=`<div><span class="badge ${e.status}">${label}</span><strong>${e.status==='booked'?'Soggiorno':'Date non disponibili'}</strong><div class="entry-meta">${escapeHtml(meta)}</div></div><button class="btn danger" type="button">Elimina</button>`;
+    div.querySelector('button').addEventListener('click',()=>deleteEntry(e.id,label));
+    list.appendChild(div);
+  });
+}
+
+function escapeHtml(v) { const d=document.createElement('div'); d.textContent=v; return d.innerHTML; }
+function renderAll() { renderCalendar(); renderEntries(); }
+
+$('prevMonth').addEventListener('click',()=>{view=new Date(view.getFullYear(),view.getMonth()-1,1);renderCalendar();});
+$('nextMonth').addEventListener('click',()=>{view=new Date(view.getFullYear(),view.getMonth()+1,1);renderCalendar();});
+
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===btn));
+  $('blockPanel').classList.toggle('active',btn.dataset.tab==='block');
+  $('bookingPanel').classList.toggle('active',btn.dataset.tab==='booking');
+}));
+
+function overlaps(start,end) {
+  return entries.some(e=>start<e.end_date && end>e.start_date);
+}
+
+$('blockPanel').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const start=$('blockStart').value, inclusiveEnd=$('blockEnd').value;
+  if(!start||!inclusiveEnd||inclusiveEnd<start) { showMsg($('actionMsg'),'Controlla le date selezionate.','error'); return; }
+  const end=plusDays(inclusiveEnd,1);
+  if(overlaps(start,end)) { showMsg($('actionMsg'),'Una o più date sono già bloccate o prenotate.','error'); return; }
+  const {error}=await sb.from('calendar_entries').insert({
+    start_date:start,end_date:end,status:'blocked',note:$('blockNote').value.trim()||null,source:'manual'
+  });
+  if(error) { showMsg($('actionMsg'),'Non è stato possibile salvare il blocco.','error'); return; }
+  $('blockNote').value=''; calendarSelectionStart=null;
+  showMsg($('actionMsg'),'Date bloccate correttamente.');
+  await loadEntries();
+});
+
+$('bookingPanel').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const start=$('bookStart').value, end=$('bookEnd').value;
+  if(!start||!end||end<=start) { showMsg($('actionMsg'),'Il check-out deve essere successivo al check-in.','error'); return; }
+  if(overlaps(start,end)) { showMsg($('actionMsg'),'Il soggiorno si sovrappone a date già occupate.','error'); return; }
+  const {error}=await sb.from('calendar_entries').insert({
+    start_date:start,end_date:end,status:'booked',
+    guest_name:$('guestName').value.trim()||null,
+    note:$('bookingNote').value.trim()||null,
+    source:$('source').value
+  });
+  if(error) { showMsg($('actionMsg'),'Non è stato possibile salvare la prenotazione.','error'); return; }
+  $('guestName').value=''; $('bookingNote').value='';
+  showMsg($('actionMsg'),'Prenotazione inserita correttamente.');
+  await loadEntries();
+});
+
+async function deleteEntry(id,label) {
+  if(!confirm(`Eliminare questo ${label.toLowerCase()}? Le date torneranno disponibili.`)) return;
+  const {error}=await sb.from('calendar_entries').delete().eq('id',id);
+  if(error) { showMsg($('actionMsg'),'Eliminazione non riuscita.','error'); return; }
+  showMsg($('actionMsg'),'Elemento eliminato.');
+  await loadEntries();
+}
+
+sb.auth.onAuthStateChange(()=>setTimeout(refreshAuth,0));
+refreshAuth();
+</script>
+</body>
+</html>
