@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://articas24.github.io/Civico26.github.io/sitemap.xml
+Sitemap: https://www.civico26reggiocalabria.it/sitemap.xml
