@@ -1,0 +1,12 @@
+Civico 26 - SEO e performance
+=================================
+Immagini originali: 14.37 MB
+Immagini ottimizzate: 8.11 MB
+Riduzione: 6.26 MB (43.6%)
+
+Landing SEO rimosse dalla sitemap e dai link interni:
+- casa-vacanze-reggio-calabria-centro/
+- casa-vacanze-vicino-stazione-reggio-calabria/
+- bb-reggio-calabria-centro/
+
+Da eliminare manualmente dal repository GitHub le tre cartelle sopra.
