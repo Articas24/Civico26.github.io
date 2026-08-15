@@ -47,7 +47,7 @@ input,select,textarea{width:100%;border:1px solid #d5e2dd;border-radius:11px;pad
 
 <section id="adminView">
 <div class="admin-head"><div><div class="muted">Area riservata</div><h1>Civico 26</h1><div id="adminIdentity" class="muted"></div></div></div>
-<div class="navtabs"><button class="navtab active" data-section="calendarSec">Calendario</button><button class="navtab" data-section="requestsSec">Richieste <span id="requestCountBadge"></span></button><button class="navtab" data-section="pricesSec">Tariffe</button><button class="navtab" data-section="syncSec">Sincronizzazione</button></div>
+<div class="navtabs"><button class="navtab active" data-section="calendarSec">Calendario</button><button class="navtab" data-section="futureSec">Prenotazioni future</button><button class="navtab" data-section="requestsSec">Richieste <span id="requestCountBadge"></span></button><button class="navtab" data-section="pricesSec">Tariffe</button><button class="navtab" data-section="syncSec">Sincronizzazione</button></div>
 
 <section id="calendarSec" class="section active">
 <div class="stats"><div class="stat"><b id="countBooked">0</b><span class="muted">prenotazioni</span></div><div class="stat"><b id="countBlocked">0</b><span class="muted">blocchi</span></div></div>
@@ -61,6 +61,20 @@ input,select,textarea{width:100%;border:1px solid #d5e2dd;border-radius:11px;pad
 </div>
 <div class="card entries"><h2>Blocchi e prenotazioni</h2><div id="entriesList"></div></div>
 </div></div></section>
+
+<section id="futureSec" class="section">
+<div class="card">
+<h2>Prenotazioni future</h2>
+<p class="muted">Tutti i soggiorni ancora da concludere, ordinati per check-in. Le prenotazioni dirette mostrano anche i contatti raccolti dal sito.</p>
+<div class="stats">
+<div class="stat"><b id="futureCount">0</b><span class="muted">future</span></div>
+<div class="stat"><b id="futureDirectCount">0</b><span class="muted">dirette</span></div>
+<div class="stat"><b id="futureOtaCount">0</b><span class="muted">Booking / Airbnb</span></div>
+</div>
+<div id="futureMsg" class="msg"></div>
+<div id="futureBookingsList"></div>
+</div>
+</section>
 
 <section id="pricesSec" class="section">
 <div class="grid"><div class="card price-card"><h2>Imposta tariffa</h2><p class="muted">Il nuovo prezzo sostituisce automaticamente quello esistente nell'intervallo selezionato.</p><form id="priceForm"><div class="three"><div><label>Dal</label><input id="priceStart" type="date" required></div><div><label>Al (compreso)</label><input id="priceEnd" type="date" required></div><div><label>€/notte</label><input id="nightlyPrice" type="number" min="0" step="1" required></div></div><label>Etichetta / nota</label><input id="priceNote" type="text" placeholder="Es. Agosto, Capodanno..."><button class="btn primary form-submit">Imposta tariffa</button></form><div id="priceMsg" class="msg"></div></div><div class="card"><h2>Tariffe attive</h2><div id="priceList"></div></div></div>
@@ -109,8 +123,8 @@ async function loadAll(){await Promise.all([loadEntries(),loadPrices(),loadFeeds
 async function loadEntries(){const {data,error}=await sb.from("calendar_entries").select("id,start_date,end_date,status,guest_name,note,source,created_at,external_uid,external_feed_id").order("start_date");if(error)return msg($("actionMsg"),"Errore caricamento calendario.","error");entries=data||[]}
 async function loadPrices(){const {data,error}=await sb.from("price_rules").select("id,start_date,end_date,nightly_price,note,created_at").order("start_date");if(error)return msg($("priceMsg"),"Errore caricamento tariffe.","error");prices=data||[]}
 async function loadFeeds(){const {data,error}=await sb.from("ical_feeds").select("id,provider,name,feed_url,is_active,last_synced_at,last_error").order("id");if(error)return msg($("feedMsg"),"Errore caricamento calendari.","error");feeds=data||[]}
-async function loadRequests(){const {data,error}=await sb.from("booking_requests").select("id,request_code,check_in,check_out,guests,estimated_total,status,created_at,confirmed_entry_id").order("created_at",{ascending:false});if(error)return msg($("requestMsg"),"Errore caricamento richieste: "+error.message,"error");requests=data||[]}
-function renderAll(){renderCalendar();renderEntries();renderPrices();renderFeeds();renderRequests()}
+async function loadRequests(){const {data,error}=await sb.from("booking_requests").select("id,request_code,check_in,check_out,guests,estimated_total,status,created_at,confirmed_entry_id,guest_name,guest_email,guest_phone").order("created_at",{ascending:false});if(error)return msg($("requestMsg"),"Errore caricamento richieste: "+error.message,"error");requests=data||[]}
+function renderAll(){renderCalendar();renderEntries();renderFutureBookings();renderPrices();renderFeeds();renderRequests()}
 
 function entryForDate(d){const k=dateKey(d);return entries.find(e=>k>=e.start_date&&k<e.end_date)}
 function priceForDate(d){const k=dateKey(d);const r=prices.find(x=>k>=x.start_date&&k<x.end_date);return r?Number(r.nightly_price):null}
@@ -132,7 +146,7 @@ $("priceForm").onsubmit=async e=>{e.preventDefault();const start=$("priceStart")
 function renderPrices(){const l=$("priceList");l.innerHTML="";if(!prices.length){l.innerHTML='<div class="empty">Nessuna tariffa.</div>';return}prices.forEach(r=>{const d=document.createElement("div");d.className="item";d.innerHTML=`<div><strong>€ ${Number(r.nightly_price).toFixed(0)} / notte</strong><div class="meta">${fmt(r.start_date)} → ${fmt(plusDays(r.end_date,-1))}${r.note?" · "+r.note:""}</div></div><div class="row-actions"><button class="btn danger small">Elimina</button></div>`;d.querySelector("button").onclick=async()=>{if(!confirm("Eliminare questa tariffa? Le date interessate potrebbero restare senza prezzo."))return;const {error}=await sb.from("price_rules").delete().eq("id",r.id);if(error)return msg($("priceMsg"),"Eliminazione non riuscita.","error");await loadPrices();renderAll()};l.appendChild(d)})}
 
 
-function requestStatusLabel(s){return ({new:"Nuova",waiting:"In attesa",confirmed:"Confermata",rejected:"Rifiutata"})[s]||s}
+function requestStatusLabel(s){return ({new:"Nuova",waiting:"In attesa",confirmed:"Confermata",rejected:"Rifiutata",cancelled:"Annullata"})[s]||s}
 function renderRequests(){
   const list=$("requestsList"); if(!list)return;
   const active=requests.filter(r=>r.status==="new"||r.status==="waiting").length;
@@ -146,12 +160,12 @@ function renderRequests(){
     const d=document.createElement("div"); d.className="item";
     const when=new Intl.DateTimeFormat("it-IT",{dateStyle:"short",timeStyle:"short"}).format(new Date(r.created_at));
     const total=Number(r.estimated_total).toFixed(0);
-    d.innerHTML=`<div><span class="badge ${r.status==="confirmed"?"booked":r.status==="rejected"?"blocked":"sync"}">${requestStatusLabel(r.status)}</span><strong>Richiesta ${r.request_code}</strong><div class="meta">${fmt(r.check_in)} → ${fmt(r.check_out)} · ${r.guests} ospiti · € ${total} indicativi · ricevuta ${when}</div></div><div class="row-actions"></div>`;
+    d.innerHTML=`<div><span class="badge ${r.status==="confirmed"?"booked":(r.status==="rejected"||r.status==="cancelled")?"blocked":"sync"}">${requestStatusLabel(r.status)}</span><strong>Richiesta ${r.request_code} · ${r.guest_name||"Ospite"}</strong><div class="meta">${fmt(r.check_in)} → ${fmt(r.check_out)} · ${r.guests} ospiti · € ${total} indicativi · ricevuta ${when}<br>Email: ${r.guest_email||"—"}${r.guest_phone?` · Tel/WhatsApp: ${r.guest_phone}`:""}</div></div><div class="row-actions"></div>`;
     const actions=d.querySelector(".row-actions");
-    if(r.status!=="confirmed"){
+    if(r.status!=="confirmed"&&r.status!=="cancelled"){
       if(r.status==="new"){const b=document.createElement("button");b.className="btn light small";b.textContent="In attesa";b.onclick=()=>setRequestStatus(r.id,"waiting");actions.appendChild(b)}
       if(r.status!=="rejected"){
-        const rej=document.createElement("button");rej.className="btn danger small";rej.textContent="Rifiuta";rej.onclick=()=>setRequestStatus(r.id,"rejected");actions.appendChild(rej);
+        const rej=document.createElement("button");rej.className="btn danger small";rej.textContent="Rifiuta";rej.onclick=()=>rejectRequest(r);actions.appendChild(rej);
         const conf=document.createElement("button");conf.className="btn primary small";conf.textContent="Conferma prenotazione";conf.onclick=()=>confirmRequest(r);actions.appendChild(conf);
       }
     }else{const done=document.createElement("span");done.className="muted";done.textContent="Calendario bloccato";actions.appendChild(done)}
@@ -163,11 +177,92 @@ async function setRequestStatus(id,status){
   if(error)return msg($("requestMsg"),"Aggiornamento non riuscito: "+error.message,"error");
   await loadRequests();renderRequests();
 }
+
+async function rejectRequest(r){
+  if(!confirm(`Rifiutare la richiesta ${r.request_code}? Verrà inviata automaticamente una email all'ospite.`))return;
+  const {error}=await sb.rpc("reject_booking_request",{p_request_id:r.id});
+  if(error)return msg($("requestMsg"),"Impossibile rifiutare: "+error.message,"error");
+  msg($("requestMsg"),`Richiesta ${r.request_code} rifiutata. Email all'ospite messa in coda.`,"ok");
+  await loadRequests();renderAll();
+}
+
+async function cancelDirectBooking(e,r){
+  const detail=r?.request_code?` (${r.request_code})`:"";
+  const emailNote=r?.guest_email?" Verrà inviata automaticamente una email di annullamento all'ospite.":"";
+  if(!confirm(`Annullare la prenotazione diretta${detail}? Le date torneranno immediatamente disponibili.${emailNote}`))return;
+  const {error}=await sb.rpc("cancel_direct_booking",{p_entry_id:e.id});
+  if(error)return msg($("futureMsg"),"Impossibile annullare: "+error.message,"error");
+  msg($("futureMsg"),"Prenotazione annullata e date liberate."+(r?.guest_email?" Email all'ospite messa in coda.":""),"ok");
+  await Promise.all([loadRequests(),loadEntries()]);
+  renderAll();
+}
+
+function renderFutureBookings(){
+  const list=$("futureBookingsList");
+  if(!list)return;
+  const today=dateKey(new Date());
+  const future=entries
+    .filter(e=>e.status==="booked" && e.end_date>today)
+    .sort((a,b)=>a.start_date.localeCompare(b.start_date)||a.end_date.localeCompare(b.end_date));
+
+  const direct=future.filter(e=>e.source==="direct" && !e.external_feed_id);
+  const ota=future.filter(e=>e.source==="booking"||e.source==="airbnb"||!!e.external_feed_id);
+  $("futureCount").textContent=future.length;
+  $("futureDirectCount").textContent=direct.length;
+  $("futureOtaCount").textContent=ota.length;
+
+  list.innerHTML="";
+  if(!future.length){
+    list.innerHTML='<div class="empty">Nessuna prenotazione futura.</div>';
+    return;
+  }
+
+  const sm={direct:"Diretta",booking:"Booking.com",airbnb:"Airbnb",manual:"Manuale",other:"Altro"};
+  future.forEach(e=>{
+    const r=requests.find(x=>Number(x.confirmed_entry_id)===Number(e.id));
+    const d=document.createElement("div");
+    d.className="item";
+
+    const source=sm[e.source]||e.source||"Altro";
+    const nights=Math.max(1,Math.round((parseDate(e.end_date)-parseDate(e.start_date))/DAY));
+    const title=e.guest_name||r?.guest_name||"Ospite";
+    let meta=`${fmt(e.start_date)} → ${fmt(e.end_date)} · ${nights} ${nights===1?"notte":"notti"} · ${source}`;
+
+    if(r){
+      meta+=`<br>Codice: ${r.request_code} · ${r.guests} ospiti · € ${Number(r.estimated_total).toFixed(0)} indicativi`;
+      meta+=`<br>Email: ${r.guest_email||"—"}${r.guest_phone?` · Tel/WhatsApp: ${r.guest_phone}`:""}`;
+    }else if(e.note){
+      meta+=`<br>${e.note}`;
+    }else if(e.external_feed_id){
+      meta+=`<br>Dettagli ospite non disponibili nel feed iCal.`;
+    }
+
+    const badgeClass=e.source==="direct"&&!e.external_feed_id?"booked":"sync";
+    d.innerHTML=`<div><span class="badge ${badgeClass}">${source}</span><strong>${title}</strong><div class="meta">${meta}</div></div><div class="row-actions"></div>`;
+
+    const actions=d.querySelector(".row-actions");
+    if(e.source==="direct" && !e.external_feed_id){
+      const cancel=document.createElement("button");
+      cancel.className="btn danger small";
+      cancel.textContent="Annulla prenotazione";
+      cancel.onclick=()=>cancelDirectBooking(e,r);
+      actions.appendChild(cancel);
+    }else{
+      const note=document.createElement("span");
+      note.className="muted";
+      note.textContent="Gestita dalla piattaforma";
+      actions.appendChild(note);
+    }
+    list.appendChild(d);
+  });
+}
+
+
 async function confirmRequest(r){
   if(!confirm(`Confermare la richiesta ${r.request_code}? Le date verranno bloccate come prenotazione diretta.`))return;
   const {error}=await sb.rpc("confirm_booking_request",{p_request_id:r.id});
   if(error)return msg($("requestMsg"),"Impossibile confermare: "+error.message,"error");
-  msg($("requestMsg"),`Richiesta ${r.request_code} confermata e calendario aggiornato.`,"ok");
+  msg($("requestMsg"),`Richiesta ${r.request_code} confermata, calendario aggiornato e email di conferma messa in coda.`,"ok");
   await Promise.all([loadRequests(),loadEntries()]);renderAll();
 }
 
