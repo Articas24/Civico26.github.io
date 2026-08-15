@@ -1,0 +1,14 @@
+Foto ottimizzate per il sito Civico 26.
+Formato: JPG ottimizzato per web, metadata rimossi, qualità compressa per ridurre il peso.
+
+bagno-1.jpg - dimensioni 1086x1448 - da 3060.7 KB a 202.4 KB
+bagno-2.jpg - dimensioni 1086x1448 - da 3348.1 KB a 247.9 KB
+balcone.jpg - dimensioni 1086x1448 - da 3466.1 KB a 302.3 KB
+camera-1-1.jpg - dimensioni 1448x1086 - da 3032.6 KB a 181.4 KB
+camera-1-2.jpg - dimensioni 1448x1086 - da 3126.0 KB a 218.9 KB
+camera-2-1.jpg - dimensioni 1086x1448 - da 3362.3 KB a 284.8 KB
+camera-3-1.jpg - dimensioni 1024x768 - da 121.2 KB a 126.2 KB
+camera-scrivania.jpg - dimensioni 1448x1086 - da 3021.5 KB a 187.6 KB
+corridoio.jpg - dimensioni 1086x1448 - da 3026.0 KB a 223.0 KB
+cucina.jpg - dimensioni 1086x1448 - da 3354.7 KB a 267.8 KB
+verandina.jpg - dimensioni 1086x1448 - da 3083.6 KB a 232.5 KB
