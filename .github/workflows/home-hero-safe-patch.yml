@@ -1,0 +1,92 @@
+name: One-shot safe home hero patch
+
+on:
+  push:
+    branches:
+      - agent/home-hero-safe-patch
+
+permissions:
+  contents: write
+
+jobs:
+  patch-home:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: agent/home-hero-safe-patch
+          fetch-depth: 0
+
+      - name: Patch exact hero strings
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path("index.html")
+          text = path.read_text(encoding="utf-8")
+
+          replacements = [
+              (
+                  '<meta name="description" content="Civico 26 è una casa vacanze nel centro di Reggio Calabria, vicino a Stazione Centrale e Lungomare. 3 camere, 2 bagni, cucina e Wi‑Fi; alternativa per chi cerca un B&B in centro.">',
+                  '<meta name="description" content="Casa vacanze nel centro di Reggio Calabria: intero appartamento fino a 8 ospiti con 3 camere, 2 bagni, cucina e Wi‑Fi, vicino alla Stazione Centrale e al Lungomare Falcomatà.">'
+              ),
+              (
+                  '<h1>Civico 26 · Casa vacanze a Reggio Calabria centro</h1>',
+                  '<h1>Casa vacanze nel centro di Reggio Calabria</h1>'
+              ),
+              (
+                  '<p>Casa vacanze nel centro di Reggio Calabria, con 3 camere, 2 bagni e cucina attrezzata, fino a 8 ospiti. A pochi passi dalla Stazione Centrale, da Corso Garibaldi e dal Lungomare Falcomatà.</p>',
+                  '<p>Intero appartamento fino a 8 ospiti con 3 camere, 2 bagni e cucina attrezzata. Stazione Centrale e Corso Garibaldi sono a circa 1 minuto a piedi; il Lungomare Falcomatà a circa 5 minuti.</p>'
+              ),
+              (
+                  '<a class="btn primary" href="#soggiorno-dettagli">🏠 Il mio soggiorno</a>',
+                  '<a class="btn primary" href="#prenota">📅 Verifica disponibilità</a>'
+              ),
+              (
+                  '<a class="btn secondary" href="#scopri">🧭 Scopri Reggio</a>',
+                  '<a class="btn secondary" href="#casa">🏠 Guarda la casa</a>'
+              ),
+          ]
+
+          for old, new in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"Expected exactly one match, found {count}: {old[:90]}")
+              text = text.replace(old, new, 1)
+
+          marker = 'const originals = new Map();'
+          if text.count(marker) != 1:
+              raise SystemExit("Translation insertion marker is not unique")
+
+          extra_translations = '''Object.assign(translations, {
+            "Casa vacanze nel centro di Reggio Calabria": "Holiday apartment in central Reggio Calabria",
+            "Intero appartamento fino a 8 ospiti con 3 camere, 2 bagni e cucina attrezzata. Stazione Centrale e Corso Garibaldi sono a circa 1 minuto a piedi; il Lungomare Falcomatà a circa 5 minuti.": "Entire apartment for up to 8 guests with 3 bedrooms, 2 bathrooms and an equipped kitchen. Central Station and Corso Garibaldi are about a 1-minute walk away; the Falcomatà seafront is about 5 minutes away.",
+            "📅 Verifica disponibilità": "📅 Check availability",
+            "🏠 Guarda la casa": "🏠 View the apartment"
+          });
+          '''
+          text = text.replace(marker, extra_translations + marker, 1)
+
+          required = [
+              "const SUPABASE_URL = 'https://wfhdtwzpjcaicxdrphcu.supabase.co';",
+              "/rest/v1/rpc/submit_booking_request",
+              'id="calendarGrid"',
+              'id="languageSelect"',
+              'class="house-lightbox"',
+          ]
+          for item in required:
+              if item not in text:
+                  raise SystemExit(f"Safety check failed; missing: {item}")
+
+          path.write_text(text, encoding="utf-8")
+
+      - name: Commit patched index and remove this workflow
+        run: |
+          rm .github/workflows/home-hero-safe-patch.yml
+          git config user.name "Civico26 safe patch"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html .github/workflows/home-hero-safe-patch.yml
+          git diff --cached --check
+          git commit -m "Improve home hero conversion copy"
+          git push origin HEAD:agent/home-hero-safe-patch
