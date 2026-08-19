@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.civico26reggiocalabria.it/</loc>
-    <lastmod>2026-08-15</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/casa-principale.jpg</image:loc></image:image>
     <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/camera-verde-1.jpg</image:loc></image:image>
     <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/camera-verde-2.jpg</image:loc></image:image>
@@ -26,14 +26,11 @@
     <loc>https://www.civico26reggiocalabria.it/guida-reggio-calabria.html</loc>
     <lastmod>2026-08-19</lastmod>
     <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/lungomare-falcomata.jpg</image:loc></image:image>
-    <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/scilla.jpg</image:loc></image:image>
-    <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/aspromonte.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.civico26reggiocalabria.it/posizione.html</loc>
     <lastmod>2026-08-19</lastmod>
     <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/casa-principale.jpg</image:loc></image:image>
-    <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/mappa-parcheggio-civico26.png</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.civico26reggiocalabria.it/itinerari.html</loc>
@@ -45,8 +42,8 @@
   <url>
     <loc>https://www.civico26reggiocalabria.it/reggio.html</loc>
     <lastmod>2026-08-15</lastmod>
-    <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/lungomare-falcomata.jpg</image:loc></image:image>
     <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/museo-archeologico.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/lungomare-falcomata.jpg</image:loc></image:image>
     <image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/castello-aragonese.jpg</image:loc></image:image>
   </url>
   <url>
