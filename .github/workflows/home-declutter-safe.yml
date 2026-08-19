@@ -3,7 +3,7 @@ name: One-shot safe homepage declutter
 on:
   push:
     branches:
-      - agent/home-declutter-2026-08-19
+      - main
 
 permissions:
   contents: write
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: agent/home-declutter-2026-08-19
+          ref: main
           fetch-depth: 0
       - name: Safely declutter homepage
         shell: python
@@ -40,7 +40,6 @@ jobs:
                   raise SystemExit(f'{label}: expected 1 regex match, found {n}')
               text = text2
 
-          # Remove FAQ structured data because FAQ content moves to faq.html.
           regex(r'\n<script type="application/ld\+json">\s*\{\s*"@context": "https://schema.org",\s*"@type": "FAQPage".*?</script>', '', 'FAQ JSON-LD')
 
           exact(
@@ -49,9 +48,11 @@ jobs:
               'desktop navigation'
           )
 
-          old_location = '<div class="location-links"><a class="maplink" href="#reggio">Scopri Reggio Calabria →</a><a class="maplink" href="#parcheggio">Dove parcheggiare →</a><a class="maplink" href="#mare">Mare e spiagge →</a></div>'
-          new_location = '<div class="location-links"><a class="maplink" href="posizione.html">Approfondisci posizione →</a><a class="maplink" href="parcheggio.html">Dove parcheggiare →</a><a class="maplink" href="mare.html">Mare e spiagge →</a></div>'
-          exact(old_location, new_location, 'location links')
+          exact(
+              '<div class="location-links"><a class="maplink" href="#reggio">Scopri Reggio Calabria →</a><a class="maplink" href="#parcheggio">Dove parcheggiare →</a><a class="maplink" href="#mare">Mare e spiagge →</a></div>',
+              '<div class="location-links"><a class="maplink" href="posizione.html">Approfondisci posizione →</a><a class="maplink" href="parcheggio.html">Dove parcheggiare →</a><a class="maplink" href="mare.html">Mare e spiagge →</a></div>',
+              'location links'
+          )
 
           compact = '''<section id="soggiorno-preview">
 <div class="wrap">
@@ -82,7 +83,6 @@ jobs:
               regex(r'<section class="detail-section" id="' + section_id + r'">.*?</section>', '', f'remove duplicated {section_id} section')
 
           exact('<a href="#scopri"><span class="nav-ico">🧭</span><span>Scopri</span></a>', '<a href="guida-reggio-calabria.html"><span class="nav-ico">🧭</span><span>Scopri</span></a>', 'mobile discover link')
-
           exact('<a href="#posizione">Posizione</a><a href="#faq">FAQ</a>', '<a href="posizione.html">Posizione</a><a href="faq.html">FAQ</a>', 'footer property links')
           exact('<a href="#reggio">Reggio Calabria</a><a href="#mare">Mare e spiagge</a><a href="#aspromonte">Aspromonte</a><a href="#mangiare">Dove mangiare</a><a href="#parcheggio">Parcheggio</a>', '<a href="reggio.html">Reggio Calabria</a><a href="mare.html">Mare e spiagge</a><a href="aspromonte.html">Aspromonte</a><a href="mangiare.html">Dove mangiare</a><a href="parcheggio.html">Parcheggio</a>', 'footer guide links')
 
@@ -105,7 +105,6 @@ jobs:
           '''
           text = text.replace(marker, extra + marker, 1)
 
-          # Safety: the home must still contain the commercial core and must no longer contain duplicated guide sections.
           required = ['id="prenota"','id="casa"','id="posizione"','id="scopri"','const SUPABASE_URL','submit_booking_request','class="house-lightbox"','soggiorno.html','faq.html','reggio.html','mare.html','mangiare.html','aspromonte.html']
           for item in required:
               if item not in text:
@@ -127,4 +126,4 @@ jobs:
           git add index.html .github/workflows/home-declutter-safe.yml
           git diff --cached --check
           git commit -m "Declutter homepage and link dedicated guides"
-          git push origin HEAD:agent/home-declutter-2026-08-19
+          git push origin HEAD:main
