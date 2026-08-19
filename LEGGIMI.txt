@@ -1,12 +1,61 @@
-Civico 26 - SEO e performance
-=================================
-Immagini originali: 14.37 MB
-Immagini ottimizzate: 8.11 MB
-Riduzione: 6.26 MB (43.6%)
+CIVICO 26 — PACCHETTO UPGRADE COMPLETO
+======================================
 
-Landing SEO rimosse dalla sitemap e dai link interni:
-- casa-vacanze-reggio-calabria-centro/
-- casa-vacanze-vicino-stazione-reggio-calabria/
-- bb-reggio-calabria-centro/
+CARICA TUTTI I FILE DI QUESTO PACCHETTO NELLA ROOT DEL REPOSITORY.
 
-Da eliminare manualmente dal repository GitHub le tre cartelle sopra.
+FILE DA SOSTITUIRE:
+- index.html
+- sitemap.xml
+
+FILE NUOVI:
+- styles.css
+- site.js
+- booking.js
+- casa-vacanze-reggio-calabria-centro.html
+- posizione.html
+- faq.html
+- itinerari.html
+- preferiti.html
+- arte.html
+
+NON TOCCARE:
+- admin.html
+- CNAME
+- robots.txt
+- cartella immagini/
+- file delle guide esistenti: reggio.html, mare.html, aspromonte.html, mangiare.html, parcheggio.html, mappa.html
+
+COSA CAMBIA NELLA HOME:
+- Hero più commerciale e orientata alla ricerca “casa vacanze Reggio Calabria centro”
+- Trust bar con caratteristiche principali
+- Sezione “Perché Civico 26”
+- Calendario e richiesta diretta conservati, collegati allo stesso Supabase
+- La casa con i nomi aggiornati Camera Verde / Bianca / Rossa
+- Posizione e distanze a piedi
+- Valutazioni pubbliche Booking/Airbnb con data di verifica
+- Guide lunghe spostate fuori dalla home e collegate da “Scopri”
+- Guida digitale ospiti mantenuta in forma compatta
+- FAQ e CTA finali
+- Navigazione mobile e menu migliorati
+- Italiano/Inglese sulla home
+
+PAGINE AGGIUNTE:
+- casa-vacanze-reggio-calabria-centro.html: pagina SEO editoriale
+- posizione.html: pagina posizione / stazione / distanze
+- faq.html: FAQ estese
+- itinerari.html: Reggio in un giorno, weekend Reggio+Scilla, senza auto, Aspromonte
+- preferiti.html: consigli personali
+- arte.html: Arte al Civico 26 e Sasha Merenda
+
+CONTROLLI ESEGUITI:
+- HTML: struttura verificata, nessun ID duplicato
+- JavaScript: sintassi verificata con Node.js
+- CSS: parentesi bilanciate
+- sitemap.xml: XML valido
+- Supabase: verificata presenza di calendar_availability, price_rules e submit_booking_request
+
+NOTE IMPORTANTI:
+- Non è stato modificato il database Supabase.
+- Non è stato modificato admin.html.
+- Le guide esistenti restano operative.
+- Le valutazioni Booking/Airbnb possono cambiare: sulla home è indicata la data di verifica 19/08/2026.
