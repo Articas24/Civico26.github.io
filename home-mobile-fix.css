@@ -1,0 +1,16 @@
+html,body{max-width:100%;overflow-x:hidden}
+img,svg,video,iframe{max-width:100%}
+.nav>*,.hero-grid>*,.booking-panel>*,.booking-form>*,.request-grid>*,.house-intro>*,.house-facts>*,.room-gallery>*,.location-grid>*,.location-facts>*,.preview-card>*,.cards>*,.footer-grid>*{min-width:0}
+.calendar-grid,.calendar-weekdays,.cal-day{min-width:0}
+@media(max-width:760px){
+  .nav{min-width:0}
+  .navlinks{gap:6px}
+  .navlinks .pill{display:none}
+  .header-book{padding:9px 12px}
+  .lang-wrap{min-width:0}
+  .lang-select{max-width:108px;min-width:0}
+  .booking-strip,.calendar-box,.request-box,.room-block,.preview-card,.location-copy,.card{max-width:100%}
+  .cal-day{overflow:hidden}
+  .cal-price{overflow:hidden;text-overflow:ellipsis}
+  .room-title,.room-title-main{min-width:0}
+}
