@@ -1,0 +1,133 @@
+;opacity:.82}.card h3{font-family:'Abril Fatface';font-size:31px;font-weight:400;margin:5px 0}.card p{margin:0;color:#f1f4f3;font-size:14px;line-height:1.5}.arrow{margin-top:13px;font-weight:700}
+
+.site-footer{background:#112823;color:#dce9e6;padding:54px 0 30px}.footer-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr .9fr;gap:32px}.footer-brand .logo{color:#fff;margin-bottom:10px}.footer-brand p{color:#aac0ba;line-height:1.65;margin:8px 0}.footer-title{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#8fb1a8;font-weight:800;margin:4px 0 12px}.footer-links{display:grid;gap:9px}.footer-links a{color:#e2eeeb;font-size:14px}.footer-links a:hover{text-decoration:underline}.footer-meta{margin-top:30px;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:#9eb5af;font-size:12px}.footer-wa{display:inline-flex;align-items:center;gap:7px;background:#26794b;color:#fff;padding:10px 13px;border-radius:11px;font-weight:800;margin-top:8px}
+
+.house-lightbox{position:fixed;inset:0;z-index:1000;background:rgba(7,18,15,.94);display:none;align-items:center;justify-content:center;padding:24px}.house-lightbox.open{display:flex}.house-lightbox img{max-width:min(1100px,94vw);max-height:84vh;object-fit:contain;border-radius:12px}.lightbox-close,.lightbox-prev,.lightbox-next{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;backdrop-filter:blur(8px);display:grid;place-items:center}.lightbox-close{right:18px;top:18px;width:44px;height:44px;border-radius:50%;font-size:27px}.lightbox-prev,.lightbox-next{top:50%;transform:translateY(-50%);width:48px;height:58px;border-radius:12px;font-size:30px}.lightbox-prev{left:18px}.lightbox-next{right:18px}.lightbox-caption{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);color:#fff;background:rgba(0,0,0,.45);padding:8px 13px;border-radius:999px;font-size:13px;text-align:center}
+
+.mobile-bottom-nav{display:none}
+@media(max-width:900px){.booking-form{grid-template-columns:1fr 1fr}.booking-go{grid-column:1/-1}.booking-panel{grid-template-columns:1fr}.quick-facts{grid-template-columns:repeat(4,1fr)}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){
+  body{padding-bottom:76px}.navlinks a:not(.header-book):not(.pill){display:none}.nav{gap:8px}.logo{font-size:23px}.lang-select{max-width:118px;padding:8px 24px 8px 8px}.lang-label{display:none}
+  .hero-grid{grid-template-columns:1fr;min-height:auto;padding:34px 0 28px}.hero h1{font-size:46px}.hero p{font-size:16px;line-height:1.55}.hero-art{min-height:210px}
+  .booking-strip{margin-top:20px}.booking-form{grid-template-columns:1fr 1fr}.booking-field.guests{grid-column:1/-1}.request-grid{grid-template-columns:1fr}.request-grid .full{grid-column:auto}.calendar-box,.request-box{padding:16px}.cal-day{min-height:52px;padding:5px}.cal-price{font-size:8px}
+  section{padding:58px 0}.section-head h2{font-size:35px}.quick-facts{width:100%;grid-template-columns:repeat(2,1fr)}.quick-fact{padding:11px 6px}.quick-fact:nth-child(even){border-right:0}.quick-fact:nth-child(n+3){border-top:1px solid var(--line)}.quick-fact:last-child{grid-column:1/-1;border-right:0}
+  .house-intro{grid-template-columns:1fr}.house-hero{min-height:330px}.house-facts{grid-template-columns:repeat(2,1fr)}.room-title{grid-template-columns:1fr auto;padding:16px}.room-title h3{font-size:24px}.room-title p{font-size:13px}.room-count{display:none}.room-gallery{grid-template-columns:repeat(2,1fr);padding:10px}.room-photo,.room-photo.wide,.room-photo.small,.room-photo.half{grid-column:auto;min-height:190px}.room-photo.full{grid-column:1/-1;min-height:250px}
+  .location-grid{grid-template-columns:1fr}.location-facts{grid-template-columns:repeat(2,1fr)}.preview-card{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.card{min-height:230px}.card[style*="grid-column"]{grid-column:auto!important}
+  .footer-grid{grid-template-columns:1fr;gap:24px}.site-footer{padding-bottom:96px}
+  .mobile-bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(23,55,48,.08);padding:7px 8px calc(7px + env(safe-area-inset-bottom))}
+  .mobile-bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:50px;font-size:11px;font-weight:700;color:#51665f;border-radius:12px}.mobile-bottom-nav .nav-ico{font-size:21px;line-height:1}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap nav">
+<a class="logo" href="#top">Civico <span>26</span></a>
+<div class="lang-wrap"><span aria-hidden="true" class="lang-label">🌐</span><select aria-label="Scegli lingua" class="lang-select" id="languageSelect"><option value="it">🇮🇹 Italiano</option><option value="en">🇬🇧 English</option></select></div>
+<nav class="navlinks"><a class="header-book" href="#prenota">Prenota</a><a class="pill" href="#casa">La casa</a><a href="soggiorno.html">Il tuo soggiorno</a><a href="guida-reggio-calabria.html">Scopri</a></nav>
+</div>
+</header>
+<main id="top">
+<section class="hero">
+<div class="wrap hero-grid">
+<div>
+<div class="eyebrow">Civico 26 · Reggio Calabria</div>
+<h1>Casa vacanze nel centro di Reggio Calabria</h1>
+<p>Intero appartamento fino a 8 ospiti con 3 camere, 2 bagni e cucina attrezzata. Stazione Centrale e Corso Garibaldi sono a circa 1 minuto a piedi; il Lungomare Falcomatà a circa 5 minuti.</p>
+<div class="actions"><a class="btn primary" href="#prenota">📅 Verifica disponibilità</a><a class="btn secondary" href="#casa">🏠 Guarda la casa</a></div>
+<div class="booking-strip">
+<div class="booking-strip-title"><strong>📅 Verifica prezzi e disponibilità</strong><span class="booking-badge">Prenotazione diretta</span></div>
+<div class="booking-form">
+<div class="booking-field"><label for="heroCheckin">Check-in</label><input id="heroCheckin" type="date"></div>
+<div class="booking-field"><label for="heroCheckout">Check-out</label><input id="heroCheckout" type="date"></div>
+<div class="booking-field guests"><label for="heroGuests">Ospiti</label><select id="heroGuests"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+<button class="booking-go" id="heroBookingGo" type="button">Verifica</button>
+</div>
+<p class="booking-note">Disponibilità indicativa aggiornata dalla struttura. La prenotazione è confermata solo dopo nostra conferma.</p>
+</div>
+</div>
+<div class="hero-art"><div class="blob"></div><img alt="Lungomare Falcomatà, Reggio Calabria" class="hero-photo-img" src="immagini/lungomare-falcomata.jpg" width="1280" height="720" decoding="async" loading="eager" fetchpriority="high"><div class="floatcard">Civico 26<small>Reggio Calabria</small></div></div>
+</div>
+</section>
+
+<div class="quick-facts-bar" aria-label="Caratteristiche principali di Civico 26"><div class="quick-facts">
+<div class="quick-fact"><span class="qf-icon">👥</span><strong>Fino a 8 ospiti</strong></div><div class="quick-fact"><span class="qf-icon">🛏️</span><strong>3 camere</strong></div><div class="quick-fact"><span class="qf-icon">🚿</span><strong>2 bagni</strong></div><div class="quick-fact"><span class="qf-icon">🍳</span><strong>Cucina</strong></div><div class="quick-fact"><span class="qf-icon">🛜</span><strong>Wi‑Fi</strong></div><div class="quick-fact"><span class="qf-icon">❄️</span><strong>Climatizzazione</strong></div><div class="quick-fact"><span class="qf-icon">📍</span><strong>Centro città</strong></div>
+</div></div>
+
+<section class="booking-section" id="prenota"><div class="wrap">
+<div class="section-head"><span class="eyebrow">Prenotazione diretta</span><h2>Verifica disponibilità</h2><p>Consulta il calendario, seleziona le date e inviaci una richiesta. Controlleremo Booking e Airbnb prima di confermare il soggiorno.</p></div>
+<div class="booking-panel">
+<div class="calendar-box"><div class="calendar-head"><button id="calPrev" type="button">‹</button><div class="calendar-title" id="calendarTitle"></div><button id="calNext" type="button">›</button></div><div class="calendar-weekdays"><div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div></div><div class="calendar-grid" id="calendarGrid"></div><div class="calendar-legend"><span><i class="legend-dot legend-free"></i> Disponibile</span><span><i class="legend-dot legend-booked"></i> Non disponibile</span></div></div>
+<div class="request-box"><h3>Richiedi disponibilità</h3><div class="request-grid">
+<div class="full"><label for="bookName">Nome e cognome *</label><input id="bookName" type="text" autocomplete="name" maxlength="120" placeholder="Nome e cognome" required></div>
+<div><label for="bookEmail">Email *</label><input id="bookEmail" type="email" autocomplete="email" maxlength="254" placeholder="nome@email.it" required></div>
+<div><label for="bookPhone">Telefono / WhatsApp</label><input id="bookPhone" type="tel" autocomplete="tel" maxlength="40" placeholder="+39 ..."></div>
+<div><label for="bookCheckin">Check-in</label><input id="bookCheckin" type="date"></div>
+<div><label for="bookCheckout">Check-out</label><input id="bookCheckout" type="date"></div>
+<div class="full"><label for="bookGuests">Numero di ospiti</label><select id="bookGuests"><option value="1">1 ospite</option><option selected value="2">2 ospiti</option><option value="3">3 ospiti</option><option value="4">4 ospiti</option><option value="5">5 ospiti</option><option value="6">6 ospiti</option><option value="7">7 ospiti</option><option value="8">8 ospiti</option></select></div>
+</div>
+<div class="quote" id="quoteBox"><div class="quote-status" id="quoteStatus">Seleziona le date</div><div class="quote-total" id="quoteTotal">—</div><div class="quote-detail" id="quoteDetail">Seleziona check-in e check-out per calcolare il totale.</div></div>
+<div class="request-actions"><a class="whatsapp-request" href="#" id="whatsappBooking" rel="noopener noreferrer" target="_blank">💬 Richiedi su WhatsApp</a></div>
+<div id="requestSaveStatus" style="margin-top:10px;font-size:13px;color:#63736f"></div>
+<p class="booking-disclaimer"><strong>Importante:</strong> la richiesta non costituisce prenotazione. Riceverai una conferma all’indirizzo email indicato solo dopo l’approvazione della struttura.</p>
+</div>
+</div></div></section>
+
+<section class="house-section" id="casa"><div class="wrap">
+<div class="section-head"><span class="eyebrow">Gli spazi di Civico 26</span><h2>La casa</h2><p>Scoprite Civico 26: tre camere, due bagni, cucina attrezzata, Wi‑Fi e spazi esterni, fino a 8 ospiti.</p></div>
+<div class="house-intro">
+<button class="house-hero gallery-item" data-caption="Civico 26" data-full="immagini/casa-principale.jpg" type="button"><img alt="Ingresso e corridoio di Civico 26" src="immagini/casa-principale.jpg" width="1086" height="1448" decoding="async" loading="lazy"><div class="house-hero-overlay"><h3>Civico 26</h3><p>Una casa nel cuore di Reggio Calabria.</p></div></button>
+<div class="house-facts">
+<div class="house-fact"><div class="fact-icon">🛏️</div><strong>3 camere</strong><span>Spazi comodi e luminosi</span></div><div class="house-fact"><div class="fact-icon">🚿</div><strong>2 bagni</strong><span>Entrambi completi</span></div><div class="house-fact"><div class="fact-icon">🍳</div><strong>Cucina attrezzata</strong><span>Con zona pranzo</span></div><div class="house-fact"><div class="fact-icon">🌿</div><strong>Balcone e veranda</strong><span>Piccoli spazi all'aperto</span></div><div class="house-fact"><div class="fact-icon">🛜</div><strong>Wi‑Fi</strong><span>Disponibile in appartamento</span></div><div class="house-fact"><div class="fact-icon">❄️</div><strong>Climatizzazione</strong><span>Nelle camere da letto</span></div>
+</div></div>
+<div class="structure-note"><strong>Cerchi un B&amp;B a Reggio Calabria centro?</strong> Civico 26 è una <strong>casa vacanze in appartamento</strong>, non un B&amp;B tradizionale: una soluzione per chi cerca dove dormire in centro con più spazio, cucina, tre camere e due bagni.</div>
+
+<details class="room-block room-accordion" open>
+<summary class="room-title"><div class="room-title-main"><h3>Camera Verde</h3><p>Camera matrimoniale con scrivania</p></div><div class="room-title-side"><span class="room-count">3 foto</span><span class="room-chevron" aria-hidden="true">⌄</span></div></summary>
+<div class="room-gallery">
+<button class="room-photo wide gallery-item" data-caption="Camera Verde" data-full="immagini/camera-verde-1.jpg" type="button"><img alt="Camera Verde di Civico 26, vista principale" src="immagini/camera-verde-1.jpg" loading="lazy"></button>
+<button class="room-photo small gallery-item" data-caption="Camera Verde" data-full="immagini/camera-verde-2.jpg" type="button"><img alt="Camera Verde di Civico 26, seconda vista" src="immagini/camera-verde-2.jpg" loading="lazy"></button>
+<button class="room-photo full gallery-item" data-caption="Camera Verde" data-full="immagini/camera-verde-3.jpg" type="button"><img alt="Camera Verde di Civico 26, terza vista" src="immagini/camera-verde-3.jpg" loading="lazy"></button>
+</div>
+</details>
+
+<details class="room-block room-accordion">
+<summary class="room-title"><div class="room-title-main"><h3>Camera Bianca</h3><p>Camera matrimoniale luminosa con scrivania</p></div><div class="room-title-side"><span class="room-count">1 foto</span><span class="room-chevron" aria-hidden="true">⌄</span></div></summary>
+<div class="room-gallery">
+<button class="room-photo full gallery-item" data-caption="Camera Bianca" data-full="immagini/camera-bianca-1.jpg" type="button"><img alt="Camera Bianca di Civico 26" src="immagini/camera-bianca-1.jpg" loading="lazy"></button>
+</div>
+</details>
+
+<details class="room-block room-accordion">
+<summary class="room-title"><div class="room-title-main"><h3>Camera Rossa</h3><p>Camera matrimoniale ampia con scrivania</p></div><div class="room-title-side"><span class="room-count">3 foto</span><span class="room-chevron" aria-hidden="true">⌄</span></div></summary>
+<div class="room-gallery">
+<button class="room-photo wide gallery-item" data-caption="Camera Rossa" data-full="immagini/camera-rossa-1.jpg" type="button"><img alt="Camera Rossa di Civico 26, vista principale" src="immagini/camera-rossa-1.jpg" loading="lazy"></button>
+<button class="room-photo small gallery-item" data-caption="Camera Rossa" data-full="immagini/camera-rossa-2.jpg" type="button"><img alt="Camera Rossa di Civico 26, seconda vista" src="immagini/camera-rossa-2.jpg" loading="lazy"></button>
+<button class="room-photo full gallery-item" data-caption="Camera Rossa" data-full="immagini/camera-rossa-3.jpg" type="button"><img alt="Scrivania della Camera Rossa di Civico 26" src="immagini/camera-rossa-3.jpg" loading="lazy"></button>
+</div>
+</details>
+
+<details class="room-block room-accordion">
+<summary class="room-title"><div class="room-title-main"><h3>Cucina</h3><p>Cucina attrezzata con zona pranzo</p></div><div class="room-title-side"><span class="room-count">1 foto</span><span class="room-chevron" aria-hidden="true">⌄</span></div></summary>
+<div class="room-gallery"><button class="room-photo full gallery-item" data-caption="Cucina" data-full="immagini/cucina.jpg" type="button"><img alt="Cucina attrezzata di Civico 26" src="immagini/cucina.jpg" loading="lazy"></button></div>
+</details>
+
+<details class="room-block room-accordion">
+<summary class="room-title"><div class="room-title-main"><h3>Bagni</h3><p>Due bagni completi</p></div><div class="room-title-side"><span class="room-count">2 foto</span><span class="room-chevron" aria-hidden="true">⌄</span></div></summary>
+<div class="room-gallery">
+<button class="room-photo half gallery-item" data-caption="Bagno 2" data-full="immagini/bagno-2.jpg" type="button"><img alt="Bagno 2 di Civico 26" src="immagini/bagno-2.jpg" loading="lazy"></button><button class="room-photo half gallery-item" data-caption="Bagno 1" data-full="immagini/bagno-1.jpg" type="button"><img alt="Bagno 1 di Civico 26" src="immagini/bagno-1.jpg" loading="lazy"></button>
+</div>
+</details>
+
+<details class="room-block room-accordion">
+<summary class="room-title"><div class="room-title-main"><h3>Balcone e veranda</h3><p>Due piccoli spazi all'aperto</p></div><div class="room-title-side"><span class="room-count">2 foto</span><span class="room-chevron" aria-hidden="true">⌄</span></div></summary>
+<div class="room-gallery">
+<button class="room-photo half gallery-item" data-caption="Balcone" data-full="immagini/balcone.jpg" type="button"><img alt="Balcone di Civico 26" src="immagini/balcone.jpg" loading="lazy"></button><button class="room-photo half gallery-item" data-caption="Veranda" data-full="immagini/veranda.jpg" type="button"><img alt="Veranda di Civico 26" src="immagini/veranda.jpg" loading="lazy"></button>
+</div>
+</details>
+</div></section>
+
+<section class="location-section" id="posizione"><div class="wrap">
+<div class="section-head"><span class="eyebrow">Nel cuore della città</span><h2>Casa vacanze nel centro di Reggio Calabria</h2><p>Una base comoda per vivere Reggio Calabria a piedi e raggiungere facilmente lo Stretto e la Costa Viola.</p></div>
+<div class="location-grid">
+<div class="location-copy"><p><strong>Civico 26 si trova in Via Caprera, nel centro di Reggio Calabria</strong>. La Stazione Centrale, Corso Garibaldi, il Lungomare Falcomatà e il centro storico sono facilmente raggiungibili a piedi.</p><p>Dalla Stazione Centrale è inoltre possibile raggiungere località della Costa Viola come Scilla e Bagnara. Per chi arriva in auto, nelle vicinanze sono presenti possibilità di sosta gratuita.</p><div class="location-links"><a class="maplink" href="posizione.html">Approfondisci posizione →</a><a class="maplink" href="parcheggio.html">Dove parcheggiare →</a><a class="maplink" href="mare.html">Mare e spiagge →</a></div>
