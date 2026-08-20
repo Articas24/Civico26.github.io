@@ -1,0 +1,7 @@
+
+document.addEventListener('DOMContentLoaded',()=>{
+ const items=[...document.querySelectorAll('.gallery-item')],box=document.getElementById('houseLightbox'),img=document.getElementById('lightboxImage'),cap=document.getElementById('lightboxCaption'),close=document.getElementById('lightboxClose'),prev=document.getElementById('lightboxPrev'),next=document.getElementById('lightboxNext');let current=0;
+ function openAt(i){if(!items.length)return;current=(i+items.length)%items.length;const el=items[current];img.src=el.dataset.full;const c=el.dataset.caption||'Foto Civico 26';img.alt=(document.documentElement.lang==='en'&&translations[c])?translations[c]:c;cap.textContent=(document.documentElement.lang==='en'&&translations[c])?translations[c]:c;box.classList.add('open');box.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
+ function shut(){box.classList.remove('open');box.setAttribute('aria-hidden','true');document.body.style.overflow=''}
+ items.forEach((el,i)=>el.addEventListener('click',()=>openAt(i)));close?.addEventListener('click',shut);prev?.addEventListener('click',()=>openAt(current-1));next?.addEventListener('click',()=>openAt(current+1));box?.addEventListener('click',e=>{if(e.target===box)shut()});document.addEventListener('keydown',e=>{if(!box.classList.contains('open'))return;if(e.key==='Escape')shut();if(e.key==='ArrowLeft')openAt(current-1);if(e.key==='ArrowRight')openAt(current+1)});
+});
