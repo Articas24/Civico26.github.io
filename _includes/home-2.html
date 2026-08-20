@@ -1,0 +1,18 @@
+<section class="booking-section" id="prenota"><div class="wrap">
+<div class="section-head"><span class="eyebrow">Prenotazione diretta</span><h2>Verifica disponibilità</h2><p>Consulta il calendario, seleziona le date e inviaci una richiesta. Controlleremo Booking e Airbnb prima di confermare il soggiorno.</p></div>
+<div class="booking-panel">
+<div class="calendar-box"><div class="calendar-head"><button id="calPrev" type="button">‹</button><div class="calendar-title" id="calendarTitle"></div><button id="calNext" type="button">›</button></div><div class="calendar-weekdays"><div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div></div><div class="calendar-grid" id="calendarGrid"></div><div class="calendar-legend"><span><i class="legend-dot legend-free"></i> Disponibile</span><span><i class="legend-dot legend-booked"></i> Non disponibile</span></div></div>
+<div class="request-box"><h3>Richiedi disponibilità</h3><div class="request-grid">
+<div class="full"><label for="bookName">Nome e cognome *</label><input id="bookName" type="text" autocomplete="name" maxlength="120" placeholder="Nome e cognome" required></div>
+<div><label for="bookEmail">Email *</label><input id="bookEmail" type="email" autocomplete="email" maxlength="254" placeholder="nome@email.it" required></div>
+<div><label for="bookPhone">Telefono / WhatsApp</label><input id="bookPhone" type="tel" autocomplete="tel" maxlength="40" placeholder="+39 ..."></div>
+<div><label for="bookCheckin">Check-in</label><input id="bookCheckin" type="date"></div>
+<div><label for="bookCheckout">Check-out</label><input id="bookCheckout" type="date"></div>
+<div class="full"><label for="bookGuests">Numero di ospiti</label><select id="bookGuests"><option value="1">1 ospite</option><option selected value="2">2 ospiti</option><option value="3">3 ospiti</option><option value="4">4 ospiti</option><option value="5">5 ospiti</option><option value="6">6 ospiti</option><option value="7">7 ospiti</option><option value="8">8 ospiti</option></select></div>
+</div>
+<div class="quote" id="quoteBox"><div class="quote-status" id="quoteStatus">Seleziona le date</div><div class="quote-total" id="quoteTotal">—</div><div class="quote-detail" id="quoteDetail">Seleziona check-in e check-out per calcolare il totale.</div></div>
+<div class="request-actions"><a class="whatsapp-request" href="#" id="whatsappBooking" rel="noopener noreferrer" target="_blank">💬 Richiedi su WhatsApp</a></div>
+<div id="requestSaveStatus" style="margin-top:10px;font-size:13px;color:#63736f"></div>
+<p class="booking-disclaimer"><strong>Importante:</strong> la richiesta non costituisce prenotazione. Riceverai una conferma all’indirizzo email indicato solo dopo l’approvazione della struttura.</p>
+</div>
+</div></div></section>
