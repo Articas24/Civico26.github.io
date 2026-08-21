@@ -143,7 +143,7 @@
 }
 @media(max-width:760px){
   .hero::before{
-    background:linear-gradient(180deg,rgba(7,23,19,.52) 0%,rgba(7,23,19,.57) 38%,rgba(7,23,19,.79) 72%,rgba(7,23,19,.9) 100%);
+    background:linear-gradient(180deg,rgba(7,23,19,.46) 0%,rgba(7,23,19,.54) 38%,rgba(7,23,19,.76) 72%,rgba(7,23,19,.9) 100%);
   }
   .hero::after{height:55%;background:linear-gradient(0deg,rgba(7,23,19,.48),transparent)}
   .hero .hero-grid{
@@ -171,12 +171,27 @@
     padding:15px;
     border-radius:18px;
   }
-  .hero-slide{object-position:center center}
-  .hero-slide[data-room="corridoio"]{object-position:center 46%}
-  .hero-slide[data-room="verde"]{object-position:center center}
-  .hero-slide[data-room="rossa"]{object-position:center 48%}
-  .hero-slide[data-room="cucina"]{object-position:center center}
-  .hero-slide[data-room="balcone"]{object-position:center 54%}
+
+  /* Mobile: show the full room photo instead of cropping it to the very tall hero. */
+  .hero-slides::before{
+    content:"";
+    position:absolute;
+    inset:-24px;
+    z-index:0;
+    background-image:var(--hero-mobile-backdrop);
+    background-size:cover;
+    background-position:center;
+    filter:blur(22px) brightness(.62) saturate(.9);
+    transform:scale(1.08);
+    opacity:.95;
+  }
+  .hero-slide,
+  .hero-slide.is-active{
+    z-index:1;
+    object-fit:contain;
+    object-position:center top;
+    transform:none!important;
+  }
 }
 @media(prefers-reduced-motion:reduce){
   .hero-slide{transition:opacity .15s linear;transform:none!important}
