@@ -1,0 +1,15 @@
+(()=>{
+'use strict';
+const q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)];
+const iconSrc=p=>p==='booking'?'https://cdn.simpleicons.org/bookingdotcom/003580':p==='airbnb'?'https://cdn.simpleicons.org/airbnb/FF5A5F':'';
+function styles(){if(q('#statsPolishStyles'))return;document.head.insertAdjacentHTML('beforeend',`<style id="statsPolishStyles">
+.ota-brand-icon{width:16px;height:16px;object-fit:contain;display:inline-block;vertical-align:-3px;margin-right:6px;flex:0 0 auto}.future-booking-card .badge .ota-brand-icon{width:14px;height:14px;margin-right:5px}.sync-brand-title{display:inline-flex!important;align-items:center;gap:2px}.sync-brand-title .ota-brand-icon{width:18px;height:18px}.hs-donut-pct{position:absolute;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%);padding:3px 6px;border-radius:999px;background:rgba(255,255,255,.94);box-shadow:0 2px 7px rgba(20,45,40,.12);font-size:9px;font-weight:900;color:var(--ink);white-space:nowrap;pointer-events:none}.hs-donut{overflow:visible}.hs-donut-center{pointer-events:none}
+</style>`)}
+function icon(p){const src=iconSrc(p);return src?`<img class="ota-brand-icon" src="${src}" alt="" aria-hidden="true">`:''}
+function enhanceFuture(){qa('#futureBookingsList .future-booking-card').forEach(card=>{if(card.dataset.brandDone)return;const badge=card.querySelector('.badge.sync');if(!badge)return;const txt=(badge.textContent||'').toLowerCase(),p=txt.includes('booking')?'booking':txt.includes('airbnb')?'airbnb':null;if(!p)return;badge.insertAdjacentHTML('afterbegin',icon(p));card.dataset.brandDone='1'})}
+function enhanceFeeds(){qa('#feedsList .item').forEach((card,i)=>{if(card.dataset.brandDone)return;const title=card.querySelector('strong');if(!title)return;const txt=(title.textContent||'').toLowerCase(),p=txt.includes('booking')?'booking':txt.includes('airbnb')?'airbnb':null;if(!p)return;title.classList.add('sync-brand-title');title.insertAdjacentHTML('afterbegin',icon(p));card.dataset.brandDone='1'})}
+function enhanceChannelDonut(){const donut=q('#hsChannels .hs-donut');if(!donut||donut.dataset.pctDone)return;const rows=qa('#hsChannels .hs-channel');let cursor=0;rows.forEach(row=>{const m=(row.querySelector('b')?.textContent||'').match(/(\d+(?:[.,]\d+)?)%/);if(!m)return;const p=Number(m[1].replace(',','.'));if(!p)return;const mid=cursor+p/2,rad=(mid/100*360-90)*Math.PI/180,r=55,x=Math.cos(rad)*r,y=Math.sin(rad)*r,label=document.createElement('span');label.className='hs-donut-pct';label.textContent=`${Math.round(p)}%`;label.style.marginLeft=`${x}px`;label.style.marginTop=`${y}px`;donut.appendChild(label);cursor+=p});donut.dataset.pctDone='1'}
+function run(){styles();enhanceFuture();enhanceFeeds();enhanceChannelDonut()}
+function boot(){run();const root=q('#adminView')||document.body;new MutationObserver(()=>requestAnimationFrame(run)).observe(root,{childList:true,subtree:true});document.addEventListener('click',e=>{if(e.target.closest('.navtab[data-section="futureSec"],.navtab[data-section="syncSec"],.navtab[data-section="statsSec"]'))setTimeout(run,120)})}
+boot();
+})();
