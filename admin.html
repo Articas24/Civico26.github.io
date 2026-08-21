@@ -37,6 +37,7 @@ input,select,textarea{width:100%;border:1px solid #d5e2dd;border-radius:11px;pad
 .price-card,.sync-card{margin-bottom:16px}.copybox{display:grid;grid-template-columns:1fr auto;gap:8px}.statusline{font-size:12px;margin-top:5px}.statusline.error{color:var(--red)}.statusline.ok{color:var(--green)}
 @media(max-width:880px){.grid{grid-template-columns:1fr}.admin-head{align-items:flex-start;flex-direction:column}}@media(max-width:580px){main{padding-top:18px}.card{padding:14px}.two,.three{grid-template-columns:1fr}.day{min-height:60px;padding:5px}.head{padding:10px 0}.logo{font-size:22px}.item{grid-template-columns:1fr}}
 </style>
+<link rel="stylesheet" href="admin-mobile.css?v=20260821-1544">
 </head>
 <body>
 <header><div class="wrap head"><div class="logo">Civico <span>26</span> · Admin</div><div class="top-actions"><a class="btn light" href="index.html">← Sito</a><button class="btn danger" id="logoutBtn" style="display:none">Esci</button></div></div></header>
@@ -145,7 +146,6 @@ async function deleteEntry(e){if(!confirm("Eliminare questo elemento?"))return;c
 
 $("priceForm").onsubmit=async e=>{e.preventDefault();const start=$("priceStart").value,inc=$("priceEnd").value,price=Number($("nightlyPrice").value);if(!start||!inc||inc<start||!Number.isFinite(price))return msg($("priceMsg"),"Controlla intervallo e prezzo.","error");const end=plusDays(inc,1);const {error}=await sb.rpc("set_price_range",{p_start:start,p_end:end,p_price:price,p_note:$("priceNote").value.trim()||null});if(error)return msg($("priceMsg"),"Tariffa non salvata: "+error.message,"error");$("priceForm").reset();msg($("priceMsg"),"Tariffa aggiornata.");await loadPrices();renderAll()};
 function renderPrices(){const l=$("priceList");l.innerHTML="";if(!prices.length){l.innerHTML='<div class="empty">Nessuna tariffa.</div>';return}prices.forEach(r=>{const d=document.createElement("div");d.className="item";d.innerHTML=`<div><strong>€ ${Number(r.nightly_price).toFixed(0)} / notte</strong><div class="meta">${fmt(r.start_date)} → ${fmt(plusDays(r.end_date,-1))}${r.note?" · "+r.note:""}</div></div><div class="row-actions"><button class="btn danger small">Elimina</button></div>`;d.querySelector("button").onclick=async()=>{if(!confirm("Eliminare questa tariffa? Le date interessate potrebbero restare senza prezzo."))return;const {error}=await sb.from("price_rules").delete().eq("id",r.id);if(error)return msg($("priceMsg"),"Eliminazione non riuscita.","error");await loadPrices();renderAll()};l.appendChild(d)})}
-
 
 function requestStatusLabel(s){return ({new:"Nuova",waiting:"In attesa",confirmed:"Confermata",rejected:"Rifiutata",cancelled:"Annullata"})[s]||s}
 function renderRequests(){
@@ -258,7 +258,6 @@ function renderFutureBookings(){
   });
 }
 
-
 async function confirmRequest(r){
   if(!confirm(`Confermare la richiesta ${r.request_code}? Le date verranno bloccate come prenotazione diretta.`))return;
   const {error}=await sb.rpc("confirm_booking_request",{p_request_id:r.id});
@@ -306,4 +305,5 @@ $("syncNow").onclick=async()=>{
 $("copyIcal").onclick=async()=>{await navigator.clipboard.writeText($("exportIcal").value);$("copyIcal").textContent="Copiato";setTimeout(()=>$("copyIcal").textContent="Copia",1500)};
 sb.auth.onAuthStateChange(()=>setTimeout(refreshAuth,0));refreshAuth();
 </script>
+<script src="admin-enhance.js?v=20260821-1544"></script>
 </body></html>
