@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   let timer=null;
   const show=index=>{
     current=(index+slides.length)%slides.length;
+    const src=slides[current].getAttribute('src');
+    if(src)hero.style.setProperty('--hero-mobile-backdrop',`url("${src}")`);
     slides.forEach((slide,i)=>slide.classList.toggle('is-active',i===current));
     dots.forEach((dot,i)=>{
       const active=i===current;
