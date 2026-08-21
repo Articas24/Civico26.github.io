@@ -50,12 +50,13 @@ img,svg,video,iframe{max-width:100%}
     line-height:1.1;
     font-weight:700;
   }
-  .navlinks a:not(.header-book):not(.pill){
-    border:1px solid #d8e2df;
-    background:#fff;
-    color:var(--ink);
+  .navlinks a:not(.header-book),
+  .navlinks .pill{
+    border:1px solid #cfe1dc;
+    background:#edf7f4;
+    color:var(--green);
+    box-shadow:0 2px 8px rgba(47,111,98,.05);
   }
-  .navlinks .pill{background:var(--green);color:#fff}
   .header-book{padding:7px 4px}
   section{scroll-margin-top:118px}
   .booking-strip,.calendar-box,.request-box,.room-block,.preview-card,.location-copy,.card{max-width:100%}
