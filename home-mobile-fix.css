@@ -2,6 +2,9 @@ html,body{max-width:100%;overflow-x:hidden}
 img,svg,video,iframe{max-width:100%}
 .nav>*,.hero-grid>*,.booking-panel>*,.booking-form>*,.request-grid>*,.house-intro>*,.house-facts>*,.room-gallery>*,.location-grid>*,.location-facts>*,.preview-card>*,.cards>*,.footer-grid>*{min-width:0}
 .calendar-grid,.calendar-weekdays,.cal-day{min-width:0}
+.wa-icon{width:1.15em;height:1.15em;display:inline-block;flex:0 0 auto;fill:currentColor;vertical-align:-.16em}
+.footer-wa{display:inline-flex;align-items:center;gap:7px}
+.mobile-bottom-nav .nav-ico .wa-icon{width:22px;height:22px;display:block;vertical-align:0}
 @media(max-width:760px){
   .nav{
     min-width:0;
@@ -17,9 +20,9 @@ img,svg,video,iframe{max-width:100%}
   .nav>.logo{grid-area:logo;font-size:23px}
   .lang-wrap{grid-area:lang;min-width:0;justify-self:end}
   .lang-select{
-    width:98px;
-    max-width:98px;
-    min-width:0;
+    width:118px;
+    max-width:118px;
+    min-width:118px;
     padding:7px 20px 7px 7px;
     font-size:12px;
   }
@@ -65,5 +68,5 @@ img,svg,video,iframe{max-width:100%}
   .navlinks a,
   .navlinks a:not(.header-book):not(.pill),
   .navlinks .pill{font-size:10px;padding:7px 2px}
-  .lang-select{width:92px;max-width:92px}
+  .lang-select{width:112px;max-width:112px;min-width:112px}
 }
