@@ -19,5 +19,5 @@ const oldRenderAll=renderAll;renderAll=function(){oldRenderAll();enhancedFuture(
 const oldRenderCalendar=renderCalendar;renderCalendar=function(){oldRenderCalendar();highlightRange()};
 const oldSelectBlockDate=selectBlockDate;selectBlockDate=function(k){oldSelectBlockDate(k);highlightRange()};
 renderFutureBookings=enhancedFuture;renderRequests=enhancedRequests;
-ensureDashboard();bindRange();setTimeout(()=>{if($('adminView')?.style.display!=='none')afterRender()},300);
+ensureDashboard();bindRange();setTimeout(()=>{if($('adminView')?.style.display!=='none'){enhancedFuture();enhancedRequests();afterRender()}},300);
 })();
