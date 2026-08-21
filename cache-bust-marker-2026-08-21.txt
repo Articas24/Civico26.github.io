@@ -1,1 +1,0 @@
-Force refresh of hero slideshow assets on mobile.
