@@ -59,6 +59,50 @@ img,svg,video,iframe{max-width:100%}
   .cal-day{overflow:hidden}
   .cal-price{overflow:hidden;text-overflow:ellipsis}
   .room-title,.room-title-main{min-width:0}
+
+  /* Hero mobile: slideshow only through CTA, booking box on white background */
+  .hero{background:#fff}
+  .hero .hero-grid{padding:26px 0 0!important}
+  .hero h1{
+    font-size:clamp(36px,10.6vw,46px)!important;
+    line-height:1!important;
+    margin:11px 0 11px!important;
+    max-width:12ch!important;
+  }
+  .hero p{font-size:14px!important;line-height:1.5!important;margin:0}
+  .hero .actions{margin-top:15px!important;gap:9px}
+  .hero .btn{padding:10px 12px!important;font-size:13px!important;flex:1 1 0}
+  .hero-slideshow-controls{margin:12px 0 0!important;padding-bottom:18px}
+  .hero .booking-strip{
+    position:relative;
+    z-index:3;
+    margin-top:0!important;
+    margin-bottom:0;
+    padding:13px 14px 12px!important;
+    border-radius:20px 20px 0 0!important;
+    border-color:#e4ebe8!important;
+    box-shadow:none!important;
+    background:#fff!important;
+  }
+  .hero .booking-strip::before{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    top:-18px;
+    left:50%;
+    width:100vw;
+    height:calc(100% + 36px);
+    transform:translateX(-50%);
+    background:#fff;
+    pointer-events:none;
+  }
+  .hero .booking-strip-title{margin-bottom:10px;gap:8px}
+  .hero .booking-strip-title strong{font-size:17px;line-height:1.15}
+  .hero .booking-badge{font-size:10px;padding:5px 7px}
+  .hero .booking-field label{font-size:11px;margin-bottom:3px}
+  .hero .booking-field input,.hero .booking-field select{padding:9px 9px;font-size:13px}
+  .hero .booking-go{padding:10px 13px;font-size:13px}
+  .hero .booking-note{font-size:10.5px;line-height:1.35;margin-top:8px}
 }
 @media(max-width:360px){
   .navlinks{gap:4px}
@@ -66,4 +110,6 @@ img,svg,video,iframe{max-width:100%}
   .navlinks a:not(.header-book):not(.pill),
   .navlinks .pill{font-size:10px;padding:7px 2px}
   .lang-select{width:92px;max-width:92px}
+  .hero h1{font-size:35px!important}
+  .hero .btn{font-size:12px!important;padding:9px 8px!important}
 }
