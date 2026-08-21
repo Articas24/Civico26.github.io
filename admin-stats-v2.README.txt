@@ -1,0 +1,1 @@
+Statistiche v2: vista per anno, mese o intervallo personalizzato; confronto per stesso periodo, anno, mese o intervalli personalizzati. ADR netto = lordo - commissioni - IVA servizi - costi transazione - cedolare, diviso per le notti economiche disponibili.
