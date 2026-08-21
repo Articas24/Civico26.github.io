@@ -1,0 +1,11 @@
+@media(max-width:760px){
+  .hero-slide,
+  .hero-slide.is-active{
+    transform:scale(1.13)!important;
+    transform-origin:center top;
+  }
+  .hero-slide[data-room="verde"],
+  .hero-slide[data-room="verde"].is-active{
+    transform:scale(1.22)!important;
+  }
+}
