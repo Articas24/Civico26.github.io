@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Aggiornamento admin · Civico 26</title>
+<style>body{font-family:system-ui,sans-serif;background:#f7faf8;color:#16302b;display:grid;place-items:center;min-height:100vh;margin:0;padding:24px}.box{max-width:520px;background:#fff;border:1px solid #e2ebe7;border-radius:18px;padding:24px;text-align:center}h1{font-size:24px}p{color:#63736f;line-height:1.5}</style>
+</head>
+<body>
+<div class="box"><h1>Aggiornamento admin</h1><p id="status">Caricamento della versione più recente…</p></div>
+<script>
+(async()=>{
+  const files=[
+    'admin-enhance.js?v=20260821-1544',
+    'admin-stats-history.js?v=20260821-2050',
+    'admin-stats-v2.js?v=20260822-0142',
+    'admin-stats-input-fix.js?v=20260822-0142',
+    'admin-stats-v2-polish.js?v=20260822-0142'
+  ];
+  try{
+    for(const file of files){
+      const r=await fetch(file,{cache:'reload'});
+      if(!r.ok)throw new Error(file+' HTTP '+r.status);
+      await r.text();
+    }
+    document.getElementById('status').textContent='Aggiornamento completato. Apertura admin…';
+    location.replace('admin.html?fresh=20260822-0148');
+  }catch(e){
+    document.getElementById('status').textContent='Aggiornamento non riuscito. Ricarica questa pagina.';
+    console.error(e);
+  }
+})();
+</script>
+</body>
+</html>
