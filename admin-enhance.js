@@ -59,4 +59,5 @@ renderFutureBookings=enhancedFuture;renderRequests=enhancedRequests;
 const oldRenderFeeds=renderFeeds;renderFeeds=function(){oldRenderFeeds();enhanceFeeds();ensureSyncOrder();renderDashboard()};
 injectExtraStyles();ensureDashboard();ensureModal();ensureFutureFilters();ensureCalendarActions();ensureStatsSection();ensureSyncOrder();setTimeout(()=>{if($('adminView')?.style.display!=='none'){enhancedFuture();enhancedRequests();afterRender()}},300);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBookingModal()});
+const hs=document.createElement('script');hs.src='admin-stats-history.js?v=20260821-1735';hs.defer=true;document.head.appendChild(hs);
 })();
