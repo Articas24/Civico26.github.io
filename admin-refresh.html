@@ -15,6 +15,7 @@
     'admin-enhance.js?v=20260821-1544',
     'admin-stats-history.js?v=20260821-2050',
     'admin-ui-polish.css?v=20260822-1145',
+    'admin-ui-app.css?v=20260822-1158',
     'admin-stats-v2.js?v=20260822-0308',
     'admin-stats-input-fix.js?v=20260822-0308',
     'admin-stats-v2-polish.js?v=20260822-0308',
@@ -34,7 +35,7 @@
       await r.text();
     }
     document.getElementById('status').textContent='Aggiornamento completato. Apertura admin…';
-    location.replace('admin.html?fresh=20260822-1145');
+    location.replace('admin.html?fresh=20260822-1158');
   }catch(e){
     document.getElementById('status').textContent='Aggiornamento non riuscito. Ricarica questa pagina.';
     console.error(e);
