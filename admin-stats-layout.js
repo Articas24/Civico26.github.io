@@ -11,6 +11,13 @@ function styles(){
 #statsSec .sv-chart-toggle input{flex:0 0 auto!important}
 #statsSec .sv-chart-toggle .sv-toggle-dot{flex:0 0 auto!important}
 #statsSec .sv-card,#statsSec .sv-grid,#statsSec .sv-grid>.sv-card{min-width:0!important}
+#statsSec .sv-occ-selectable{cursor:pointer;border-radius:10px;transition:transform .15s ease,background .15s ease}
+#statsSec .sv-occ-selectable:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+#statsSec .sv-occ-selectable.sv-occ-selected{background:#f1f7f4;transform:translateY(-1px)}
+#statsSec .sv-occ-selectable.sv-occ-selected .sv-track{outline:2px solid var(--green);outline-offset:2px}
+#statsSec .sv-occ-detail{margin-top:12px;padding:11px 13px;border:1px solid #cfe1da;border-radius:13px;background:#f5faf8;display:flex;align-items:center;justify-content:space-between;gap:12px}
+#statsSec .sv-occ-detail strong{font-size:13px;color:var(--ink)}
+#statsSec .sv-occ-detail span{font-size:11px;color:var(--muted);white-space:nowrap}
 @media(max-width:760px){
   #statsSec .sv-chart-controls{gap:4px!important}
   #statsSec .sv-chart-toggle{padding:6px 3px!important;font-size:8.3px!important;gap:3px!important}
@@ -35,6 +42,9 @@ function styles(){
   #statsSec .sv-mobile-occ-legend .occ{background:var(--green)}
   #statsSec .sv-mobile-occ-legend .free{background:#eef4f2;border:1px solid var(--line)}
   #statsSec .sv-mobile-occ-legend .blocked{background:#fff1dc;border:1px solid #e4b881}
+  #statsSec .sv-occ-detail{align-items:flex-start;flex-direction:column;gap:2px}
+  #statsSec .sv-occ-detail strong{font-size:12px}
+  #statsSec .sv-occ-detail span{font-size:10px;white-space:normal}
 }
 </style>`);
 }
@@ -75,6 +85,34 @@ function occupancyCard(){
   return qa('#statsSec .sv-card').find(card=>(card.querySelector('h2')?.textContent||'').trim()==='Occupazione nel periodo')||null;
 }
 
+function monthlyOccupancyDetails(){
+  const card=occupancyCard(),chart=card?.querySelector('.sv-chart');
+  if(!card||!chart||chart.style.display==='none')return;
+  const cols=[...chart.querySelectorAll('.sv-barcol')].filter(col=>/(\d+)\s+notti\s+su\s+(\d+)/i.test(col.getAttribute('title')||''));
+  if(!cols.length){card.querySelector('.sv-occ-detail')?.remove();return}
+  cols.forEach(col=>{
+    if(col.dataset.occTapReady)return;
+    col.dataset.occTapReady='1';
+    col.classList.add('sv-occ-selectable');
+    col.setAttribute('role','button');
+    col.setAttribute('tabindex','0');
+    col.setAttribute('aria-label',`${col.querySelector('.sv-label')?.textContent||'Mese'}: ${col.getAttribute('title')||''}`);
+    const open=()=>{
+      const match=(col.getAttribute('title')||'').match(/(\d+)\s+notti\s+su\s+(\d+)/i);
+      if(!match)return;
+      const occupied=Number(match[1]),sellable=Number(match[2]);
+      const label=(col.querySelector('.sv-label')?.textContent||'Mese').trim();
+      const percent=(col.querySelector('.sv-value')?.textContent||'').trim()||`${sellable?Math.round(occupied/sellable*100):0}%`;
+      cols.forEach(x=>x.classList.toggle('sv-occ-selected',x===col));
+      let detail=card.querySelector('.sv-occ-detail');
+      if(!detail){detail=document.createElement('div');detail.className='sv-occ-detail';chart.insertAdjacentElement('afterend',detail)}
+      detail.innerHTML=`<strong>${label}: ${occupied} notti occupate su ${sellable} vendibili</strong><span>${percent} di occupazione</span>`;
+    };
+    col.addEventListener('click',open);
+    col.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}});
+  });
+}
+
 function mobileOccupancy(){
   const card=occupancyCard();
   if(!card)return;
@@ -83,6 +121,7 @@ function mobileOccupancy(){
   const mobile=window.matchMedia('(max-width:760px)').matches;
   const monthMode=q('#svMode')?.value==='month';
   if(!mobile||!monthMode){if(old)old.remove();if(chart)chart.style.display='';return}
+  card.querySelector('.sv-occ-detail')?.remove();
   if(!chart)return;
   const cols=[...chart.querySelectorAll('.sv-barcol')];
   if(!cols.length)return;
@@ -116,7 +155,7 @@ function mobileChannels(){
   const donut=card.querySelector('.sv-donut');if(donut){donut.style.marginLeft='auto';donut.style.marginRight='auto'}
 }
 
-function run(){styles();reorder();shortenCommissionLabel();mobileOccupancy();mobileChannels()}
+function run(){styles();reorder();shortenCommissionLabel();mobileOccupancy();monthlyOccupancyDetails();mobileChannels()}
 
 function boot(){
   run();
