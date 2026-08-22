@@ -11,7 +11,9 @@ load('admin-stats-v2.js?v=20260822-0308',()=>
         load('admin-stats-econ-detail.js?v=20260822-0308',()=>
           load('admin-stats-ui-fixes.js?v=20260822-0308',()=>
             load('admin-stats-stay-finance.js?v=20260822-0308',()=>
-              load('admin-admin-next.js?v=20260822-1305')
+              load('admin-admin-next.js?v=20260822-1305',()=>
+                load('admin-admin-next-fixes.js?v=20260822-1348')
+              )
             )
           )
         )
