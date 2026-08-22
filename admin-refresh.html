@@ -12,15 +12,13 @@
 <script>
 (async()=>{
   const files=[
-    // Questi due URL sono quelli richiesti ancora oggi da admin.html/admin-enhance.js:
-    // li ricarichiamo esplicitamente per sostituire eventuali copie vecchie nella cache HTTP.
     'admin-enhance.js?v=20260821-1544',
     'admin-stats-history.js?v=20260821-2050',
-    // Catena statistiche corrente.
-    'admin-stats-v2.js?v=20260822-0226',
-    'admin-stats-input-fix.js?v=20260822-0226',
-    'admin-stats-v2-polish.js?v=20260822-0226',
-    'admin-stats-layout.js?v=20260822-0226'
+    'admin-stats-v2.js?v=20260822-0240',
+    'admin-stats-input-fix.js?v=20260822-0240',
+    'admin-stats-v2-polish.js?v=20260822-0240',
+    'admin-stats-layout.js?v=20260822-0240',
+    'admin-stats-econ-detail.js?v=20260822-0240'
   ];
   try{
     if('caches' in window){
@@ -33,7 +31,7 @@
       await r.text();
     }
     document.getElementById('status').textContent='Aggiornamento completato. Apertura admin…';
-    location.replace('admin.html?fresh=20260822-0234');
+    location.replace('admin.html?fresh=20260822-0240');
   }catch(e){
     document.getElementById('status').textContent='Aggiornamento non riuscito. Ricarica questa pagina.';
     console.error(e);
