@@ -25,7 +25,8 @@
     'admin-stats-stay-finance.js?v=20260822-0308',
     'admin-admin-next.js?v=20260822-1305',
     'admin-admin-next-fixes.js?v=20260822-1348',
-    'admin-compare-chart-view.js?v=20260822-1406'
+    'admin-compare-chart-view.js?v=20260822-1406',
+    'admin-future-sync-polish.js?v=20260822-1410'
   ];
   try{
     if('caches' in window){
@@ -38,7 +39,7 @@
       await r.text();
     }
     document.getElementById('status').textContent='Aggiornamento completato. Apertura admin…';
-    location.replace('admin.html?fresh=20260822-1406');
+    location.replace('admin.html?fresh=20260822-1410');
   }catch(e){
     document.getElementById('status').textContent='Aggiornamento non riuscito. Ricarica questa pagina.';
     console.error(e);
