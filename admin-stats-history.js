@@ -15,7 +15,7 @@ load('admin-stats-v2.js?v=20260822-0308',()=>
                 load('admin-admin-next-fixes.js?v=20260822-1348',()=>
                   load('admin-compare-chart-view.js?v=20260822-1406',()=>
                     load('admin-future-sync-polish.js?v=20260822-1410',()=>
-                      load('admin-ai.js?v=20260823-0115')
+                      load('admin-ai.js?v=20260823-0143')
                     )
                   )
                 )
