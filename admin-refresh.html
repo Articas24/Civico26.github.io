@@ -14,12 +14,12 @@
   const files=[
     'admin-enhance.js?v=20260821-1544',
     'admin-stats-history.js?v=20260821-2050',
-    'admin-stats-v2.js?v=20260822-0244',
-    'admin-stats-input-fix.js?v=20260822-0244',
-    'admin-stats-v2-polish.js?v=20260822-0244',
-    'admin-stats-layout.js?v=20260822-0244',
-    'admin-stats-econ-detail.js?v=20260822-0244',
-    'admin-stats-econ-toggle.js?v=20260822-0244'
+    'admin-stats-v2.js?v=20260822-0251',
+    'admin-stats-input-fix.js?v=20260822-0251',
+    'admin-stats-v2-polish.js?v=20260822-0251',
+    'admin-stats-layout.js?v=20260822-0251',
+    'admin-stats-econ-detail.js?v=20260822-0251',
+    'admin-stats-ui-fixes.js?v=20260822-0251'
   ];
   try{
     if('caches' in window){
@@ -32,7 +32,7 @@
       await r.text();
     }
     document.getElementById('status').textContent='Aggiornamento completato. Apertura admin…';
-    location.replace('admin.html?fresh=20260822-0244');
+    location.replace('admin.html?fresh=20260822-0251');
   }catch(e){
     document.getElementById('status').textContent='Aggiornamento non riuscito. Ricarica questa pagina.';
     console.error(e);
