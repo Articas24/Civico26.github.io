@@ -15,10 +15,8 @@ load('admin-stats-v2.js?v=20260822-0308',()=>
                 load('admin-admin-next-fixes.js?v=20260822-1348',()=>
                   load('admin-compare-chart-view.js?v=20260822-1406',()=>
                     load('admin-future-sync-polish.js?v=20260822-1410',()=>
-                      load('admin-stats-finance-truth.js?v=20260823-0248',()=>
-                        load('admin-stats-accrual.js?v=20260823-0312',()=>
-                          load('admin-ai.js?v=20260823-0248')
-                        )
+                      load('admin-stats-accrual.js?v=20260823-0318',()=>
+                        load('admin-ai.js?v=20260823-0248')
                       )
                     )
                   )
