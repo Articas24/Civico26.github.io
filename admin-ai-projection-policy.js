@@ -3,6 +3,7 @@
 if(window.__civicoAIProjectionPolicy)return;window.__civicoAIProjectionPolicy=true;
 if(!document.querySelector('script[data-civico-report-import]')){const s=document.createElement('script');s.src='admin-import.js?v=20260823-1133';s.defer=true;s.dataset.civicoReportImport='1';document.head.appendChild(s)}
 const nativeFetch=window.fetch.bind(window);
+let autoFollowQuick=false,chatObserver=null;
 const POLICY=`POLITICA DI PROIEZIONE ECONOMICA PER LE NOTTI PRENOTATE SENZA IMPORTO:
 1) Lavora mese per mese, mai usando automaticamente l'ADR dell'ultimo mese disponibile per tutti i mesi futuri.
 2) Se il mese target ha già notti contabilizzate, usa SEMPRE l'ADR lordo e netto consuntivo di QUEL MESE: futuro lordo stimato = adr_gross_consuntivo del mese × notti del mese non ancora contabilizzate; futuro netto stimato = adr_net_consuntivo del mese × notti del mese non ancora contabilizzate.
@@ -46,12 +47,33 @@ const QUICK=[
  ['Qual è il mio guadagno medio netto mensile?','Qual è il mio guadagno medio netto mensile? Dammi subito il valore. Calcolalo con finance.net_final sui mesi economicamente completi o consolidati disponibili, escludendo mesi parziali/non ancora contabilizzati. Specifica periodo, numero di mesi usati e formula della media. Se utile, aggiungi separatamente una media dell’anno in corso senza confonderla con quella storica.'],
  ['Dammi 3 consigli tariffari basati sui dati interni','Dammi 3 consigli tariffari basati sui dati interni. Dammi subito i tre consigli, poi spiegali. Usa soltanto stagionalità, ADR reale, occupazione, lead time, andamento delle prenotazioni, date future libere/prenotate e tariffe interne. Ogni consiglio deve essere concreto, riferito a periodi/date quando i dati lo permettono e motivato con numeri.']
 ];
+function scrollToChat(){
+ const chat=document.querySelector('#aiChat');if(!chat)return;
+ const top=Math.max(0,chat.getBoundingClientRect().top+window.scrollY-78);
+ window.scrollTo({top,behavior:'smooth'});
+}
+function installAutoFollow(){
+ const chat=document.querySelector('#aiChat');if(!chat||chatObserver)return;
+ chatObserver=new MutationObserver(()=>{
+  if(!autoFollowQuick)return;
+  const msgs=[...chat.querySelectorAll('.ai-msg.assistant')];
+  const last=msgs[msgs.length-1];
+  if(!last||last.classList.contains('loading')||last.classList.contains('ai-error-card'))return;
+  autoFollowQuick=false;
+  requestAnimationFrame(()=>{
+   const top=Math.max(0,last.getBoundingClientRect().top+window.scrollY-78);
+   window.scrollTo({top,behavior:'smooth'});
+  });
+ });
+ chatObserver.observe(chat,{childList:true,subtree:true});
+}
 function installQuick(){
  const side=document.querySelector('#aiSec .ai-side'),input=document.querySelector('#aiInput'),form=document.querySelector('#aiForm');if(!side||!input||!form)return false;
+ installAutoFollow();
  const h=side.querySelector('h2');if(h)h.textContent='Domande utili';const p=side.querySelector(':scope > p');if(p)p.textContent='Sei domande essenziali per leggere subito andamento, redditività e prezzi.';
  side.querySelectorAll('.ai-qgroup,.ai-smart-prompts').forEach(x=>x.remove());
  const wrap=document.createElement('div');wrap.className='ai-smart-prompts';
- QUICK.forEach(([label,prompt],i)=>{const b=document.createElement('button');b.type='button';b.className='ai-prompt ai-smart-prompt';b.textContent=`${i+1}) ${label}`;b.onclick=()=>{input.value=prompt;form.requestSubmit()};wrap.appendChild(b)});
+ QUICK.forEach(([label,prompt],i)=>{const b=document.createElement('button');b.type='button';b.className='ai-prompt ai-smart-prompt';b.textContent=`${i+1}) ${label}`;b.onclick=()=>{autoFollowQuick=true;input.value=prompt;form.requestSubmit();requestAnimationFrame(scrollToChat)};wrap.appendChild(b)});
  const scope=side.querySelector('.ai-scope');if(scope)side.insertBefore(wrap,scope);else side.appendChild(wrap);
  if(!document.querySelector('#aiSmartStyles'))document.head.insertAdjacentHTML('beforeend',`<style id="aiSmartStyles">
 .ai-smart-prompts{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0 15px}.ai-smart-prompt{font-size:11px!important;line-height:1.35!important;padding:11px 12px!important}.ai-answer h3:first-child{font-family:Heebo,system-ui,sans-serif!important;font-size:10px!important;font-weight:900!important;letter-spacing:.08em!important;text-transform:uppercase!important;color:var(--ai-green)!important;margin:0 0 6px!important}.ai-answer h3:first-child+p{background:#edf8f3;border:1px solid #cfe2db;border-radius:12px;padding:11px 12px;font-size:14px!important;font-weight:800;line-height:1.5!important;margin-bottom:14px!important}.ai-answer h4{margin-top:14px!important}@media(max-width:560px){.ai-smart-prompt{font-size:10.8px!important}}
