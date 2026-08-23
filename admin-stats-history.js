@@ -16,8 +16,8 @@ load('admin-stats-v2.js?v=20260822-0308',()=>
                   load('admin-compare-chart-view.js?v=20260822-1406',()=>
                     load('admin-future-sync-polish.js?v=20260822-1410',()=>
                       load('admin-stats-accrual.js?v=20260823-0915',()=>
-                        load('admin-stats-adr-projection.js?v=20260823-0915',()=>
-                          load('admin-ai-projection-policy.js?v=20260823-0915',()=>
+                        load('admin-stats-adr-projection.js?v=20260823-1018',()=>
+                          load('admin-ai-projection-policy.js?v=20260823-1018',()=>
                             load('admin-ai.js?v=20260823-0915')
                           )
                         )
