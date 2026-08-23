@@ -19,8 +19,10 @@ load('admin-stats-v2.js?v=20260822-0308',()=>
                         load('admin-stats-adr-projection.js?v=20260823-1018',()=>
                           load('admin-import.js?v=20260823-1133',()=>
                             load('admin-ai-insights.js?v=20260823-1715',()=>
-                              load('admin-ai-projection-policy.js?v=20260823-1606',()=>
-                                load('admin-ai.js?v=20260823-0915')
+                              load('admin-ai-insights-bridge.js?v=20260823-1725',()=>
+                                load('admin-ai-projection-policy.js?v=20260823-1606',()=>
+                                  load('admin-ai.js?v=20260823-0915')
+                                )
                               )
                             )
                           )
