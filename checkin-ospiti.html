@@ -8,10 +8,15 @@
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <title>Pre-check-in | Civico 26</title>
+<script>
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+window.addEventListener('pageshow',()=>requestAnimationFrame(()=>window.scrollTo(0,0)));
+window.addEventListener('load',()=>requestAnimationFrame(()=>window.scrollTo(0,0)));
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="precheckin.css?v=20260824-1718">
+<link rel="stylesheet" href="precheckin.css?v=20260824-2035">
 </head>
 <body>
 <div class="wrap">
@@ -34,6 +39,6 @@
 <section id="done" class="card done" hidden><div class="check">✓</div><h2 data-i="doneTitle">Pre-check-in completato</h2><p data-i="doneText">Grazie. I dati sono stati ricevuti correttamente. Non devi fare altro.</p></section>
 <section id="fatal" class="card done" hidden><h2 data-i="errorTitle">Link non disponibile</h2><p id="fatalText"></p></section>
 </div>
-<script src="precheckin-v2.js?v=20260824-1718"></script>
+<script src="precheckin-v2.js?v=20260824-2035"></script>
 </body>
 </html>
