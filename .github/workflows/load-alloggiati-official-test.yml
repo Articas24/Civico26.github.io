@@ -1,0 +1,29 @@
+name: Load Alloggiati official test UI
+on:
+  push:
+    paths:
+      - '.github/workflows/load-alloggiati-official-test.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inject script
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('admin.html')
+          s=p.read_text()
+          tag='<script src="admin-alloggiati-official-test.js?v=20260824-1750"></script>'
+          if tag not in s:
+              s=s.replace('</body></html>',tag+'\n</body></html>')
+          p.write_text(s)
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add admin.html
+          git commit -m 'Load official Alloggiati no-send test UI'
+          git push
