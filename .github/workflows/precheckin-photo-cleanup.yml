@@ -1,5 +1,8 @@
 name: Pre-check-in photo cleanup
 on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/precheckin-photo-cleanup.yml']
   schedule:
     - cron: '*/15 * * * *'
   workflow_dispatch:
