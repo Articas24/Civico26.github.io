@@ -15,6 +15,7 @@
     'admin-enhance.js?v=20260821-1544',
     'admin-stats-history.js?v=20260821-2050',
     'admin-stats-history.js?v=20260823-2305',
+    'admin-stats-history.js?v=20260824-1145',
     'admin-ui-polish.css?v=20260822-1145',
     'admin-top-summary.css?v=20260822-1248',
     'admin-stats-v2.js?v=20260822-0308',
@@ -32,6 +33,7 @@
     'admin-stats-adr-projection.js?v=20260823-1018',
     'admin-import.js?v=20260823-1133',
     'admin-outlook-sync.js?v=20260823-2305',
+    'admin-outlook-sync.js?v=20260824-1145',
     'admin-ai-insights.js?v=20260823-1738',
     'admin-market-intelligence.js?v=20260823-1835',
     'admin-ai-insights-bridge.js?v=20260823-1725',
@@ -42,7 +44,7 @@
     if('caches' in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)))}
     for(const file of files){const r=await fetch(file,{cache:'reload'});if(!r.ok)throw new Error(file+' HTTP '+r.status);await r.text()}
     document.getElementById('status').textContent='Aggiornamento completato. Apertura admin…';
-    location.replace('admin.html?fresh=20260823-2310');
+    location.replace('admin.html?fresh=20260824-1145');
   }catch(e){document.getElementById('status').textContent='Aggiornamento non riuscito. Ricarica questa pagina.';console.error(e)}
 })();
 </script>
