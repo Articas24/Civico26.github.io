@@ -43,5 +43,5 @@ load('admin-stats-v2.js?v=20260822-0308',()=>
     )
   )
 );
-load('admin-final-fixes.js?v=20260824-1311');
+load('admin-final-fixes-v2.js?v=20260824-1325');
 })();
