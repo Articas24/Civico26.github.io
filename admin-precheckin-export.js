@@ -2,7 +2,7 @@
 'use strict';
 if(window.__civicoPrecheckinExport)return;window.__civicoPrecheckinExport=true;
 const API='https://wfhdtwzpjcaicxdrphcu.supabase.co/functions/v1/precheckin';
-const EXPORT_API='https://wfhdtwzpjcaicxdrphcu.supabase.co/functions/v1/precheckin-export';
+const EXPORT_API='https://wfhdtwzpjcaicxdrphcu.supabase.co/functions/v1/precheckin-export-v2';
 const KEY='sb_publishable_3SGl7pKrqv_uT8GIW2N8RA_Xook19Uh';
 let currentEntryId=null,working=false,injecting=false;
 const q=s=>document.querySelector(s);
