@@ -1,0 +1,20 @@
+name: Pre-check-in photo cleanup
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Purge expired private document photos
+        run: |
+          curl -sS -X POST \
+            'https://wfhdtwzpjcaicxdrphcu.supabase.co/functions/v1/precheckin' \
+            -H 'Content-Type: application/json' \
+            -H 'apikey: sb_publishable_3SGl7pKrqv_uT8GIW2N8RA_Xook19Uh' \
+            --data '{"action":"get","token":"scheduled-photo-cleanup-token-00000000000000000000000000000000"}' \
+            >/dev/null
