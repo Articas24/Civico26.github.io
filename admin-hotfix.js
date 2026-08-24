@@ -16,4 +16,11 @@ if(!document.querySelector('script[data-civico-precheckin-link-fix]')){
   p.dataset.civicoPrecheckinLinkFix='1';
   document.head.appendChild(p);
 }
+if(!document.querySelector('script[data-civico-precheckin-dates]')){
+  const d=document.createElement('script');
+  d.src='admin-precheckin-dates.js?v=20260824-2238';
+  d.defer=true;
+  d.dataset.civicoPrecheckinDates='1';
+  document.head.appendChild(d);
+}
 })();
