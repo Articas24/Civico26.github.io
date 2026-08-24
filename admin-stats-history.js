@@ -23,7 +23,9 @@ load('admin-stats-v2.js?v=20260822-0308',()=>
                                 load('admin-market-intelligence.js?v=20260823-1835',()=>
                                   load('admin-ai-insights-bridge.js?v=20260823-1725',()=>
                                     load('admin-ai-projection-policy.js?v=20260823-1606',()=>
-                                      load('admin-ai.js?v=20260823-0915')
+                                      load('admin-ai.js?v=20260823-0915',()=>
+                                        load('admin-final-fixes-v3.js?v=20260824-1345')
+                                      )
                                     )
                                   )
                                 )
@@ -43,5 +45,4 @@ load('admin-stats-v2.js?v=20260822-0308',()=>
     )
   )
 );
-load('admin-final-fixes-v2.js?v=20260824-1325');
 })();
