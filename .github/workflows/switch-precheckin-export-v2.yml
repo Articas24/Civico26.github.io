@@ -1,0 +1,31 @@
+name: Switch pre-check-in export v2
+on:
+  push:
+    paths:
+      - '.github/workflows/switch-precheckin-export-v2.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Switch endpoint and bump cache
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('admin-precheckin-export.js')
+          s=p.read_text().replace('/functions/v1/precheckin-export\';','/functions/v1/precheckin-export-v2\';')
+          p.write_text(s)
+          h=Path('admin.html')
+          x=h.read_text()
+          import re
+          x=re.sub(r'admin-precheckin-export\.js\?v=[0-9-]+','admin-precheckin-export.js?v=20260824-1755',x)
+          h.write_text(x)
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add admin-precheckin-export.js admin.html
+          git commit -m 'Use corrected ROSS1000 export endpoint'
+          git push
