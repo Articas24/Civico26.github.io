@@ -1,0 +1,32 @@
+name: Fix duplicated pre-check-in export block
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-precheckin-duplicate.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prevent concurrent export injection
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('admin-precheckin-export.js')
+          s=p.read_text()
+          s=s.replace("let currentEntryId=null,working=false;","let currentEntryId=null,working=false,injecting=false;")
+          s=s.replace("async function inject(){const body=q('#pcModalBody');if(!body||!q('#pcModal.open')||!currentEntryId||q('#pcExportBox'))return;try{","async function inject(){const body=q('#pcModalBody');if(!body||!q('#pcModal.open')||!currentEntryId||q('#pcExportBox')||injecting)return;injecting=true;try{")
+          s=s.replace("}catch(e){console.warn('Pre-check-in export UI:',e)}}\ndocument.addEventListener", "}catch(e){console.warn('Pre-check-in export UI:',e)}finally{injecting=false}}\ndocument.addEventListener")
+          p.write_text(s)
+          h=Path('admin.html')
+          x=h.read_text().replace('admin-precheckin-export.js?v=20260824-1726','admin-precheckin-export.js?v=20260824-1736')
+          h.write_text(x)
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add admin-precheckin-export.js admin.html
+          git commit -m 'Prevent duplicate pre-check-in export controls'
+          git push
