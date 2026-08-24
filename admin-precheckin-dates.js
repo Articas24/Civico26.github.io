@@ -3,6 +3,7 @@
 if(window.__civicoPrecheckinDates)return;window.__civicoPrecheckinDates=true;
 const API='https://wfhdtwzpjcaicxdrphcu.supabase.co/functions/v1/precheckin';
 const KEY='sb_publishable_3SGl7pKrqv_uT8GIW2N8RA_Xook19Uh';
+const FORM_URL='https://www.civico26reggiocalabria.it/checkin-ospiti.html';
 const q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)];
 const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ISO=/^\d{4}-\d{2}-\d{2}$/;
@@ -73,12 +74,12 @@ async function generate(card,btn){
   try{
     const d=await post({action:'create',calendar_entry_id:id,checkin_date:start,checkout_date:end});
     saved.set(id,{...(saved.get(id)||{}),...(d.session||{}),calendar_entry_id:id,checkin_date:start,checkout_date:end});
-    const url=new URL('checkin-ospiti.html',location.href);url.searchParams.set('t',d.token);const link=url.href;
+    const url=new URL(FORM_URL);url.searchParams.set('t',d.token);const link=url.href;
     await copy(link);
     card.querySelector('.pc-linkbox')?.remove();
     const req=reqFor(id),phone=req?.guest_phone?String(req.guest_phone).replace(/\D/g,''):'';
     const box=document.createElement('div');box.className='pc-linkbox';
-    box.innerHTML=`<input readonly value="${safe(link)}"><button type="button" class="btn light small" data-pc-copy>Copia</button>${phone?`<a class="btn primary small" target="_blank" rel="noopener" href="https://wa.me/${phone}?text=${encodeURIComponent('Ciao, puoi completare il pre-check-in di Civico 26 qui: '+link)}">WhatsApp</a>`:'<button type="button" class="btn primary small" data-pc-copy>Link copiato</button>'}`;
+    box.innerHTML=`<input readonly value="${safe(link)}"><button type="button" class="btn light small" data-copy data-pc-copy>Copia</button>${phone?`<a class="btn primary small" target="_blank" rel="noopener" href="https://wa.me/${phone}?text=${encodeURIComponent('Ciao, puoi completare il pre-check-in di Civico 26 qui: '+link)}">WhatsApp</a>`:'<button type="button" class="btn primary small" data-copy data-pc-copy>Link copiato</button>'}`;
     card.appendChild(box);
     box.querySelectorAll('[data-pc-copy]').forEach(b=>b.onclick=async()=>{await copy(link);toast('Link copiato')});
     const st=card.querySelector('.pc-status');if(st){st.className='pc-status open';st.textContent='Link creato · in attesa'}
