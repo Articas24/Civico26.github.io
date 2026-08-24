@@ -305,5 +305,6 @@ $("syncNow").onclick=async()=>{
 $("copyIcal").onclick=async()=>{await navigator.clipboard.writeText($("exportIcal").value);$("copyIcal").textContent="Copiato";setTimeout(()=>$("copyIcal").textContent="Copia",1500)};
 sb.auth.onAuthStateChange(()=>setTimeout(refreshAuth,0));refreshAuth();
 </script>
+<script src="admin-hotfix.js?v=20260824-1358"></script>
 <script src="admin-enhance.js?v=20260821-1544"></script>
 </body></html>
