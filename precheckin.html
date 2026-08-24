@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Pre-check-in | Civico 26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="precheckin.css?v=20260824-1603">
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="logo">Civico <span>26</span></div><select id="lang" class="lang" aria-label="Lingua"><option value="it">🇮🇹 IT</option><option value="en">🇬🇧 EN</option></select></header>
+<section class="hero">
+<div class="eyebrow" data-i="eyebrow">Registrazione ospiti</div>
+<h1 data-i="title">Pre-check-in</h1>
+<p data-i="subtitle">Inserisci solo i dati necessari per la registrazione del soggiorno. Richiede pochi minuti.</p>
+<div class="booking" id="bookingSummary" hidden><strong id="bookingName">Civico 26</strong><span id="bookingDates"></span></div>
+</section>
+<div id="loading" class="loading" data-i="loading">Caricamento prenotazione…</div>
+<main id="app" hidden>
+<div id="groupType" class="group-type"><strong data-i="travelType">Gli ospiti viaggiano come:</strong><div class="segmented"><button type="button" data-group="family" data-i="family">Famiglia</button><button type="button" data-group="group" class="active" data-i="group">Gruppo / amici</button></div></div>
+<div id="guests"></div>
+<div class="actions"><button class="btn light" type="button" id="addGuest" data-i="addGuest">+ Aggiungi ospite</button><button class="btn primary" type="button" id="submitBtn" data-i="submit">Invia dati</button></div>
+<label class="privacy"><input id="privacyOk" type="checkbox"><span><span data-i="privacyText">Confermo che i dati inseriti sono corretti e autorizzo il loro trattamento per gli adempimenti di legge relativi al soggiorno.</span> <a href="privacy.html" target="_blank" rel="noopener" data-i="privacyLink">Privacy</a></span></label>
+<div id="notice" class="notice"></div>
+<div class="security-note"><strong data-i="photoSecurityTitle">Foto documento:</strong> <span data-i="photoSecurity">viene conservata in area privata solo per il tempo necessario alla verifica. Dopo la verifica viene eliminata; è inoltre prevista una scadenza tecnica massima di 24 ore.</span></div>
+</main>
+<section id="done" class="card done" hidden><div class="check">✓</div><h2 data-i="doneTitle">Pre-check-in completato</h2><p data-i="doneText">Grazie. I dati sono stati ricevuti correttamente. Non devi fare altro.</p></section>
+<section id="fatal" class="card done" hidden><h2 data-i="errorTitle">Link non disponibile</h2><p id="fatalText"></p></section>
+</div>
+<script src="precheckin.js?v=20260824-1603"></script>
+</body>
+</html>
