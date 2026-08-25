@@ -1,0 +1,13 @@
+name: Check compliance UI syntax
+on:
+  push:
+    paths:
+      - '.github/workflows/check-compliance-js.yml'
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node --check admin-compliance-oneclick.js
