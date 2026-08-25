@@ -5,7 +5,7 @@ const API='https://wfhdtwzpjcaicxdrphcu.supabase.co/functions/v1/compliance-onec
 const PRE='https://wfhdtwzpjcaicxdrphcu.supabase.co/functions/v1/precheckin';
 const KEY='sb_publishable_3SGl7pKrqv_uT8GIW2N8RA_Xook19Uh';
 const q=s=>document.querySelector(s);
-let entryId=null,session=null,state=null,busy=false,openProvider=null;
+let entryId=null,session=null,state=null,busy=false,openProvider=null,injecting=false,injectTimer=null;
 const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function headers(){const {data}=await sb.auth.getSession();const t=data.session?.access_token;if(!t)throw new Error('Sessione admin scaduta.');return {'content-type':'application/json','apikey':KEY,'authorization':`Bearer ${t}`}}
 async function post(url,body){const r=await fetch(url,{method:'POST',headers:await headers(),body:JSON.stringify(body)});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||`Errore HTTP ${r.status}`);return d}
@@ -27,7 +27,24 @@ async function save(provider){try{if(provider==='alloggiati'){const username=q('
 async function test(provider,btn){const old=btn.textContent;btn.disabled=true;btn.textContent='Verifica…';try{const d=await post(API,{action:'test-credentials',provider});result(provider==='alloggiati'?`<strong>✓ Alloggiati Web raggiungibile</strong><br>Autenticazione riuscita.${d.token_expires?` Token valido fino a ${safe(d.token_expires)}.`:''}`:`<strong>✓ Web Service ROSS1000 raggiungibile</strong><br>${safe(d.note||'Endpoint disponibile.')}`)}catch(e){result(`<strong>✕ Verifica non superata</strong><br>${safe(e.message)}`,false)}finally{btn.disabled=false;btn.textContent=old}}
 async function send(action,btn){if(busy)return;const what=action==='send-all'?'Questura e ROSS1000':action==='send-alloggiati'?'la Questura':'ROSS1000';if(!confirm(`INVIO REALE: stai per trasmettere i dati a ${what}. Questa operazione registra dati sui portali ufficiali. Continuare?`))return;busy=true;const old=btn.textContent;btn.disabled=true;btn.textContent='Trasmissione…';try{const d=await post(API,{action,session_id:session.id});let s='<strong>✓ Trasmissione completata</strong>';if(d.results?.alloggiati)s+=`<br>Questura: ${d.results.alloggiati.already_sent?'già trasmessa':`${d.results.alloggiati.valid||session.guest_count||''} schedine elaborate`}.`;if(d.results?.ross1000)s+=`<br>ROSS1000: ${d.results.ross1000.already_synced?'già sincronizzato':d.results.ross1000.through_date?`sincronizzato fino al ${day(d.results.ross1000.through_date)}`:'trasmesso'}.`;result(s);await refresh()}catch(e){result(`<strong>✕ Trasmissione non completata</strong><br>${safe(e.message)}<br><span style="font-size:10px">Controlla lo storico: un portale può essere già riuscito e l’altro no. Il sistema blocca i doppi invii identici.</span>`,false);await refresh()}finally{btn.disabled=false;btn.textContent=old;busy=false}}
 function bind(){q('#ocRefresh')?.addEventListener('click',refresh);q('#ocAwConfig')?.addEventListener('click',()=>toggleForm('alloggiati'));q('#ocRossConfig')?.addEventListener('click',()=>toggleForm('ross1000'));q('#ocAwSave')?.addEventListener('click',()=>save('alloggiati'));q('#ocRossSave')?.addEventListener('click',()=>save('ross1000'));q('#ocAwTest')?.addEventListener('click',e=>test('alloggiati',e.currentTarget));q('#ocRossTest')?.addEventListener('click',e=>test('ross1000',e.currentTarget));q('#ocSendAll')?.addEventListener('click',e=>send('send-all',e.currentTarget));q('#ocSendAw')?.addEventListener('click',e=>send('send-alloggiati',e.currentTarget));q('#ocSendRoss')?.addEventListener('click',e=>send('send-ross1000',e.currentTarget))}
-async function inject(){if(!entryId||!q('#pcModal.open')||q('#pcOneClickBox'))return;const host=q('#pcExportBox')||q('#pcModalBody .pc-modal-actions');if(!host)return;styles();try{session=await sessionForEntry(entryId);if(!session||!['submitted','verified'].includes(session.status))return;const box=document.createElement('div');box.id='pcOneClickBox';box.innerHTML='<div class="oc-note">Caricamento integrazioni…</div>';host.appendChild(box);state=await post(API,{action:'status',session_id:session.id});render()}catch(e){const b=q('#pcOneClickBox');if(b)b.innerHTML=`<div class="oc-result show" style="background:#fff0ef;color:#913f39">${safe(e.message)}</div>`}}
-document.addEventListener('click',e=>{const card=e.target.closest('#precheckinSec .pc-row');if(card&&e.target.closest('[data-detail]')){entryId=Number(card.dataset.entry);session=null;state=null;openProvider=null;setTimeout(inject,260);setTimeout(inject,700)}});
-const mo=new MutationObserver(()=>{if(q('#pcModal.open')&&(q('#pcExportBox')||q('#pcModalBody .pc-modal-actions')))setTimeout(inject,50)});mo.observe(document.documentElement,{childList:true,subtree:true});
+function scheduleInject(delay=60){clearTimeout(injectTimer);injectTimer=setTimeout(()=>{injectTimer=null;inject()},delay)}
+async function inject(){
+  if(injecting||!entryId||!q('#pcModal.open')||q('#pcOneClickBox'))return;
+  const host=q('#pcExportBox')||q('#pcModalBody .pc-modal-actions');if(!host)return;
+  styles();injecting=true;
+  const requestedEntryId=entryId;
+  const box=document.createElement('div');box.id='pcOneClickBox';box.innerHTML='<div class="oc-note">Caricamento integrazioni…</div>';host.appendChild(box);
+  try{
+    const loadedSession=await sessionForEntry(requestedEntryId);
+    if(requestedEntryId!==entryId||!q('#pcModal.open')){box.remove();return}
+    if(!loadedSession||!['submitted','verified'].includes(loadedSession.status)){box.remove();return}
+    session=loadedSession;
+    const loadedState=await post(API,{action:'status',session_id:session.id});
+    if(requestedEntryId!==entryId||!q('#pcModal.open')){box.remove();return}
+    state=loadedState;render();
+  }catch(e){if(box.isConnected)box.innerHTML=`<div class="oc-result show" style="background:#fff0ef;color:#913f39">${safe(e.message)}</div>`}
+  finally{injecting=false;if(q('#pcModal.open')&&!q('#pcOneClickBox'))scheduleInject(80)}
+}
+document.addEventListener('click',e=>{const card=e.target.closest('#precheckinSec .pc-row');if(card&&e.target.closest('[data-detail]')){entryId=Number(card.dataset.entry);session=null;state=null;openProvider=null;scheduleInject(180)}});
+const mo=new MutationObserver(()=>{if(q('#pcModal.open')&&(q('#pcExportBox')||q('#pcModalBody .pc-modal-actions')))scheduleInject(80)});mo.observe(document.documentElement,{childList:true,subtree:true});
 })();
