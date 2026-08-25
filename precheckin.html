@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="precheckin.css?v=20260824-1603">
+<link rel="stylesheet" href="precheckin.css?v=20260826-ux1">
 </head>
 <body>
 <div class="wrap">
@@ -22,16 +22,33 @@
 </section>
 <div id="loading" class="loading" data-i="loading">Caricamento prenotazione…</div>
 <main id="app" hidden>
+<section class="intro-card" aria-labelledby="instructionsTitle">
+<div class="intro-icon" aria-hidden="true">✓</div>
+<div><h2 id="instructionsTitle" data-i="instructionsTitle">Come compilare il pre check-in</h2><p data-i-html="instructionsText">Inserisci i dati richiesti per il primo ospite. Se soggiorneranno con te altre persone, ricordati di premere <strong>“Aggiungi ospite”</strong> e compilare una scheda per ciascuna di loro, compresi i minori.<br><br>Ti chiediamo gentilmente di verificare che i dati siano completi e corretti prima dell’invio. Grazie per la collaborazione!</p></div>
+</section>
+<section class="guest-count-card" aria-labelledby="guestCountLabel">
+<div><label id="guestCountLabel" for="guestCount" data-i="guestCountLabel">Quante persone soggiorneranno?</label><p id="guestCountHelp" data-i="guestCountHelp">Prepareremo automaticamente una scheda per ogni ospite, compresi i minori.</p></div>
+<select id="guestCount" aria-describedby="guestCountHelp"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select>
+</section>
+<section id="guestEditor">
 <div id="groupType" class="group-type"><strong data-i="travelType">Gli ospiti viaggiano come:</strong><div class="segmented"><button type="button" data-group="family" data-i="family">Famiglia</button><button type="button" data-group="group" class="active" data-i="group">Gruppo / amici</button></div></div>
+<div class="guest-progress-wrap"><div class="guest-progress-head"><strong id="guestProgress" aria-live="polite">Ospite 1 di 1</strong><span id="guestProgressStatus"></span></div><div class="guest-progress" aria-hidden="true"><span id="guestProgressBar"></span></div></div>
+<nav id="guestNav" class="guest-nav" aria-label="Schede degli ospiti"></nav>
 <div id="guests"></div>
-<div class="actions"><button class="btn light" type="button" id="addGuest" data-i="addGuest">+ Aggiungi ospite</button><button class="btn primary" type="button" id="submitBtn" data-i="submit">Invia dati</button></div>
+<div class="guest-move"><button class="btn light" type="button" id="prevGuest" data-i="previous">← Indietro</button><button class="btn primary" type="button" id="nextGuest" data-i="next">Avanti →</button></div>
+<button class="btn add-guest" type="button" id="addGuest" data-i="addGuest">＋ Aggiungi ospite</button>
+</section>
+<section id="reviewPanel" class="card review-card" hidden aria-labelledby="reviewTitle"><div class="review-head"><div><div class="eyebrow" data-i="finalCheck">Controllo finale</div><h2 id="reviewTitle" data-i="reviewTitle">Riepilogo degli ospiti</h2><p data-i="reviewHelp">Verifica i dati prima dell’invio. Puoi tornare a ogni scheda per modificarla.</p></div><span id="reviewCount" class="review-count"></span></div><div id="reviewList" class="review-list"></div><button class="btn add-guest review-add" type="button" id="reviewAddGuest" data-i="addGuest">＋ Aggiungi ospite</button></section>
+<div id="reviewActions" hidden>
 <label class="privacy"><input id="privacyOk" type="checkbox"><span><span data-i="privacyText">Confermo che i dati inseriti sono corretti e autorizzo il loro trattamento per gli adempimenti di legge relativi al soggiorno.</span> <a href="privacy.html" target="_blank" rel="noopener" data-i="privacyLink">Privacy</a></span></label>
+<div class="actions"><button class="btn light" type="button" id="editGuests" data-i="editGuests">Modifica le schede</button><button class="btn primary" type="button" id="submitBtn" data-i="submit">Invia dati</button></div>
+</div>
 <div id="notice" class="notice"></div>
 <div class="security-note"><strong data-i="photoSecurityTitle">Foto documento:</strong> <span data-i="photoSecurity">viene conservata in area privata solo per il tempo necessario alla verifica. Dopo la verifica viene eliminata; è inoltre prevista una scadenza tecnica massima di 24 ore.</span></div>
 </main>
 <section id="done" class="card done" hidden><div class="check">✓</div><h2 data-i="doneTitle">Pre-check-in completato</h2><p data-i="doneText">Grazie. I dati sono stati ricevuti correttamente. Non devi fare altro.</p></section>
 <section id="fatal" class="card done" hidden><h2 data-i="errorTitle">Link non disponibile</h2><p id="fatalText"></p></section>
 </div>
-<script src="precheckin-v2.js?v=20260824-1715"></script>
+<script src="precheckin-v2.js?v=20260826-ux1"></script>
 </body>
 </html>
