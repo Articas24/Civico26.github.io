@@ -15,6 +15,31 @@ jobs:
     env:
       PRECHECKIN_CRON_SECRET: ${{ secrets.PRECHECKIN_CRON_SECRET }}
     steps:
+      - name: Reject invalid cron secret
+        if: github.event_name != 'schedule'
+        shell: bash
+        run: |
+          set -euo pipefail
+          response_file="$(mktemp)"
+          status="$(
+            curl --silent --show-error -X POST \
+              'https://wfhdtwzpjcaicxdrphcu.supabase.co/functions/v1/precheckin' \
+              -H 'Content-Type: application/json' \
+              -H 'apikey: sb_publishable_3SGl7pKrqv_uT8GIW2N8RA_Xook19Uh' \
+              -H 'X-Cron-Secret: invalid-secret-security-check' \
+              --data '{"action":"cleanup-expired-photos"}' \
+              --output "${response_file}" \
+              --write-out '%{http_code}'
+          )"
+
+          if [[ "${status}" != "403" ]]; then
+            echo "Un secret cron non valido non è stato rifiutato: HTTP ${status}." >&2
+            cat "${response_file}" >&2
+            exit 1
+          fi
+          jq -e '.ok == false' "${response_file}" >/dev/null
+          echo "Secret non valido correttamente rifiutato (HTTP 403)."
+
       - name: Purge expired private document photos
         shell: bash
         run: |
