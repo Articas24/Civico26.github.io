@@ -12,12 +12,32 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     timeout-minutes: 2
+    env:
+      PRECHECKIN_CRON_SECRET: ${{ secrets.PRECHECKIN_CRON_SECRET }}
     steps:
       - name: Purge expired private document photos
+        shell: bash
         run: |
-          curl -sS -X POST \
-            'https://wfhdtwzpjcaicxdrphcu.supabase.co/functions/v1/precheckin' \
-            -H 'Content-Type: application/json' \
-            -H 'apikey: sb_publishable_3SGl7pKrqv_uT8GIW2N8RA_Xook19Uh' \
-            --data '{"action":"get","token":"scheduled-photo-cleanup-token-00000000000000000000000000000000"}' \
-            >/dev/null
+          set -euo pipefail
+          if [[ -z "${PRECHECKIN_CRON_SECRET}" ]]; then
+            echo "PRECHECKIN_CRON_SECRET non configurato nei GitHub Actions secrets." >&2
+            exit 1
+          fi
+
+          response="$(
+            curl --fail-with-body --silent --show-error -X POST \
+              'https://wfhdtwzpjcaicxdrphcu.supabase.co/functions/v1/precheckin' \
+              -H 'Content-Type: application/json' \
+              -H 'apikey: sb_publishable_3SGl7pKrqv_uT8GIW2N8RA_Xook19Uh' \
+              -H "X-Cron-Secret: ${PRECHECKIN_CRON_SECRET}" \
+              --data '{"action":"cleanup-expired-photos"}'
+          )"
+
+          echo "${response}" | jq -e '
+            .ok == true and
+            (.deleted_photos | type) == "number" and
+            .deleted_photos >= 0
+          ' >/dev/null
+
+          deleted_photos="$(echo "${response}" | jq -r '.deleted_photos')"
+          echo "Cleanup completata: ${deleted_photos} foto eliminate."
