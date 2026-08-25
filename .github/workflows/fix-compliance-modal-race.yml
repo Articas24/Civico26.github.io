@@ -1,0 +1,69 @@
+name: Fix compliance modal duplicate loading race
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-compliance-modal-race.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch duplicate integration loader
+        shell: python
+        run: |
+          from pathlib import Path
+
+          p=Path('admin-compliance-oneclick.js')
+          s=p.read_text()
+          old="let entryId=null,session=null,state=null,busy=false,openProvider=null;"
+          new="let entryId=null,session=null,state=null,busy=false,openProvider=null,injecting=false,injectTimer=null;"
+          if old not in s:
+              raise SystemExit('state declaration not found')
+          s=s.replace(old,new,1)
+
+          old_block="""async function inject(){if(!entryId||!q('#pcModal.open')||q('#pcOneClickBox'))return;const host=q('#pcExportBox')||q('#pcModalBody .pc-modal-actions');if(!host)return;styles();try{session=await sessionForEntry(entryId);if(!session||!['submitted','verified'].includes(session.status))return;const box=document.createElement('div');box.id='pcOneClickBox';box.innerHTML='<div class=\"oc-note\">Caricamento integrazioni…</div>';host.appendChild(box);state=await post(API,{action:'status',session_id:session.id});render()}catch(e){const b=q('#pcOneClickBox');if(b)b.innerHTML=`<div class=\"oc-result show\" style=\"background:#fff0ef;color:#913f39\">${safe(e.message)}</div>`}}
+document.addEventListener('click',e=>{const card=e.target.closest('#precheckinSec .pc-row');if(card&&e.target.closest('[data-detail]')){entryId=Number(card.dataset.entry);session=null;state=null;openProvider=null;setTimeout(inject,260);setTimeout(inject,700)}});
+const mo=new MutationObserver(()=>{if(q('#pcModal.open')&&(q('#pcExportBox')||q('#pcModalBody .pc-modal-actions')))setTimeout(inject,50)});mo.observe(document.documentElement,{childList:true,subtree:true});"""
+          new_block="""function scheduleInject(delay=60){clearTimeout(injectTimer);injectTimer=setTimeout(()=>{injectTimer=null;inject()},delay)}
+async function inject(){
+  if(injecting||!entryId||!q('#pcModal.open')||q('#pcOneClickBox'))return;
+  const host=q('#pcExportBox')||q('#pcModalBody .pc-modal-actions');if(!host)return;
+  styles();injecting=true;
+  const requestedEntryId=entryId;
+  const box=document.createElement('div');box.id='pcOneClickBox';box.innerHTML='<div class=\"oc-note\">Caricamento integrazioni…</div>';host.appendChild(box);
+  try{
+    const loadedSession=await sessionForEntry(requestedEntryId);
+    if(requestedEntryId!==entryId||!q('#pcModal.open')){box.remove();return}
+    if(!loadedSession||!['submitted','verified'].includes(loadedSession.status)){box.remove();return}
+    session=loadedSession;
+    const loadedState=await post(API,{action:'status',session_id:session.id});
+    if(requestedEntryId!==entryId||!q('#pcModal.open')){box.remove();return}
+    state=loadedState;render();
+  }catch(e){if(box.isConnected)box.innerHTML=`<div class=\"oc-result show\" style=\"background:#fff0ef;color:#913f39\">${safe(e.message)}</div>`}
+  finally{injecting=false;if(q('#pcModal.open')&&!q('#pcOneClickBox'))scheduleInject(80)}
+}
+document.addEventListener('click',e=>{const card=e.target.closest('#precheckinSec .pc-row');if(card&&e.target.closest('[data-detail]')){entryId=Number(card.dataset.entry);session=null;state=null;openProvider=null;scheduleInject(180)}});
+const mo=new MutationObserver(()=>{if(q('#pcModal.open')&&(q('#pcExportBox')||q('#pcModalBody .pc-modal-actions')))scheduleInject(80)});mo.observe(document.documentElement,{childList:true,subtree:true});"""
+          if old_block not in s:
+              raise SystemExit('old inject block not found')
+          s=s.replace(old_block,new_block,1)
+          p.write_text(s)
+
+          a=Path('admin.html')
+          h=a.read_text()
+          old_loader='admin-compliance-oneclick.js?v=20260825-0602'
+          new_loader='admin-compliance-oneclick.js?v=20260825-1627'
+          if old_loader not in h:
+              raise SystemExit('admin loader not found')
+          a.write_text(h.replace(old_loader,new_loader,1))
+      - name: Validate JavaScript
+        run: node --check admin-compliance-oneclick.js
+      - name: Commit fix
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898242+github-actions[bot]@users.noreply.github.com'
+          git add admin-compliance-oneclick.js admin.html
+          git commit -m 'Fix duplicate compliance loading placeholders'
+          git push
