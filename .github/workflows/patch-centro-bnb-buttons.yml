@@ -1,0 +1,63 @@
+name: Patch centro B&B section and landing buttons
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-centro-bnb-buttons.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch landing pages
+        shell: python
+        run: |
+          from pathlib import Path
+
+          files = [
+              Path('casa-vacanze-reggio-calabria-centro/index.html'),
+              Path('casa-vacanze-vicino-stazione-reggio-calabria/index.html'),
+          ]
+          for p in files:
+              s = p.read_text()
+              old = '.btn.secondary{background:#fff;border:1px solid #cfdcd8}'
+              new = '.btn.secondary{background:#fff;border:1px solid #cfdcd8;color:var(--ink)}'
+              if old in s:
+                  s = s.replace(old, new, 1)
+              elif new not in s:
+                  raise SystemExit(f'secondary button style anchor missing in {p}')
+              p.write_text(s)
+
+          p = Path('casa-vacanze-reggio-calabria-centro/index.html')
+          s = p.read_text()
+          marker = '<section class="content"><div class="wrap house-grid">'
+          section = '''<section class="content"><div class="wrap"><div class="intro"><h2>B&B o casa vacanze nel centro di Reggio Calabria?</h2><p>Se stai cercando un <strong>B&amp;B a Reggio Calabria centro</strong>, Civico 26 può essere un’alternativa per chi preferisce avere a disposizione un intero appartamento invece di una sola camera. Civico 26 non è un B&amp;B: è un appartamento ad uso esclusivo degli ospiti, pensato per soggiorni turistici nel centro della città.</p><p>La casa dispone di tre camere, due bagni e cucina attrezzata e può ospitare fino a 8 persone. La posizione, vicino a Corso Garibaldi, Stazione Centrale e Lungomare Falcomatà, la rende adatta anche a chi sta confrontando B&amp;B, affittacamere e appartamenti nel centro di Reggio Calabria.</p><div class="links"><a href="../#casa">🏠 Guarda la casa</a><a href="../#prenota">📅 Verifica disponibilità</a></div></div></div></section>\n'''
+          if 'B&B o casa vacanze nel centro di Reggio Calabria?' not in s:
+              if marker not in s:
+                  raise SystemExit('centro insertion marker missing')
+              s = s.replace(marker, section + marker, 1)
+          p.write_text(s)
+
+      - name: Validate changes
+        shell: python
+        run: |
+          from pathlib import Path
+          centro = Path('casa-vacanze-reggio-calabria-centro/index.html').read_text()
+          station = Path('casa-vacanze-vicino-stazione-reggio-calabria/index.html').read_text()
+          assert 'B&B o casa vacanze nel centro di Reggio Calabria?' in centro
+          assert '<strong>B&amp;B a Reggio Calabria centro</strong>' in centro
+          assert 'Civico 26 non è un B&amp;B' in centro
+          assert 'Dove dormire' not in centro
+          assert '.btn.secondary{background:#fff;border:1px solid #cfdcd8;color:var(--ink)}' in centro
+          assert '.btn.secondary{background:#fff;border:1px solid #cfdcd8;color:var(--ink)}' in station
+          assert '🏠 Scopri La casa' in centro
+          assert '🏠 Scopri La casa' in station
+          print('Landing changes OK')
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add casa-vacanze-reggio-calabria-centro/index.html casa-vacanze-vicino-stazione-reggio-calabria/index.html
+          git commit -m 'Add B&B comparison and fix landing buttons'
+          git push
