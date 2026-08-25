@@ -2,6 +2,7 @@
 'use strict';
 if(window.__civicoStatsExport)return;window.__civicoStatsExport=true;
 const q=s=>document.querySelector(s);
+let ensureQueued=false;
 function escFile(s){return String(s||'report').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,70)||'report'}
 function addStyles(){if(q('#statsExportStyles'))return;document.head.insertAdjacentHTML('beforeend',`<style id="statsExportStyles">
 #statsExportPdf{white-space:nowrap}.stats-print-meta{display:none}
@@ -37,8 +38,9 @@ function addStyles(){if(q('#statsExportStyles'))return;document.head.insertAdjac
 }
 </style>`)}
 function period(){return q('#statsSec .sv-chips .sv-chip')?.textContent?.trim()||'periodo-selezionato'}
-function ensure(){addStyles();const head=q('#statsSec .sv-head');if(!head)return false;if(!q('#statsSec .stats-print-meta')){const m=document.createElement('div');m.className='stats-print-meta';const chips=q('#statsSec .sv-chips');(chips||head).insertAdjacentElement(chips?'beforebegin':'afterend',m)}const meta=q('#statsSec .stats-print-meta');if(meta){const now=new Intl.DateTimeFormat('it-IT',{dateStyle:'medium',timeStyle:'short'}).format(new Date());meta.textContent=`Civico 26 · Report statistiche · ${period()} · Generato ${now}`}
+function ensure(){addStyles();const head=q('#statsSec .sv-head');if(!head)return false;if(!q('#statsSec .stats-print-meta')){const m=document.createElement('div');m.className='stats-print-meta';const chips=q('#statsSec .sv-chips');(chips||head).insertAdjacentElement(chips?'beforebegin':'afterend',m)}const meta=q('#statsSec .stats-print-meta');if(meta){const now=new Intl.DateTimeFormat('it-IT',{dateStyle:'medium',timeStyle:'short'}).format(new Date());const next=`Civico 26 · Report statistiche · ${period()} · Generato ${now}`;if(meta.textContent!==next)meta.textContent=next}
  if(q('#statsExportPdf'))return true;const controls=head.querySelector('.sv-controls')||head;const b=document.createElement('button');b.id='statsExportPdf';b.type='button';b.className='btn primary small';b.textContent='Esporta PDF';b.title='Crea il PDF della vista statistiche corrente';b.addEventListener('click',()=>{ensure();const old=document.title;document.title=`Civico26-statistiche-${escFile(period())}`;document.body.classList.add('stats-exporting');const cleanup=()=>{document.body.classList.remove('stats-exporting');document.title=old;window.removeEventListener('afterprint',cleanup)};window.addEventListener('afterprint',cleanup);setTimeout(()=>window.print(),60);setTimeout(()=>{if(document.title!==old)cleanup()},30000)});controls.appendChild(b);return true}
-function boot(){ensure();const root=q('#statsSec');if(root)new MutationObserver(()=>ensure()).observe(root,{childList:true,subtree:true});document.addEventListener('click',e=>{if(e.target.closest('.navtab[data-section="statsSec"]'))setTimeout(ensure,150)});window.addEventListener('civico-stats-range-change',()=>setTimeout(ensure,80));setTimeout(ensure,1200)}
+function queueEnsure(delay=0){if(ensureQueued)return;ensureQueued=true;setTimeout(()=>{ensureQueued=false;ensure()},delay)}
+function boot(){ensure();const root=q('#statsSec');if(root)new MutationObserver(()=>queueEnsure()).observe(root,{childList:true,subtree:true});document.addEventListener('click',e=>{if(e.target.closest('.navtab[data-section="statsSec"]'))queueEnsure(150)});window.addEventListener('civico-stats-range-change',()=>queueEnsure(80));queueEnsure(1200)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();
