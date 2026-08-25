@@ -2,7 +2,7 @@
 'use strict';
 if(window.__civicoCurrentHeroI18nFix)return;window.__civicoCurrentHeroI18nFix=true;
 const map=new Map([
- ['Civico 26 · Casa vacanze a Reggio Calabria','Civico 26 · Holiday apartment in Reggio Calabria'],
+ ['Casa vacanze a Reggio Calabria','Holiday apartment in Reggio Calabria'],
  ['Civico 26 è un intero appartamento nel centro di Reggio Calabria, fino a 8 ospiti. Stazione Centrale e Corso Garibaldi sono a circa 1 minuto a piedi; il Lungomare Falcomatà a circa 5 minuti.','Civico 26 is an entire apartment in central Reggio Calabria for up to 8 guests. Central Station and Corso Garibaldi are about a 1-minute walk away; the Falcomatà seafront is about 5 minutes away.']
 ]);
 function patch(){
