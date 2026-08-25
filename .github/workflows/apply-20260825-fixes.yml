@@ -1,0 +1,61 @@
+name: Apply 2026-08-25 site fixes
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-20260825-fixes.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check new JavaScript
+        run: |
+          node --check admin-precheckin-notify.js
+          node --check admin-costs-correct.js
+          node --check precheckin-top-fix.js
+          node --check home-i18n-current-hero-fix.js
+      - name: Wire fixes into live pages
+        shell: python
+        run: |
+          from pathlib import Path
+
+          admin=Path('admin.html')
+          s=admin.read_text()
+          needle='<script src="admin-precheckin.js?v=20260824-1718"></script>'
+          add=needle+'\n<script src="admin-precheckin-notify.js?v=20260825-0635"></script>'
+          if 'admin-precheckin-notify.js' not in s:
+              if needle not in s: raise SystemExit('admin precheckin loader not found')
+              s=s.replace(needle,add,1)
+          needle2='<script src="admin-compliance-oneclick.js?v=20260825-0602"></script>'
+          add2=needle2+'\n<script src="admin-costs-correct.js?v=20260825-0635"></script>'
+          if 'admin-costs-correct.js' not in s:
+              if needle2 not in s: raise SystemExit('admin compliance loader not found')
+              s=s.replace(needle2,add2,1)
+          admin.write_text(s)
+
+          home=Path('_includes/home-5.html')
+          h=home.read_text()
+          hn='<script src="home-i18n.js?v=20260824-1432" defer></script>'
+          ha=hn+'<script src="home-i18n-current-hero-fix.js?v=20260825-0635" defer></script>'
+          if 'home-i18n-current-hero-fix.js' not in h:
+              if hn not in h: raise SystemExit('home i18n loader not found')
+              h=h.replace(hn,ha,1)
+          home.write_text(h)
+
+          pc=Path('checkin-ospiti.html')
+          p=pc.read_text()
+          pn='<script src="precheckin-v2.js?v=20260824-2035"></script>'
+          pa='<script src="precheckin-top-fix.js?v=20260825-0635"></script>\n'+pn
+          if 'precheckin-top-fix.js' not in p:
+              if pn not in p: raise SystemExit('precheckin loader not found')
+              p=p.replace(pn,pa,1)
+          pc.write_text(p)
+      - name: Commit live wiring
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add admin.html _includes/home-5.html checkin-ospiti.html
+          git commit -m 'Wire precheckin alerts scroll cost and i18n fixes'
+          git push
