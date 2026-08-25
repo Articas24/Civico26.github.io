@@ -40,10 +40,10 @@ function ensure(){
  if(!b){
    b=document.createElement('div');b.id='pcPendingBanner';
    b.innerHTML='<div><strong id="pcPendingTitle">Pre-check-in ricevuto</strong><span id="pcPendingText">Ci sono dati ospiti da verificare.</span><span class="pc-pending-note">La notifica scompare dopo “Verifica e distruggi foto”.</span></div><button type="button" class="btn primary small" id="pcPendingOpen">Apri dati</button>';
-   q('#pcPendingOpen')?.addEventListener('click',()=>openPending());
  }
  /* La notifica deve stare sempre all’inizio della sezione, mai in fondo. */
  if(sec.firstElementChild!==b)sec.insertBefore(b,sec.firstElementChild);
+ const open=b.querySelector('#pcPendingOpen');if(open&&!open.dataset.bound){open.dataset.bound='1';open.addEventListener('click',()=>openPending())}
 }
 function toast(count){q('.pc-arrival-toast')?.remove();const x=document.createElement('div');x.className='pc-arrival-toast';x.textContent=count===1?'Nuovo pre-check-in ricevuto':'Nuovi pre-check-in ricevuti';x.onclick=()=>{x.remove();openPending()};document.body.appendChild(x);setTimeout(()=>x.remove(),7000)}
 function render(pending){pendingNow=pending||[];ensure();const count=pendingNow.length,b=q('#pcPendingBanner'),tab=q('.navtab[data-section="precheckinSec"]');if(b){b.classList.toggle('show',count>0);if(count){q('#pcPendingTitle').textContent=count===1?'1 pre-check-in da verificare':`${count} pre-check-in da verificare`;const names=pendingNow.map(s=>{try{return (entries||[]).find(e=>Number(e.id)===Number(s.calendar_entry_id))?.guest_name}catch{return null}}).filter(Boolean);q('#pcPendingText').textContent=names.length?`Dati ricevuti: ${names.slice(0,3).join(', ')}${names.length>3?'…':''}`:'Sono arrivati dati ospiti da controllare.'}}
