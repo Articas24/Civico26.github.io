@@ -1,0 +1,102 @@
+name: Wire centro SEO architecture
+on:
+  push:
+    paths:
+      - '.github/workflows/wire-centro-seo.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch internal SEO architecture
+        shell: python
+        run: |
+          from pathlib import Path
+
+          # Homepage: leave the exact "centro" target to the dedicated landing.
+          p=Path('_includes/home-1.html'); s=p.read_text()
+          repl={
+            '<title>Casa vacanze Reggio Calabria centro | Civico 26</title>':'<title>Civico 26 | Casa vacanze a Reggio Calabria</title>',
+            '<meta property="og:title" content="Casa vacanze Reggio Calabria centro | Civico 26">':'<meta property="og:title" content="Civico 26 | Casa vacanze a Reggio Calabria">',
+            '<meta name="twitter:title" content="Casa vacanze Reggio Calabria centro | Civico 26">':'<meta name="twitter:title" content="Civico 26 | Casa vacanze a Reggio Calabria">',
+            '<h1>Casa vacanze a Reggio Calabria centro</h1>':'<h1>Civico 26 · Casa vacanze a Reggio Calabria</h1>'
+          }
+          for a,b in repl.items():
+            if a not in s and b not in s: raise SystemExit(f'home-1 anchor missing: {a}')
+            s=s.replace(a,b,1)
+          p.write_text(s)
+
+          # Tiny but visible contextual link in the homepage footer.
+          p=Path('_includes/home-5.html'); s=p.read_text()
+          old='<div class="footer-meta"><span>CIN: IT080063C26IWQ9F2U</span><span>© Civico 26 · Reggio Calabria</span></div>'
+          new='<div class="footer-meta"><span>CIN: IT080063C26IWQ9F2U</span><span>© Civico 26 · Reggio Calabria</span><span><a href="casa-vacanze-reggio-calabria-centro/" style="font-size:11px;color:#9eb5af">Casa vacanze Reggio Calabria centro</a></span></div>'
+          if old in s: s=s.replace(old,new,1)
+          elif 'href="casa-vacanze-reggio-calabria-centro/"' not in s: raise SystemExit('home footer anchor missing')
+          p.write_text(s)
+
+          # Position page: contextual + footer link point to the landing, not home.
+          p=Path('posizione.html'); s=p.read_text()
+          old='Civico 26 è una casa vacanze pensata anche per chi vuole muoversi a piedi: Stazione Centrale e Corso Garibaldi sono molto vicini, mentre Lungomare, Duomo e Castello Aragonese si raggiungono con una breve passeggiata.'
+          new='Civico 26 è una <a href="casa-vacanze-reggio-calabria-centro/"><strong>casa vacanze nel centro di Reggio Calabria</strong></a>: Stazione Centrale e Corso Garibaldi sono molto vicini, mentre Lungomare, Duomo e Castello Aragonese si raggiungono con una breve passeggiata.'
+          if old in s: s=s.replace(old,new,1)
+          elif 'href="casa-vacanze-reggio-calabria-centro/"' not in s: raise SystemExit('position contextual anchor missing')
+          s=s.replace('<a href="index.html">Casa vacanze in centro</a>','<a href="casa-vacanze-reggio-calabria-centro/">Casa vacanze in centro</a>')
+          p.write_text(s)
+
+          # City guide: its existing exact anchor now points to the dedicated landing.
+          p=Path('guida-reggio-calabria.html'); s=p.read_text()
+          old='<a href="index.html"><strong>casa vacanze a Reggio Calabria centro</strong></a>'
+          new='<a href="casa-vacanze-reggio-calabria-centro/"><strong>casa vacanze a Reggio Calabria centro</strong></a>'
+          if old in s: s=s.replace(old,new,1)
+          elif new not in s: raise SystemExit('guide centro anchor missing')
+          p.write_text(s)
+
+          # Sitemap: canonical directory URL only; legacy .html stays out.
+          p=Path('sitemap.xml'); s=p.read_text()
+          s=s.replace('<loc>https://www.civico26reggiocalabria.it/</loc>\n    <lastmod>2026-08-24</lastmod>','<loc>https://www.civico26reggiocalabria.it/</loc>\n    <lastmod>2026-08-25</lastmod>',1)
+          station='  <url><loc>https://www.civico26reggiocalabria.it/casa-vacanze-vicino-stazione-reggio-calabria/</loc><lastmod>2026-08-24</lastmod><image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/casa-principale.jpg</image:loc></image:image></url>\n'
+          centro='  <url><loc>https://www.civico26reggiocalabria.it/casa-vacanze-reggio-calabria-centro/</loc><lastmod>2026-08-25</lastmod><image:image><image:loc>https://www.civico26reggiocalabria.it/immagini/casa-principale.jpg</image:loc></image:image></url>\n'
+          if centro not in s:
+            if station not in s: raise SystemExit('station sitemap anchor missing')
+            s=s.replace(station,station+centro,1)
+          s=s.replace('https://www.civico26reggiocalabria.it/guida-reggio-calabria.html</loc><lastmod>2026-08-24','https://www.civico26reggiocalabria.it/guida-reggio-calabria.html</loc><lastmod>2026-08-25',1)
+          s=s.replace('https://www.civico26reggiocalabria.it/posizione.html</loc><lastmod>2026-08-24','https://www.civico26reggiocalabria.it/posizione.html</loc><lastmod>2026-08-25',1)
+          p.write_text(s)
+
+          # Hero translation after the homepage H1 adjustment.
+          p=Path('home-i18n-current-hero-fix.js'); s=p.read_text()
+          old="['Casa vacanze a Reggio Calabria centro','Holiday apartment in central Reggio Calabria']"
+          new="['Civico 26 · Casa vacanze a Reggio Calabria','Civico 26 · Holiday apartment in Reggio Calabria']"
+          if old in s: s=s.replace(old,new,1)
+          elif new not in s: raise SystemExit('hero translation anchor missing')
+          p.write_text(s)
+
+      - name: Validate SEO targets
+        shell: python
+        run: |
+          from pathlib import Path
+          c=Path('casa-vacanze-reggio-calabria-centro/index.html').read_text()
+          assert '<meta name="robots" content="index,follow,max-image-preview:large">' in c
+          assert '<link rel="canonical" href="https://www.civico26reggiocalabria.it/casa-vacanze-reggio-calabria-centro/">' in c
+          assert '<h1>Casa vacanze nel centro di Reggio Calabria</h1>' in c
+          assert 'FAQ' not in c
+          assert 'muoversi senza auto' not in c.lower()
+          legacy=Path('casa-vacanze-reggio-calabria-centro.html').read_text()
+          assert 'url=https://www.civico26reggiocalabria.it/casa-vacanze-reggio-calabria-centro/' in legacy
+          sm=Path('sitemap.xml').read_text()
+          assert sm.count('https://www.civico26reggiocalabria.it/casa-vacanze-reggio-calabria-centro/')==1
+          assert 'casa-vacanze-reggio-calabria-centro.html</loc>' not in sm
+          h=Path('_includes/home-5.html').read_text()
+          assert 'href="casa-vacanze-reggio-calabria-centro/"' in h
+          assert 'href="casa-vacanze-reggio-calabria-centro/"' in Path('posizione.html').read_text()
+          assert 'href="casa-vacanze-reggio-calabria-centro/"' in Path('guida-reggio-calabria.html').read_text()
+          print('SEO centro validation OK')
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add _includes/home-1.html _includes/home-5.html posizione.html guida-reggio-calabria.html sitemap.xml home-i18n-current-hero-fix.js
+          git commit -m 'Wire centro landing into SEO architecture'
+          git push
