@@ -1,0 +1,27 @@
+name: Bump compliance form cache
+on:
+  push:
+    paths:
+      - '.github/workflows/bump-compliance-form-cache.yml'
+permissions:
+  contents: write
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump script version
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('admin.html')
+          s=p.read_text()
+          s=s.replace('admin-compliance-oneclick.js?v=20260825-0535','admin-compliance-oneclick.js?v=20260825-0544')
+          p.write_text(s)
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add admin.html
+          git commit -m 'Load stabilized compliance credentials UI'
+          git push
