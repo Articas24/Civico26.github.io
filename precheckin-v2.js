@@ -33,7 +33,7 @@ const tr={
   doneTitle:'Pre-check-in completato',doneText:'Grazie. I dati sono stati ricevuti correttamente. Non devi fare altro.',errorTitle:'Link non disponibile',
   lead:'Ospite principale',leadBadge:'Principale',guest:'Ospite',remove:'Elimina',first:'Nome',last:'Cognome',sex:'Sesso',male:'Maschio',female:'Femmina',birthDate:'Data di nascita',birthCountry:'Stato di nascita',birthCity:'Comune di nascita',birthProvince:'Provincia di nascita',citizenship:'Cittadinanza',resCountry:'Stato di residenza',resCity:'Comune / località di residenza',
   docTitle:'Documento dell’ospite principale',docHelp:'Gli estremi del documento sono richiesti solo per l’ospite principale/capogruppo. Agli altri ospiti non li chiediamo.',docType:'Tipo documento',docNumber:'Numero documento',docIssuer:'Luogo di rilascio',docIssuerNote:'Comune italiano oppure Stato estero',photo:'Foto del documento',photoHelp:'Scatta o carica una foto leggibile. Non sarà pubblica.',photoReady:'Foto selezionata',photoStored:'Foto già ricevuta. Puoi sostituirla scegliendone un’altra.',
-  select:'Seleziona…',idcard:'Carta d’identità',passport:'Passaporto',driving:'Patente',required:'Completa il campo',photoRequired:'Carica la foto del documento dell’ospite principale.',privacyRequired:'Devi confermare il trattamento dei dati per gli adempimenti del soggiorno.',sending:'Invio in corso…',genericError:'Si è verificato un errore. Riprova.',linkError:'Il link non è valido, è scaduto oppure la prenotazione non è più disponibile.',alreadySubmitted:'I dati erano già stati inviati. Puoi correggerli e inviarli di nuovo finché non vengono verificati.',booking:'Soggiorno'
+  select:'Seleziona…',countrySearch:'Cerca uno Stato…',countryNoResults:'Nessuno Stato trovato',historicalCountry:'storico',idcard:'Carta d’identità',passport:'Passaporto',driving:'Patente',required:'Completa il campo',photoRequired:'Carica la foto del documento dell’ospite principale.',privacyRequired:'Devi confermare il trattamento dei dati per gli adempimenti del soggiorno.',sending:'Invio in corso…',genericError:'Si è verificato un errore. Riprova.',linkError:'Il link non è valido, è scaduto oppure la prenotazione non è più disponibile.',alreadySubmitted:'I dati erano già stati inviati. Puoi correggerli e inviarli di nuovo finché non vengono verificati.',booking:'Soggiorno'
  },
  en:{
   eyebrow:'Guest registration',title:'Pre-check-in',subtitle:'Enter only the information required to register your stay. It takes just a few minutes.',loading:'Loading booking…',
@@ -48,13 +48,17 @@ const tr={
   doneTitle:'Pre-check-in completed',doneText:'Thank you. Your details have been received successfully. Nothing else is required.',errorTitle:'Link unavailable',
   lead:'Lead guest',leadBadge:'Lead',guest:'Guest',remove:'Delete',first:'First name',last:'Last name',sex:'Sex',male:'Male',female:'Female',birthDate:'Date of birth',birthCountry:'Country of birth',birthCity:'City/town of birth',birthProvince:'Province of birth',citizenship:'Citizenship',resCountry:'Country of residence',resCity:'City / place of residence',
   docTitle:'Lead guest document',docHelp:'Document details are required only for the lead guest/group leader. We do not ask them for the other guests.',docType:'Document type',docNumber:'Document number',docIssuer:'Place of issue',docIssuerNote:'Italian municipality or foreign country',photo:'Document photo',photoHelp:'Take or upload a clear, readable photo. It will not be public.',photoReady:'Photo selected',photoStored:'Photo already received. You can replace it by selecting another one.',
-  select:'Select…',idcard:'Identity card',passport:'Passport',driving:'Driving licence',required:'Complete the field',photoRequired:'Please upload the lead guest’s document photo.',privacyRequired:'Please confirm data processing for the legal requirements of the stay.',sending:'Sending…',genericError:'Something went wrong. Please try again.',linkError:'This link is invalid, expired, or the booking is no longer available.',alreadySubmitted:'These details were already submitted. You can correct and resend them until they are verified.',booking:'Stay'
+  select:'Select…',countrySearch:'Search for a country…',countryNoResults:'No country found',historicalCountry:'historical',idcard:'Identity card',passport:'Passport',driving:'Driving licence',required:'Complete the field',photoRequired:'Please upload the lead guest’s document photo.',privacyRequired:'Please confirm data processing for the legal requirements of the stay.',sending:'Sending…',genericError:'Something went wrong. Please try again.',linkError:'This link is invalid, expired, or the booking is no longer available.',alreadySubmitted:'These details were already submitted. You can correct and resend them until they are verified.',booking:'Stay'
  }
 };
 
 const T=k=>tr[lang][k]||k;
 const F=(k,values={})=>Object.entries(values).reduce((text,[name,value])=>text.replaceAll(`{${name}}`,value),T(k));
 const labels={first_name:'first',last_name:'last',sex:'sex',birth_date:'birthDate',birth_country:'birthCountry',birth_city:'birthCity',birth_province:'birthProvince',citizenship:'citizenship',residence_country:'resCountry',residence_city:'resCity',document_type:'docType',document_number:'docNumber',document_issuer:'docIssuer'};
+const countries=Array.isArray(window.CIVICO_COUNTRIES)?window.CIVICO_COUNTRIES:[];
+const normalizeCountry=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().replace(/[^a-z0-9]/g,'');
+const countryByValue=value=>countries.find(country=>normalizeCountry(country.value)===normalizeCountry(value)||normalizeCountry(country.it)===normalizeCountry(value)||normalizeCountry(country.en)===normalizeCountry(value));
+const countryLabel=country=>country?.[lang]||country?.it||'';
 const isItaly=v=>/^(italia|italy|it)$/i.test(String(v||'').trim());
 const blankLead=()=>({guest_role:'lead',first_name:'',last_name:'',sex:'',birth_date:'',birth_country:'Italia',birth_city:'',birth_province:'',citizenship:'Italia',residence_country:'Italia',residence_city:'',document_type:'',document_number:'',document_issuer:''});
 const blankMember=()=>{const lead=guests[0]||blankLead();return {guest_role:groupType==='family'?'family':'group_member',first_name:'',last_name:'',sex:'',birth_date:'',birth_country:lead.birth_country||'Italia',birth_city:'',birth_province:'',citizenship:lead.citizenship||'Italia',residence_country:lead.residence_country||'Italia',residence_city:lead.residence_city||'',document_type:'',document_number:'',document_issuer:''}};
@@ -75,6 +79,27 @@ function fmtDate(value){
 function field(label,name,value,index,type='text',extra=''){
  const id=`guest-${index}-${name}`;
  return `<div><label for="${id}">${label}</label><input id="${id}" data-field="${name}" type="${type}" value="${esc(value)}" ${extra}></div>`;
+}
+
+function countryOptions(query=''){
+ const needle=normalizeCountry(query);
+ return countries.filter(country=>!needle||[country.it,country.en,country.value,country.iso].some(value=>normalizeCountry(value).includes(needle))).sort((a,b)=>{
+  if(a.active!==b.active)return a.active?-1:1;
+  return countryLabel(a).localeCompare(countryLabel(b),lang,{sensitivity:'base'});
+ });
+}
+
+function countryOptionsHtml(query=''){
+ const matches=countryOptions(query);
+ if(!matches.length)return `<div class="country-empty">${T('countryNoResults')}</div>`;
+ return matches.map(country=>`<button type="button" role="option" data-country-option="${esc(country.value)}"><span>${esc(countryLabel(country))}</span>${country.active?'':`<small>${T('historicalCountry')}</small>`}</button>`).join('');
+}
+
+function countryField(label,name,value,index){
+ const id=`guest-${index}-${name}`;
+ const country=countryByValue(value);
+ const canonical=country?.value||'';
+ return `<div class="country-picker"><label for="${id}-search">${label}</label><input id="${id}-search" class="country-search" data-country-search="${name}" type="text" value="${esc(countryLabel(country))}" placeholder="${T('countrySearch')}" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="${id}-list" required><input id="${id}" data-field="${name}" type="hidden" value="${esc(canonical)}"><div id="${id}-list" class="country-list" role="listbox" hidden>${countryOptionsHtml()}</div></div>`;
 }
 
 function sexField(guest,index){
@@ -132,10 +157,10 @@ function guestHtml(guest,index){
    ${field(T('last'),'last_name',guest.last_name,index,'text','autocomplete="family-name" required')}
    ${sexField(guest,index)}
    ${field(T('birthDate'),'birth_date',guest.birth_date,index,'date','required')}
-   ${field(T('birthCountry'),'birth_country',guest.birth_country,index,'text','list="countries" required')}
+   ${countryField(T('birthCountry'),'birth_country',guest.birth_country,index)}
    ${italy?field(T('birthCity'),'birth_city',guest.birth_city,index,'text','required')+field(T('birthProvince'),'birth_province',guest.birth_province,index,'text','maxlength="2" placeholder="RC" required'):''}
-   ${field(T('citizenship'),'citizenship',guest.citizenship,index,'text','list="countries" required')}
-   ${field(T('resCountry'),'residence_country',guest.residence_country,index,'text','list="countries" required')}
+   ${countryField(T('citizenship'),'citizenship',guest.citizenship,index)}
+   ${countryField(T('resCountry'),'residence_country',guest.residence_country,index)}
    ${field(T('resCity'),'residence_city',guest.residence_city,index,'text','required')}
   </div>
   ${lead?`<div class="doc-box"><h3>${T('docTitle')}</h3><p>${T('docHelp')}</p><div class="grid">${documentTypeField(guest,index)}${field(T('docNumber'),'document_number',guest.document_number,index,'text','required')}${field(T('docIssuer'),'document_issuer',guest.document_issuer,index,'text','required')}<div><div class="field-note">${T('docIssuerNote')}</div></div></div><div class="photo-drop"><label for="photoInput">${T('photo')}</label><input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" capture="environment"><div class="field-note">${T('photoHelp')}</div><div class="photo-status">${photoFile?`${T('photoReady')}: ${esc(photoFile.name)}`:(hasPhoto?T('photoStored'):'')}</div></div></div>`:''}
@@ -195,7 +220,7 @@ function render(){
   const label=index===0?T('lead'):`${T('guest')} ${index+1}`;
   return `<button type="button" role="tab" class="guest-tab${active?' active':''}${guestComplete(guest,index)?' complete':''}" data-open-guest="${index}" aria-selected="${active}" aria-label="${esc(label)}"><span class="guest-tab-status" aria-hidden="true"></span>${esc(label)}</button>`;
  }).join('');
- q('#guests').innerHTML=guestHtml(guests[activeGuest],activeGuest)+`<datalist id="countries"><option value="Italia"><option value="Francia"><option value="Germania"><option value="Spagna"><option value="Regno Unito"><option value="Stati Uniti"><option value="Canada"><option value="Svizzera"><option value="Belgio"><option value="Paesi Bassi"><option value="Romania"><option value="Polonia"><option value="Albania"><option value="Grecia"><option value="Portogallo"><option value="Argentina"><option value="Brasile"><option value="Australia"></datalist>`;
+ q('#guests').innerHTML=guestHtml(guests[activeGuest],activeGuest);
  q('#prevGuest').hidden=activeGuest===0;
  q('#nextGuest').textContent=activeGuest===guests.length-1?T('goToReview'):T('next');
  q('#addGuest').disabled=guests.length>=MAX_GUESTS;
@@ -250,7 +275,7 @@ function focusInvalid({index,key}){
  const who=index?`${T('guest')} ${index+1} · `:'';
  notice(`${who}${T('required')}: ${T(labels[key]||key)}. ${T('completeBeforeReview')}`,'error',false);
  setTimeout(()=>{
-  const element=q(`[data-guest="${index}"] [data-field="${key}"]`);
+  const element=q(`[data-guest="${index}"] [data-country-search="${key}"]`)||q(`[data-guest="${index}"] [data-field="${key}"]`);
   if(!element)return;
   element.classList.add('invalid-field');
   element.scrollIntoView({behavior:'smooth',block:'center'});
@@ -369,11 +394,76 @@ function bindForm(){
  q('#guestCount').addEventListener('change',event=>resizeGuests(event.target.value));
  q('#guestNav').addEventListener('click',event=>{const button=event.target.closest('[data-open-guest]');if(button)openGuest(Number(button.dataset.openGuest))});
  q('#guests').addEventListener('input',event=>{
+  if(event.target.dataset.countrySearch){
+   const picker=event.target.closest('.country-picker');
+   const hidden=picker.querySelector('[data-field]');
+   const card=picker.closest('[data-guest]');
+   hidden.value='';
+   guests[Number(card.dataset.guest)][hidden.dataset.field]='';
+   const list=picker.querySelector('.country-list');
+   list.innerHTML=countryOptionsHtml(event.target.value);
+   list.hidden=false;
+   event.target.setAttribute('aria-expanded','true');
+   event.target.classList.remove('invalid-field');
+   updateCompletionUI();
+   return;
+  }
   const card=event.target.closest('[data-guest]');
   if(!card||!event.target.dataset.field)return;
   guests[Number(card.dataset.guest)][event.target.dataset.field]=event.target.value;
   event.target.classList.remove('invalid-field');
   updateCompletionUI();
+ });
+ q('#guests').addEventListener('focusin',event=>{
+  if(!event.target.dataset.countrySearch)return;
+  const picker=event.target.closest('.country-picker');
+  const list=picker.querySelector('.country-list');
+  list.innerHTML=countryOptionsHtml(event.target.value);
+  list.hidden=false;
+  event.target.setAttribute('aria-expanded','true');
+ });
+ q('#guests').addEventListener('keydown',event=>{
+  if(!event.target.dataset.countrySearch)return;
+  const picker=event.target.closest('.country-picker');
+  const options=[...picker.querySelectorAll('[data-country-option]')];
+  if(event.key==='Escape'){
+   picker.querySelector('.country-list').hidden=true;
+   event.target.setAttribute('aria-expanded','false');
+   return;
+  }
+  if(!['ArrowDown','ArrowUp','Enter'].includes(event.key)||!options.length)return;
+  event.preventDefault();
+  let current=options.findIndex(option=>option.classList.contains('active'));
+  if(event.key==='Enter'){
+   (options[current<0?0:current]).click();
+   return;
+  }
+  current=event.key==='ArrowDown'?Math.min(current+1,options.length-1):Math.max(current<0?options.length:current-1,0);
+  options.forEach((option,index)=>option.classList.toggle('active',index===current));
+  options[current].scrollIntoView({block:'nearest'});
+ });
+ q('#guests').addEventListener('click',event=>{
+  const option=event.target.closest('[data-country-option]');
+  if(!option)return;
+  const picker=option.closest('.country-picker');
+  const search=picker.querySelector('[data-country-search]');
+  const hidden=picker.querySelector('[data-field]');
+  const country=countryByValue(option.dataset.countryOption);
+  const card=picker.closest('[data-guest]');
+  search.value=countryLabel(country);
+  search.setAttribute('aria-expanded','false');
+  hidden.value=country.value;
+  guests[Number(card.dataset.guest)][hidden.dataset.field]=country.value;
+  picker.querySelector('.country-list').hidden=true;
+  clearNotice();
+  if(hidden.dataset.field==='birth_country')render();else updateCompletionUI();
+ });
+ document.addEventListener('click',event=>{
+  document.querySelectorAll('.country-picker').forEach(picker=>{
+   if(picker.contains(event.target))return;
+   picker.querySelector('.country-list').hidden=true;
+   picker.querySelector('[data-country-search]').setAttribute('aria-expanded','false');
+  });
  });
  q('#guests').addEventListener('change',event=>{
   if(event.target.id==='photoInput'){
