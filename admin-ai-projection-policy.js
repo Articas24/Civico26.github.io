@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 if(window.__civicoAIProjectionPolicy)return;window.__civicoAIProjectionPolicy=true;
-if(!document.querySelector('script[data-civico-report-import]')){const s=document.createElement('script');s.src='admin-import.js?v=20260823-1133';s.defer=true;s.dataset.civicoReportImport='1';document.head.appendChild(s)}
+if(!document.querySelector('script[data-civico-report-import]')){const s=document.createElement('script');s.src='admin-import.js?v=20260830-1845';s.defer=true;s.dataset.civicoReportImport='1';document.head.appendChild(s)}
 const nativeFetch=window.fetch.bind(window);
 let autoFollowQuick=false,chatObserver=null;
 const POLICY=`POLITICA DI PROIEZIONE ECONOMICA PER LE NOTTI PRENOTATE SENZA IMPORTO:
