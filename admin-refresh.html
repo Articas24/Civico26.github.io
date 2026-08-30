@@ -18,15 +18,16 @@
     'admin-stats-history.js?v=20260824-1145',
     'admin-ui-polish.css?v=20260822-1145',
     'admin-top-summary.css?v=20260822-1248',
-    'admin-stats-v2.js?v=20260822-0308',
+    'admin-stats-periods.js?v=20260830-2005',
+    'admin-stats-v2.js?v=20260830-2005',
     'admin-stats-input-fix.js?v=20260822-0308',
     'admin-stats-v2-polish.js?v=20260822-0308',
     'admin-stats-layout.js?v=20260822-0308',
     'admin-stats-econ-detail.js?v=20260822-0308',
     'admin-stats-ui-fixes.js?v=20260822-0308',
-    'admin-stats-stay-finance.js?v=20260822-0308',
-    'admin-admin-next.js?v=20260822-1305',
-    'admin-admin-next-fixes.js?v=20260822-1348',
+    'admin-stats-stay-finance.js?v=20260830-2005',
+    'admin-admin-next.js?v=20260830-2005',
+    'admin-admin-next-fixes.js?v=20260830-2005',
     'admin-compare-chart-view.js?v=20260822-1406',
     'admin-future-sync-polish.js?v=20260822-1410',
     'admin-stats-accrual.js?v=20260823-0915',
@@ -44,7 +45,7 @@
     if('caches' in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)))}
     for(const file of files){const r=await fetch(file,{cache:'reload'});if(!r.ok)throw new Error(file+' HTTP '+r.status);await r.text()}
     document.getElementById('status').textContent='Aggiornamento completato. Apertura admin…';
-    location.replace('admin.html?fresh=20260824-1145');
+    location.replace('admin.html?fresh=20260830-2005');
   }catch(e){document.getElementById('status').textContent='Aggiornamento non riuscito. Ricarica questa pagina.';console.error(e)}
 })();
 </script>

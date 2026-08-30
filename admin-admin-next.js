@@ -9,6 +9,7 @@ const plus=(d,n)=>new Date(d.getTime()+n*DAY),days=(a,b)=>Math.max(0,Math.round(
 const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(Number(n)||0);
 const euro2=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(n)||0);
 const num=n=>new Intl.NumberFormat('it-IT',{maximumFractionDigits:1}).format(Number(n)||0);
+const periodPolicy=window.CivicoStatsPeriods;
 let metric='net',finance=[],history=[],normal=[],loaded=false,loading=null,scheduled=false;
 
 function styles(){if(q('#adminNextStyles'))return;document.head.insertAdjacentHTML('beforeend',`<style id="adminNextStyles">
@@ -70,10 +71,10 @@ function economicNights(r){return historyRows().filter(x=>x.earnings!==null&&x.e
 function stays(r){return allReservations().filter(x=>parse(x.start_date)>=r.start&&parse(x.start_date)<r.end).length}
 function currentRange(){const mode=q('#svMode')?.value||'year';if(mode==='month'){const y=Number(q('#historyStatsYear')?.value)||new Date().getFullYear(),m=Number(q('#svMonth')?.value)||1;return{start:new Date(y,m-1,1),end:new Date(y,m,1)}}if(mode==='custom'){const a=q('#svStart')?.value,b=q('#svEnd')?.value;if(a&&b){const s=parse(a),e=plus(parse(b),1);return{start:s,end:e>s?e:plus(s,1)}}}const y=Number(q('#historyStatsYear')?.value)||new Date().getFullYear();return{start:new Date(y,0,1),end:new Date(y+1,0,1)}}
 function shiftYear(r,d){const s=new Date(r.start),e=new Date(r.end);s.setFullYear(s.getFullYear()+d);e.setFullYear(e.getFullYear()+d);return{start:s,end:e}}
-function compareRanges(){const mode=q('#svCmpMode')?.value||'same';if(mode==='same'){const a=currentRange();return[a,shiftYear(a,-1)]}if(mode==='year'){const a=Number(q('#svCmpYearA')?.value),b=Number(q('#svCmpYearB')?.value);return[{start:new Date(a,0,1),end:new Date(a+1,0,1)},{start:new Date(b,0,1),end:new Date(b+1,0,1)}]}if(mode==='month'){const a=Number(q('#svCmpYearA')?.value),b=Number(q('#svCmpYearB')?.value),m=Number(q('#svCmpMonth')?.value)||1;return[{start:new Date(a,m-1,1),end:new Date(a,m,1)},{start:new Date(b,m-1,1),end:new Date(b,m,1)}]}const sa=q('#svCmpStartA')?.value,ea=q('#svCmpEndA')?.value,sb=q('#svCmpStartB')?.value,eb=q('#svCmpEndB')?.value;if(sa&&ea&&sb&&eb)return[{start:parse(sa),end:plus(parse(ea),1)},{start:parse(sb),end:plus(parse(eb),1)}];return null}
+function compareRanges(){const mode=q('#svCmpMode')?.value||'same';if(mode==='same'){const a=currentRange();return periodPolicy?.sameRanges(a,(q('#svMode')?.value||'year')==='year')||[a,shiftYear(a,-1)]}if(mode==='year'){const a=Number(q('#svCmpYearA')?.value),b=Number(q('#svCmpYearB')?.value);return periodPolicy?.yearRanges(a,b)||[{start:new Date(a,0,1),end:new Date(a+1,0,1)},{start:new Date(b,0,1),end:new Date(b+1,0,1)}]}if(mode==='month'){const a=Number(q('#svCmpYearA')?.value),b=Number(q('#svCmpYearB')?.value),m=Number(q('#svCmpMonth')?.value)||1;return periodPolicy?.monthRanges(a,b,m)||[{start:new Date(a,m-1,1),end:new Date(a,m,1)},{start:new Date(b,m-1,1),end:new Date(b,m,1)}]}const sa=q('#svCmpStartA')?.value,ea=q('#svCmpEndA')?.value,sb=q('#svCmpStartB')?.value,eb=q('#svCmpEndB')?.value;if(sa&&ea&&sb&&eb)return[{start:parse(sa),end:plus(parse(ea),1)},{start:parse(sb),end:plus(parse(eb),1)}];return null}
 function rangeLabel(r){const f=d=>new Intl.DateTimeFormat('it-IT',{day:'2-digit',month:'short',year:'numeric'}).format(d);return`${f(r.start)} – ${f(plus(r.end,-1))}`}
 function bucketRanges(r){
-  if(fullYear(r))return Array.from({length:12},(_,i)=>({start:new Date(r.start.getFullYear(),i,1),end:new Date(r.start.getFullYear(),i+1,1),label:months[i]}));
+  const calendarMonths=periodPolicy?.monthBuckets(r,months)||[];if(calendarMonths.length)return calendarMonths;
   const total=days(r.start,r.end);if(total<=31)return Array.from({length:total},(_,i)=>({start:plus(r.start,i),end:plus(r.start,i+1),label:String(i+1)}));
   const count=12,out=[];for(let i=0;i<count;i++){const a=Math.round(total*i/count),b=Math.round(total*(i+1)/count);out.push({start:plus(r.start,a),end:plus(r.start,Math.max(a+1,b)),label:String(i+1)})}return out
 }

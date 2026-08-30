@@ -11,6 +11,7 @@ const parse=s=>{const [y,m,d]=String(s||'').slice(0,10).split('-').map(Number);r
 const key=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const plus=(d,n)=>new Date(d.getTime()+n*DAY);
 const days=(a,b)=>Math.max(0,Math.round((b-a)/DAY));
+const periodPolicy=window.CivicoStatsPeriods;
 let finance=[],history=[],normal=[],loaded=false,loading=null,scheduled=false;
 
 function liveSource(e){
@@ -122,9 +123,9 @@ function patchChart(r){
 function deltaHtml(a,b,type='pct'){const v=(Number(a)||0)-(Number(b)||0),cls=v>0?'up':v<0?'down':'';if(type==='pts')return`<span class="sv-delta ${cls}">${v>0?'+':''}${num(v)} pt</span>`;const p=b?((a-b)/Math.abs(b))*100:0;return`<span class="sv-delta ${cls}">${v>0?'+':''}${num(p)}%</span>`}
 function shiftYear(r,d){const s=new Date(r.start),e=new Date(r.end);s.setFullYear(s.getFullYear()+d);e.setFullYear(e.getFullYear()+d);return{start:s,end:e}}
 function compareRanges(){
-  const mode=q('#svCmpMode')?.value||'same';if(mode==='same'){const a=currentRange();return[a,shiftYear(a,-1)]}
-  if(mode==='year'){const a=Number(q('#svCmpYearA')?.value),b=Number(q('#svCmpYearB')?.value);return[{start:new Date(a,0,1),end:new Date(a+1,0,1)},{start:new Date(b,0,1),end:new Date(b+1,0,1)}]}
-  if(mode==='month'){const a=Number(q('#svCmpYearA')?.value),b=Number(q('#svCmpYearB')?.value),m=Number(q('#svCmpMonth')?.value)||1;return[{start:new Date(a,m-1,1),end:new Date(a,m,1)},{start:new Date(b,m-1,1),end:new Date(b,m,1)}]}
+  const mode=q('#svCmpMode')?.value||'same';if(mode==='same'){const a=currentRange();return periodPolicy?.sameRanges(a,(q('#svMode')?.value||'year')==='year')||[a,shiftYear(a,-1)]}
+  if(mode==='year'){const a=Number(q('#svCmpYearA')?.value),b=Number(q('#svCmpYearB')?.value);return periodPolicy?.yearRanges(a,b)||[{start:new Date(a,0,1),end:new Date(a+1,0,1)},{start:new Date(b,0,1),end:new Date(b+1,0,1)}]}
+  if(mode==='month'){const a=Number(q('#svCmpYearA')?.value),b=Number(q('#svCmpYearB')?.value),m=Number(q('#svCmpMonth')?.value)||1;return periodPolicy?.monthRanges(a,b,m)||[{start:new Date(a,m-1,1),end:new Date(a,m,1)},{start:new Date(b,m-1,1),end:new Date(b,m,1)}]}
   const sa=q('#svCmpStartA')?.value,ea=q('#svCmpEndA')?.value,sb=q('#svCmpStartB')?.value,eb=q('#svCmpEndB')?.value;if(sa&&ea&&sb&&eb)return[{start:parse(sa),end:plus(parse(ea),1)},{start:parse(sb),end:plus(parse(eb),1)}];return null;
 }
 function patchCompare(){
