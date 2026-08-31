@@ -21,13 +21,11 @@ load('admin-stats-v2.js?v=20260830-2005',()=>
                           load('admin-import.js?v=20260830-1845',()=>
                             load('admin-outlook-sync.js?v=20260824-1145',()=>
                               load('admin-ai-insights.js?v=20260825-0945',()=>
-                                load('admin-market-intelligence.js?v=20260823-1835',()=>
-                                  load('admin-ai-insights-bridge.js?v=20260823-1725',()=>
-                                    load('admin-ai-projection-policy.js?v=20260823-1606',()=>
-                                      load('admin-ai.js?v=20260823-0915',()=>
-                                        load('admin-final-fixes-v3.js?v=20260824-1345',()=>
-                                          load('admin-bugfix-20260824.js?v=20260824-2022')
-                                        )
+                                load('admin-ai-insights-bridge.js?v=20260823-1725',()=>
+                                  load('admin-ai-projection-policy.js?v=20260823-1606',()=>
+                                    load('admin-ai.js?v=20260823-0915',()=>
+                                      load('admin-final-fixes-v3.js?v=20260824-1345',()=>
+                                        load('admin-bugfix-20260824.js?v=20260824-2022')
                                       )
                                     )
                                   )
